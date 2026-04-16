@@ -9,7 +9,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15); flex-shrink: 0;">
-                <i class="fas fa-boxes" style="font-size: 24px; color: #10568f;"></i>
+                <i class="fas fa-boxes" style="font-size: 24px; color: #0070D2;"></i>
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Quản Lý Tồn Kho</h2>
@@ -17,9 +17,9 @@
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
-            <button onclick="location.reload()" class="ui-btn ui-btn-outline" style="border-radius: 50px;"><i class="fas fa-sync-alt"></i> Làm mới</button>
+            <button onclick="location.reload()" class="ui-btn ui-btn-outline" style="border-radius: 6px;"><i class="fas fa-sync-alt"></i> Làm mới</button>
             @if(auth()->user()->canDo('tonkho', 'edit') || auth()->user()->isAdmin())
-            <button onclick="openModalNhap()" class="ui-btn ui-btn-primary" style="background:#10568f; border-radius: 50px; box-shadow: 0 4px 12px rgba(16,185,129,0.25);"><i class="fas fa-plus"></i> Nhập hàng</button>
+            <button onclick="openModalNhap()" class="ui-btn ui-btn-primary" style="background:#0070D2; border-radius: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.25);"><i class="fas fa-plus"></i> Nhập hàng</button>
             @endif
         </div>
     </div>
@@ -32,7 +32,7 @@
     @if($tab == 'tonkho')
     <div id="khu-vuc-baocao">
         <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center;">
-            <div style="height: 35px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 3px;">
+            <div style="height: 35px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px;">
                 <button class="don-filter-btn active">Tất cả</button>
                 <button class="don-filter-btn">Tuần này</button>
                 <button class="don-filter-btn">Tháng này</button>
@@ -40,10 +40,10 @@
             
             <div style="height: 35px; position: relative; flex: 1; min-width: 250px;">
                 <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
-                <input type="text" id="inp-search-tonkho" placeholder="Tìm mã hoặc tên Sản phẩm..." onkeyup="filterTK()" style="width: 100%; height: 100%; box-sizing: border-box; padding: 0 16px 0 36px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13px; outline: none;">
+                <input type="text" id="inp-search-tonkho" placeholder="Tìm mã hoặc tên Sản phẩm..." onkeyup="filterTK()" style="width: 100%; height: 100%; box-sizing: border-box; padding: 0 16px 0 36px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none;">
             </div>
 
-            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 50px; border: 1px solid #cbd5e1;">
+            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 6px; border: 1px solid #cbd5e1;">
                 <i class="fas fa-sort-amount-down" style="font-size: 13px;"></i>
                 <select id="tk-sort" onchange="sortTK()" style="border: none; outline: none; background: transparent; font-weight: 600; cursor: pointer; font-size: 13px;">
                     <option value="newest">Mới cập nhật</option>
@@ -208,11 +208,11 @@
 
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab:hover { color: #10568f; }
-    .prem-tab.active { color: #10568f; border-bottom-color: #10568f; }
+    .prem-tab:hover { color: #0070D2; }
+    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
 
-    .don-filter-btn { padding: 6px 14px; border-radius: 50px; font-size: 12.5px; border: none; font-weight: 600; cursor: pointer; background: transparent; color: #64748b; transition: 0.2s; font-family: inherit; }
-    .don-filter-btn.active { background: #10568f; color: #fff; }
+    .don-filter-btn { padding: 6px 14px; border-radius: 6px; font-size: 12.5px; border: none; font-weight: 600; cursor: pointer; background: transparent; color: #64748b; transition: 0.2s; font-family: inherit; }
+    .don-filter-btn.active { background: #0070D2; color: #fff; }
 
     .action-btn { width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
     .btn-edit-pro { background: #eff6ff; color: #3b82f6; }

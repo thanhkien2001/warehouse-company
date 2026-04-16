@@ -17,26 +17,25 @@
             </div>
         </div>
         @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
-        <button onclick="openCreateModal()" style="background: #10568f; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Đơn Hàng Mới
         </button>
         @endif
     </div>
 
-    <!-- Filter Time -->
     <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
         <div style="display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
             <a href="{{ route('orders.index', array_merge(request()->all(), ['time'=>'all'])) }}" class="don-filter-btn {{ request('time','all')=='all'?'active':'' }}">Tất cả thời gian</a>
             <a href="{{ route('orders.index', array_merge(request()->all(), ['time'=>'month'])) }}" class="don-filter-btn {{ request('time')=='month'?'active':'' }}">Tháng này</a>
             <a href="{{ route('orders.index', array_merge(request()->all(), ['time'=>'quarter'])) }}" class="don-filter-btn {{ request('time')=='quarter'?'active':'' }}">Quý này</a>
             <a href="{{ route('orders.index', array_merge(request()->all(), ['time'=>'year'])) }}" class="don-filter-btn {{ request('time')=='year'?'active':'' }}">Năm nay</a>
-            <button onclick="toggleCustomDate()" class="don-filter-btn {{ request('time')=='custom'?'active':'' }}">Tùy chỉnh</button>
+            <a id="btn-custom-time" onclick="toggleCustomDate()" class="don-filter-btn {{ request('time')=='custom'?'active':'' }}">Tùy chỉnh</a>
         </div>
-        <div id="custom-date-box" style="display: {{ request('time')=='custom'?'flex':'none' }}; align-items: center; gap: 8px; background: #fff; padding: 0 15px; border-radius: 50px; border: 1px solid #cbd5e1; height: 35px;">
+        <div id="custom-date-box" style="display: {{ request('time')=='custom'?'flex':'none' }}; align-items: center; gap: 8px; background: #fff; padding: 0 15px; border-radius: 6px; border: 1px solid #cbd5e1; height: 35px;">
             <input type="date" id="date_start" value="{{ request('date_start') }}" style="border:none; outline:none; font-size:13px; color:#475569;">
             <span style="color:#94a3b8;">-</span>
             <input type="date" id="date_end" value="{{ request('date_end') }}" style="border:none; outline:none; font-size:13px; color:#475569;">
-            <button onclick="applyCustomDate()" style="background:#10568f; color:#fff; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;"><i class="fas fa-arrow-right" style="font-size:10px;"></i></button>
+            <button onclick="applyCustomDate()" style="background:#0070D2; color:#fff; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;"><i class="fas fa-arrow-right" style="font-size:10px;"></i></button>
         </div>
     </div>
 
@@ -50,14 +49,13 @@
         <a href="{{ route('orders.index', array_merge(request()->all(), ['status'=>'Đã hủy'])) }}" class="prem-tab {{ request('status')=='Đã hủy'?'active':'' }}">Đã hủy <span class="badge">{{ $counts['Đã hủy'] ?? 0 }}</span></a>
     </div>
 
-    <!-- Actions & Search -->
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;">
         
-        <div style="height: 35px; display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 0 12px; border-radius: 50px; border: 1px solid #cbd5e1;">
+        <div style="height: 35px; display: flex; align-items: center; gap: 8px; background: #f8fafc; padding: 0 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
             <i class="fas fa-coins" style="color: #3b82f6;"></i>
             <span style="font-size: 13px; font-weight: 600; color: #475569;">Tỷ giá:</span>
-            <input type="text" id="ty-gia-val" value="{{ number_format($ty_gia ?? 25000) }}" style="width: 85px; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px 10px; font-size: 13px; outline: none; text-align: right; color: #0f172a; font-weight: bold;">
-            <button onclick="saveTyGia()" style="background: #10568f; color: #fff; border: none; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-save" style="font-size: 12px;"></i></button>
+            <input type="text" id="ty-gia-val" value="{{ number_format($ty_gia ?? 25000) }}" style="width: 85px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 10px; font-size: 13px; outline: none; text-align: right; color: #0f172a; font-weight: bold;">
+            <button onclick="saveTyGia()" style="background: #0070D2; color: #fff; border: none; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-save" style="font-size: 12px;"></i></button>
         </div>
 
         <div style="display: flex; align-items: center; gap: 10px; flex: 1; justify-content: flex-end;">
@@ -66,11 +64,11 @@
                     <input type="hidden" name="status" value="{{ request('status') }}">
                     <input type="hidden" name="time" value="{{ request('time') }}">
                     <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm mã đơn, khách hàng..." style="width: 100%; height: 35px; box-sizing: border-box; padding: 0 15px 0 38px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13px; outline: none;">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm mã đơn, khách hàng..." style="width: 100%; height: 35px; box-sizing: border-box; padding: 0 15px 0 38px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none;">
                 </form>
             </div>
             
-            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 50px; border: 1px solid #cbd5e1;">
+            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 6px; border: 1px solid #cbd5e1;">
                 <span style="font-size: 13px;">Hiển thị:</span>
                 <select onchange="window.location.href=this.value" style="border: none; outline: none; background: transparent; font-weight: 600; cursor: pointer; font-size: 13px;">
                     <option value="{{ request()->fullUrlWithQuery(['limit'=>10]) }}" {{ request('limit')==10?'selected':'' }}>10</option>
@@ -82,44 +80,39 @@
     </div>
 
     <!-- Table -->
-    <div style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead style="background: #f8fafc; color: #475569; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">
+    <div class="legacy-table-container" style="overflow-x: auto;">
+        <table class="legacy-table">
+            <thead>
                 <tr>
-                    <th style="padding: 16px 15px; text-align: center; width: 40px;">STT</th>
-                    <th style="padding: 16px 15px; text-align: center; width: 100px;">Ngày tạo</th>
-                    <th style="padding: 16px 15px; text-align: center; width: 90px;">Mã KH</th>
-                    <th style="padding: 16px 15px;">Tên Khách Hàng</th>
-                    <th style="padding: 16px 15px; text-align: center;">MST</th>
-                    <th style="padding: 16px 15px; text-align: center;">Khu Vực</th>
-                    <th style="padding: 16px 15px; text-align: center;">Mã Đơn</th>
-                    <th style="padding: 16px 15px; text-align: center;">Trạng thái</th>
-                    <th style="padding: 16px 15px;">Ghi chú</th>
-                    <th style="padding: 16px 15px; text-align: center; width: 80px;">Thao tác</th>
+                    <th style="width: 40px; text-align: center;">STT</th>
+                    <th style="width: 100px; text-align: center;">Ngày tạo</th>
+                    <th style="text-align: center;">Mã Đơn</th>
+                    <th style="width: 90px; text-align: center;">Mã KH</th>
+                    <th>Tên Khách Hàng</th>
+                    <th style="text-align: center;">MST</th>
+                    <th style="text-align: center;">Khu Vực</th>
+                    <th style="text-align: center;">Trạng thái</th>
+                    <th>Ghi chú</th>
+                    <th style="width: 80px; text-align: center;">Thao tác</th>
                 </tr>
             </thead>
-            <tbody style="color: #475569; font-size: 13px;">
+            <tbody>
                 @forelse($orders as $idx => $order)
-                <tr style="border-bottom: 1px solid #f1f5f9;">
+                <tr>
                     <td style="padding: 14px 15px; text-align: center;">{{ $orders->firstItem() + $idx }}</td>
                     <td style="padding: 14px 15px; text-align: center;">{{ $order->order_date ? $order->order_date->format('d/m/Y') : '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center; font-weight: 700; color: var(--primary);">{{ $order->customer->ma_kh ?? '---' }}</td>
+                    <td style="padding: 14px 15px; text-align: center; font-weight: 700; color: var(--primary);"><a href="{{ route('orders.show', $order->id) }}" style="font-weight: 800; color: #0070D2; text-decoration: none;">{{ $order->cto_code }}</a></td>
+                    <td style="padding: 14px 15px; text-align: center; font-weight: 800; color: #0070D2;">{{ $order->customer->ma_kh ?? '---' }}</td>
                     <td style="padding: 14px 15px; font-weight: 600;">{{ $order->customer->ten_cty ?? '---' }}</td>
                     <td style="padding: 14px 15px; text-align: center;">{{ $order->customer->ma_so_thue ?? '---' }}</td>
                     <td style="padding: 14px 15px; text-align: center;">
-                        @if($order->customer?->khu_vuc == 'Miền Bắc') <span class="badge-blue" style="padding: 2px 8px; border-radius: 10px; font-size: 11px;">Bắc</span>
-                        @elseif($order->customer?->khu_vuc == 'Miền Trung') <span class="badge-yellow" style="padding: 2px 8px; border-radius: 10px; font-size: 11px;">Trung</span>
-                        @elseif($order->customer?->khu_vuc == 'Miền Nam') <span class="badge-green" style="padding: 2px 8px; border-radius: 10px; font-size: 11px;">Nam</span>
+                        @if($order->customer?->khu_vuc == 'Miền Bắc') <span class="badge-region mien-bac">Miền Bắc</span>
+                        @elseif($order->customer?->khu_vuc == 'Miền Trung') <span class="badge-region mien-trung">Miền Trung</span>
+                        @elseif($order->customer?->khu_vuc == 'Miền Nam') <span class="badge-region mien-nam">Miền Nam</span>
                         @endif
                     </td>
-                    <td style="padding: 14px 15px; text-align: center;"><a href="{{ route('orders.show', $order->id) }}" style="font-weight: 800; color: #2563eb; text-decoration: none;">{{ $order->cto_code }}</a></td>
                     <td style="padding: 14px 15px; text-align: center;">
-                        <span style="display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; 
-                            @if($order->trang_thai == 'Hoàn thành') background: #f0fdf4; color: #166534;
-                            @elseif($order->trang_thai == 'Đang xử lý') background: #eff6ff; color: #1d4ed8;
-                            @elseif($order->trang_thai == 'Đang vận chuyển') background: #fff7ed; color: #9a3412;
-                            @elseif($order->trang_thai == 'Đã hủy') background: #fef2f2; color: #991b1b;
-                            @else background: #f1f5f9; color: #475569; @endif">
+                        <span class="badge-status {{ Str::slug($order->trang_thai) }}">
                             {{ $order->trang_thai }}
                         </span>
                     </td>
@@ -215,15 +208,15 @@
 </div>
 
 <style>
-    .don-filter-btn { padding: 8px 16px; border-radius: 50px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; }
+    .don-filter-btn { padding: 8px 16px; border-radius: 50px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; cursor: pointer; }
     .don-filter-btn:hover { background: #f8fafc; color: #0f172a; }
-    .don-filter-btn.active { background: #10568f; color: white; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
+    .don-filter-btn.active { background: #0070D2; color: white !important; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
 
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 8px; transition: 0.3s; white-space: nowrap; }
-    .prem-tab:hover { color: #10568f; }
-    .prem-tab.active { color: #10568f; border-bottom-color: #10568f; }
-    .prem-tab .badge { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-    .prem-tab.active .badge { background: #e0e7ff; color: #10568f; }
+    .prem-tab:hover { color: #0070D2; }
+    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .prem-tab .badge { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .prem-tab.active .badge { background: #e0e7ff; color: #0070D2; }
 
     .action-btn { width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
     .btn-view-pro { background: #f1f5f9; color: #64748b; }
@@ -249,7 +242,17 @@
     
     function toggleCustomDate() {
         const box = document.getElementById('custom-date-box');
-        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+        const btn = document.getElementById('btn-custom-time');
+        if (box.style.display === 'none') {
+            box.style.display = 'flex';
+            btn.classList.add('active');
+        } else {
+            box.style.display = 'none';
+            // Chỉ remove active nếu request hiện tại không phải là custom
+            if ("{{ request('time') }}" !== 'custom') {
+                btn.classList.remove('active');
+            }
+        }
     }
 
     function applyCustomDate() {
@@ -377,15 +380,18 @@
     }
 
     function deleteOrder(id) {
-        if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
+        showConfirm('Xóa Đơn Hàng', 'Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này không thể hoàn tác.', () => {
             fetch(`/don-hang/${id}`, {
                 method: 'DELETE',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
             }).then(r => r.json()).then(res => {
-                if (res.success) { showToast(res.message); location.reload(); }
+                if (res.success) { 
+                    showToast(res.message); 
+                    setTimeout(() => location.reload(), 2000); 
+                }
                 else { alert(res.message); }
             });
-        }
+        });
     }
 
     function saveTyGia() {

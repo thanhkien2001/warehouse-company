@@ -9,7 +9,7 @@
 
 <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px;">
     <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #cbd5e1;">
-        <div style="background: #e0e7ff; color: #10568f; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+        <div style="background: #e0e7ff; color: #0070D2; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
             <i class="fas fa-building"></i>
         </div>
         <div>
@@ -40,15 +40,15 @@
         </h3>
     </div>
 
-    <div style="overflow-x: auto; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px;">
-        <table style="width: 100%; min-width: 800px; border-collapse: collapse;">
-            <thead style="background: #f8fafc; color: #000000; font-weight: 700; text-transform: uppercase; font-size: 12px;">
+    <div class="legacy-table-container" style="overflow-x: auto; background: #fff; font-family: 'Inter', sans-serif;">
+        <table class="legacy-table" style="min-width: 800px;">
+            <thead>
                 <tr>
-                    <th style="padding: 16px 15px; width: 5%; border-bottom: 2px solid #e2e8f0; text-align: center;">STT</th>
-                    <th style="padding: 16px 15px; width: 15%; border-bottom: 2px solid #e2e8f0; text-align: center;">Ngày tạo</th>
-                    <th style="padding: 16px 15px; width: 20%; border-bottom: 2px solid #e2e8f0; text-align: center;">Mã Đơn (CTO)</th>
-                    <th style="padding: 16px 15px; width: 40%; border-bottom: 2px solid #e2e8f0; text-align: left;">Ghi chú đơn hàng</th>
-                    <th style="padding: 16px 15px; width: 20%; border-bottom: 2px solid #e2e8f0; text-align: center;">Trạng thái</th>
+                    <th style="width: 5%; text-align: center;">STT</th>
+                    <th style="width: 15%; text-align: center;">Ngày tạo</th>
+                    <th style="width: 20%; text-align: center;">Mã Đơn (CTO)</th>
+                    <th style="width: 40%; text-align: left;">Ghi chú đơn hàng</th>
+                    <th style="width: 20%; text-align: center;">Trạng thái</th>
                 </tr>
             </thead>
             <tbody id="ctkh-ds-donhang">
@@ -57,19 +57,19 @@
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $loop->iteration }}</td>
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $order->order_date?->format('d/m/Y') }}</td>
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">
-                        <a href="{{ route('orders.show', $order->id) }}" style="color: #10568f; text-decoration: none; font-weight: bold;">{{ $order->cto_code }}</a>
+                        <a href="{{ route('orders.show', $order->id) }}" style="color: #0070D2; text-decoration: none; font-weight: bold;">{{ $order->cto_code }}</a>
                     </td>
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9;">{{ $order->ghi_chu ?: '---' }}</td>
-                    <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">
-                        @if($order->status == 'processing')
-                            <span style="background: #fffbeb; color: #d97706; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Đang xử lý</span>
-                        @elseif($order->status == 'completed')
-                            <span style="background: #f0fdf4; color: #16a34a; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Hoàn thành</span>
-                        @elseif($order->status == 'cancelled')
-                            <span style="background: #fef2f2; color: #dc2626; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">Đã hủy</span>
-                        @else
-                            <span style="background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 11px;">{{ $order->status }}</span>
-                        @endif
+                    <td style="padding: 16px 15px; text-align: center;">
+                        <span class="badge-status {{ Str::slug(
+                            $order->status == 'processing' ? 'Đang xử lý' : 
+                            ($order->status == 'completed' ? 'Hoàn thành' : 
+                            ($order->status == 'cancelled' ? 'Đã hủy' : $order->status))
+                        ) }}">
+                            {{ $order->status == 'processing' ? 'Đang xử lý' : 
+                               ($order->status == 'completed' ? 'Hoàn thành' : 
+                               ($order->status == 'cancelled' ? 'Đã hủy' : $order->status)) }}
+                        </span>
                     </td>
                 </tr>
                 @empty

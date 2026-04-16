@@ -56,7 +56,7 @@ class DeliveryNoteController extends Controller
     public function show(DeliveryNote $deliveryNote)
     {
         $deliveryNote->load(['order.items', 'customer']);
-        return view('delivery-notes.show', compact('deliveryNote'));
+        return view('delivery-notes.show', ['delivery' => $deliveryNote]);
     }
 
     public function store(Request $request)

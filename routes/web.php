@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
         // ==========================================================
         Route::get('/don-hang', [OrderController::class, 'index'])->name('orders.index')
             ->middleware('permission:donhang,view');
+        Route::get('/don-hang/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit')
+            ->middleware('permission:donhang,edit');
         Route::get('/don-hang/{order}', [OrderController::class, 'show'])->name('orders.show')
             ->middleware('permission:donhang,view');
         Route::post('/don-hang', [OrderController::class, 'store'])->name('orders.store')

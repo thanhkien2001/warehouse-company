@@ -17,7 +17,7 @@
             </div>
         </div>
         @if(auth()->user()->canDo('phieugiao', 'edit') || auth()->user()->isAdmin())
-        <button onclick="openCreateDNModal()" style="background: #10568f; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateDNModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Phiếu Giao Hàng
         </button>
         @endif
@@ -25,10 +25,17 @@
 
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px;">
         <div style="display: flex; gap: 10px; align-items: center;">
-            <div style="display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+            <div style="display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
                 <a href="{{ route('deliveries.index', ['filter'=>'all']) }}" class="dn-filter-btn {{ $filter=='all'?'active':'' }}">Tất cả</a>
                 <a href="{{ route('deliveries.index', ['filter'=>'7days']) }}" class="dn-filter-btn {{ $filter=='7days'?'active':'' }}">7 ngày qua</a>
                 <a href="{{ route('deliveries.index', ['filter'=>'month']) }}" class="dn-filter-btn {{ $filter=='month'?'active':'' }}">Tháng này</a>
+            </div>
+            
+            <div style="display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 7px 10px; gap: 8px; align-items: center;">
+                <input type="date" id="date_start" value="{{ request('date_start') }}" style="border:none; outline:none; font-size:13px; color:#475569;">
+                <span style="color:#94a3b8;">-</span>
+                <input type="date" id="date_end" value="{{ request('date_end') }}" style="border:none; outline:none; font-size:13px; color:#475569;">
+                <button onclick="applyCustomDate()" style="background:#0070D2; color:#fff; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;"><i class="fas fa-arrow-right" style="font-size:10px;"></i></button>
             </div>
         </div>
 
@@ -36,11 +43,11 @@
             <div style="height: 35px; position: relative; width: 260px;">
                 <form method="GET">
                     <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập mã Phiếu, Đơn hàng..." style="width: 100%; height: 35px; box-sizing: border-box; padding: 0 15px 0 38px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13px; outline: none; transition: 0.3s;">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập mã Phiếu, Đơn hàng..." style="width: 100%; height: 35px; box-sizing: border-box; padding: 0 15px 0 38px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; transition: 0.3s;">
                 </form>
             </div>
             
-            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 50px; border: 1px solid #cbd5e1;">
+            <div style="height: 35px; display: flex; align-items: center; gap: 6px; background: #fff; padding: 0 14px; border-radius: 6px; border: 1px solid #cbd5e1;">
                 <span style="font-size: 13px;">Hiển thị:</span>
                 <select onchange="window.location.href=this.value" style="border: none; outline: none; background: transparent; font-weight: 600; cursor: pointer; color: #0f172a; font-size: 13px;">
                     <option value="{{ request()->fullUrlWithQuery(['limit'=>10]) }}" {{ request('limit')==10?'selected':'' }}>10</option>
@@ -51,41 +58,40 @@
         </div>
     </div>
 
-    <div style="border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.02); overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; border: none; background: transparent; margin: 0;">
-            <thead style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+    <div class="legacy-table-container" style="overflow-x: auto;">
+        <table class="legacy-table">
+            <thead>
                 <tr>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">STT</th>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">NGÀY TẠO</th>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">MÃ PHIẾU</th>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">MÃ ĐƠN HÀNG</th>
-                    <th style="padding: 16px 15px; text-align: left; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">THÔNG TIN KHÁCH HÀNG</th>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase;">TRẠNG THÁI</th>
-                    <th style="padding: 16px 15px; text-align: center; color: #475569; font-size: 11px; font-weight: 700; text-transform: uppercase; width: 100px;">THAO TÁC</th>
+                    <th style="width: 5%; text-align: center;">STT</th>
+                    <th style="width: 8%; text-align: center;">NGÀY TẠO</th>
+                    <th style="width: 15%; text-align: center;">MÃ PHIẾU</th>
+                    <th style="width: 15%; text-align: center;">MÃ ĐƠN HÀNG</th>
+                    <th style="width: 30%;">THÔNG TIN KHÁCH HÀNG</th>
+                    <th style="width: 15%; text-align: center;">TRẠNG THÁI</th>
+                    <th style="width: 12%; text-align: center;">THAO TÁC</th>
                 </tr>
             </thead>
-            <tbody style="color: #475569; font-size: 13px;">
+            <tbody>
                 @forelse($deliveries as $idx => $dn)
                 <tr style="border-bottom: 1px solid #f1f5f9;">
                     <td style="padding: 14px 15px; text-align: center;">{{ $deliveries->firstItem() + $idx }}</td>
-                    <td style="padding: 14px 15px; text-align: center;">{{ $dn->delivery_date ? $dn->delivery_date->format('d/m/Y') : '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center; font-weight: 800; color: #8b5cf6;">{{ $dn->dn_code }}</td>
-                    <td style="padding: 14px 15px; text-align: center; font-weight: 700; color: #3b82f6;">{{ $dn->cto_code }}</td>
+                    <td style="padding: 14px 15px; text-align: center; white-space: nowrap;">{{ $dn->delivery_date ? $dn->delivery_date->format('d/m/Y') : '---' }}</td>
+                    <td style="padding: 14px 15px; text-align: center; font-weight: 800; color: #0070D2; white-space: nowrap;">{{ $dn->dn_code }}</td>
+                    <td style="padding: 14px 15px; text-align: center; font-weight: 700; color: #2563eb; white-space: nowrap;">{{ $dn->cto_code }}</td>
                     <td style="padding: 14px 15px;">
                         <div style="font-weight: 600; color: #0f172a;">{{ $dn->ten_kh }}</div>
-                        <div style="font-size: 11px; color: #94a3b8;">Mã KH: {{ $dn->ma_kh }}</div>
+                        <div style="display: flex; gap: 15px; margin-top: 4px;">
+                            <span style="font-size: 11px; color: #94a3b8;"><i class="fas fa-id-card"></i> Mã KH: {{ $dn->ma_kh }}</span>
+                            <span style="font-size: 11px; color: #64748b;"><i class="fas fa-user-edit"></i> Người tạo: {{ $dn->nguoi_tao }}</span>
+                        </div>
                     </td>
                     <td style="padding: 14px 15px; text-align: center;">
-                        <span style="display: inline-block; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; 
-                            @if($dn->trang_thai == 'Đã giao xong') background: #f0fdf4; color: #166534;
-                            @elseif($dn->trang_thai == 'Đang giao') background: #eff6ff; color: #1d4ed8;
-                            @elseif($dn->trang_thai == 'Đã hủy') background: #fef2f2; color: #991b1b;
-                            @else background: #f1f5f9; color: #475569; @endif">
+                        <span class="badge-status {{ Str::slug($dn->trang_thai) }}">
                             {{ $dn->trang_thai }}
                         </span>
                     </td>
-                    <td style="padding: 14px 15px; text-align: center;">
-                        <a href="{{ route('deliveries.show', $dn->id) }}" class="action-btn btn-edit-pro"><i class="fas fa-eye"></i></a>
+                    <td style="padding: 14px 15px; text-align: center; white-space: nowrap;">
+                        <a href="{{ route('deliveries.show', $dn->id) }}" class="action-btn btn-view-pro" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
                         @if(auth()->user()->isAdmin())
                         <button onclick="deleteDN({{ $dn->id }}, '{{ $dn->dn_code }}')" class="action-btn btn-del-pro"><i class="fas fa-trash-alt"></i></button>
                         @endif
@@ -148,18 +154,20 @@
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
             <button class="ui-btn ui-btn-outline" onclick="closeModal('modal-tao-dn')">Hủy</button>
-            <button class="ui-btn ui-btn-primary" style="background:#10568f;" onclick="submitCreateDN()">Tạo Phiếu</button>
+            <button class="ui-btn ui-btn-primary" style="background:#0070D2;" onclick="submitCreateDN()">Tạo Phiếu</button>
         </div>
     </div>
 </div>
 
 <style>
-    .dn-filter-btn { padding: 8px 16px; border-radius: 50px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; background: transparent; border: none; cursor: pointer; }
+    .dn-filter-btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; background: transparent; border: none; cursor: pointer; }
     .dn-filter-btn:hover { color: #0f172a; background: #f8fafc; }
-    .dn-filter-btn.active { background: #10568f; color: white; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
+    .dn-filter-btn.active { background: #0070D2; color: white; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
 
     .action-btn { width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
-    .btn-edit-pro { background: #f5f3ff; color: #8b5cf6; }
+    .btn-view-pro { background: #f1f5f9; color: #64748b; }
+    .btn-view-pro:hover { background: #64748b; color: #fff; }
+    .btn-edit-pro { background: #f5f3ff; color: #8b5cf6; margin: 0 4px; }
     .btn-edit-pro:hover { background: #8b5cf6; color: #fff; }
     .btn-del-pro { background: #fef2f2; color: #ef4444; }
     .btn-del-pro:hover { background: #ef4444; color: #fff; }
@@ -192,7 +200,7 @@
                 item.style.padding = '10px 15px';
                 item.style.cursor = 'pointer';
                 item.style.borderBottom = '1px solid #f1f5f9';
-                item.innerHTML = `<b style="color:#10568f">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
+                item.innerHTML = `<b style="color:#0070D2">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
                 item.onclick = () => selectDNOrder(o);
                 dd.appendChild(item);
             });
@@ -221,15 +229,30 @@
     }
 
     function deleteDN(id, code) {
-        if (confirm(`Bạn có chắc muốn xóa phiếu [${code}]?`)) {
+        showConfirm('Xóa Phiếu Giao', `Bạn có chắc muốn xóa phiếu? Hành động này không thể hoàn tác.`, () => {
             fetch(`/phieu-giao/${id}`, {
                 method: 'DELETE',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
-            }).then(r => r.json()).then(res => {
-                if (res.success) { showToast(res.message); location.reload(); }
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.success) { 
+                    showToast(res.message); 
+                    setTimeout(() => location.reload(), 2000); 
+                }
                 else { alert(res.message); }
             });
+        });
+    }
+
+    function applyCustomDate() {
+        const start = document.getElementById('date_start').value;
+        const end = document.getElementById('date_end').value;
+        if (!start || !end) {
+            alert('Vui lòng chọn cả Từ ngày và Đến ngày!');
+            return;
         }
+        window.location.href = `{{ route('deliveries.index') }}?filter=custom&date_start=${start}&date_end=${end}`;
     }
 </script>
 @endpush

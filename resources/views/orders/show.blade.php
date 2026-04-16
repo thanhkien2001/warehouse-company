@@ -224,7 +224,7 @@
         background: transparent;
         text-align: center;
         font-weight: 800;
-        color: #10568f;
+        color: #0070D2;
         font-size: 15px;
         outline: none;
     }
@@ -281,7 +281,9 @@
 
             <div class="info-section">
                 <div class="info-column">
-                    <h3 style="color: #10568f;"><i class="fas fa-user-tie" style="margin-right: 5px;"></i> THÔNG TIN KHÁCH HÀNG</h3>
+                    <h3 style="margin: 0 0 15px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                        <i class="fas fa-user-tie" style="margin-right: 5px; color: #0070D2;"></i> THÔNG TIN KHÁCH HÀNG
+                    </h3>
                     <div class="info-row-flex"><span class="info-label">Khách hàng:</span> <b class="info-val">{{ $order->ten_kh }}</b></div>
                     <div class="info-row-flex"><span class="info-label">Mã khách hàng:</span> <span class="info-val">{{ $order->customer->ma_kh }}</span></div>
                     <div class="info-row-flex"><span class="info-label">Mã số thuế:</span> <span class="info-val">{{ $order->customer->ma_so_thue }}</span></div>
@@ -290,8 +292,10 @@
                 </div>
 
                 <div class="info-column">
-                    <h3 style="color: #f59e0b;"><i class="fas fa-file-invoice-dollar" style="margin-right: 5px;"></i> THÔNG TIN ĐƠN HÀNG</h3>
-                    <div class="info-row-flex"><span class="info-label">Mã đơn hàng:</span> <b class="info-val" style="color: #10568f;">{{ $order->cto_code }}</b></div>
+                    <h3 style="margin: 0 0 15px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
+                        <i class="fas fa-file-invoice-dollar" style="margin-right: 5px; color: #0070D2;"></i> THÔNG TIN ĐƠN HÀNG
+                    </h3>
+                    <div class="info-row-flex"><span class="info-label">Mã đơn hàng:</span> <b class="info-val" style="color: #0070D2;">{{ $order->cto_code }}</b></div>
                     <div class="info-row-flex"><span class="info-label">Người bán:</span> <span class="info-val">{{ $order->nguoi_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">SĐT người bán:</span> <span class="info-val">{{ $order->sdt_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">Người mua:</span> <span class="info-val">{{ $order->nguoi_mua }}</span></div>
@@ -316,14 +320,14 @@
                         </select>
 
                         <div style="display: flex; gap: 5px;">
-                            <button class="btn btn-outline" style="background:#eff6ff; color:#3b82f6; border-radius:8px; border:1px solid #bfdbfe; font-weight:600; padding:8px 16px" 
+                            <button class="ui-btn ui-btn-pdf" 
                                     onclick="alert('Chức năng IN PDF Đơn Hàng (CTO) đang chờ tiếp nhận form mẫu chuẩn.')">
                                 <i class="fas fa-file-pdf"></i> Xuất PDF
                             </button>
                         </div>
 
                         @if(auth()->user()->canDo('donhang','edit') || auth()->user()->isAdmin())
-                        <button id="btn-save" class="btn btn-primary" style="border-radius: 8px; padding: 8px 15px; font-weight: 600;" onclick="saveOrderDetails()">
+                        <button id="btn-save" class="ui-btn ui-btn-save" onclick="saveOrderDetails()">
                             <i class="fas fa-save" style="margin-right: 5px;"></i> Lưu
                         </button>
                         @endif
@@ -438,7 +442,7 @@
         </div>
         <div class="modal-footer" style="background: #f8fafc; padding: 16px 24px; border-top: 1px solid #e2e8f0;">
             <button class="btn btn-ghost" onclick="closeModal('modal-taophieu')">Hủy</button>
-            <button class="btn btn-primary" style="background:#10568f; border-radius: 8px;" onclick="submitTaoPhieu()"><i class="fas fa-check"></i> Xác Nhận Tạo</button>
+            <button class="btn btn-primary" style="background:#0070D2; border-radius: 8px;" onclick="submitTaoPhieu()"><i class="fas fa-check"></i> Xác Nhận Tạo</button>
         </div>
     </div>
 </div>

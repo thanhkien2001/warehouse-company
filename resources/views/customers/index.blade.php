@@ -9,14 +9,14 @@
     <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15); flex-shrink: 0;">
-                <i class="fas fa-address-book" style="font-size: 24px; color: #10568f;"></i>
+                <i class="fas fa-address-book" style="font-size: 24px; color: #0070D2;"></i>
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Khách Hàng & Đối Tác</h2>
                 <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
-        <button onclick="openCreateKHModal()" style="background: #10568f; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-user-plus"></i> Thêm Khách hàng
         </button>
     </div>
@@ -67,17 +67,17 @@
                 <tr>
                     <td style="text-align: center;">{{ $customers->firstItem() + $idx }}</td>
                     <td style="text-align: center;">{{ $kh->created_at->format('d/m/Y') }}</td>
-                    <td style="text-align: center;"><b style="color:#10568f">{{ $kh->ma_kh }}</b></td>
+                    <td style="text-align: center;"><b style="color:#0070D2">{{ $kh->ma_kh }}</b></td>
                     <td>
                         <div style="font-weight: 800; color: #0f172a; margin-bottom: 5px; font-size: 14.5px;">{{ $kh->ten_cty }}</div>
                         <div style="font-size: 12px; color: #64748b; line-height: 1.6;">
-                            <div><i class="fas fa-phone-alt" style="color: #10568f; margin-right: 6px; width: 12px;"></i>{{ $kh->sdt }}</div>
+                            <div><i class="fas fa-phone-alt" style="color: #0070D2; margin-right: 6px; width: 12px;"></i>{{ $kh->sdt }}</div>
                             <div title="{{ $kh->dia_chi }}"><i class="fas fa-map-marker-alt" style="color: #ef4444; margin-right: 6px; width: 12px;"></i>{{ Str::limit($kh->dia_chi, 50) }}</div>
                         </div>
                     </td>
                     <td style="text-align: center;">{{ $kh->ma_so_thue }}</td>
                     <td style="text-align: center;">
-                        <span style="background: #eef2ff; color: #10568f; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">{{ $kh->khu_vuc }}</span>
+                        <span class="badge-region {{ Str::slug($kh->khu_vuc) }}">{{ $kh->khu_vuc }}</span>
                     </td>
                     <td style="font-style: italic; color: #94a3b8; font-size: 12px;">{{ $kh->ghi_chu ?: '---' }}</td>
                     <td style="text-align: center; white-space: nowrap;">
@@ -113,7 +113,7 @@
 <div id="modal-kh" class="modal-overlay">
     <div class="modal-box" style="width: 750px; max-width: 95vw;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px;">
-            <h3 id="modal-kh-title" style="font-weight: 800; font-size: 20px;"><i class="fas fa-user-plus" style="color:#10568f"></i> Thêm Khách Hàng</h3>
+            <h3 id="modal-kh-title" style="font-weight: 800; font-size: 20px;"><i class="fas fa-user-plus" style="color:#0070D2"></i> Thêm Khách Hàng</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #64748b;" onclick="closeModal('modal-kh')"></i>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -169,7 +169,7 @@
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
             <button class="ui-btn ui-btn-outline" style="border-radius: 50px;" onclick="closeModal('modal-kh')">Hủy bỏ</button>
-            <button class="ui-btn ui-btn-primary" style="border-radius: 50px; background: #10568f;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
+            <button class="ui-btn ui-btn-primary" style="border-radius: 50px; background: #0070D2;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
         </div>
     </div>
 </div>
@@ -177,11 +177,11 @@
 <style>
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 11px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; transition: 0.3s; }
-    .modal-pro-input:focus { border-color: #10568f; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
     .action-btn { width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
-    .btn-edit-pro { background: #eef2ff; color: #10568f; }
-    .btn-edit-pro:hover { background: #10568f; color: #fff; }
+    .btn-edit-pro { background: #eef2ff; color: #0070D2; }
+    .btn-edit-pro:hover { background: #0070D2; color: #fff; }
     .btn-del-pro { background: #fef2f2; color: #ef4444; }
     .btn-del-pro:hover { background: #ef4444; color: #fff; }
 </style>
@@ -193,7 +193,7 @@
 
     function openCreateKHModal() {
         currentEditId = null;
-        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-user-plus" style="color:#10568f"></i> Thêm Khách Hàng';
+        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-user-plus" style="color:#0070D2"></i> Thêm Khách Hàng';
         
         // Reset fields
         const today = new Date().toISOString().split('T')[0];
@@ -250,7 +250,7 @@
 
     async function editKH(id) {
         currentEditId = id;
-        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-edit" style="color:#10568f"></i> Sửa Thông Tin Khách Hàng';
+        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-edit" style="color:#0070D2"></i> Sửa Thông Tin Khách Hàng';
         
         const res = await fetch(`/khach-hang/${id}`, {
             headers: { 'Accept': 'application/json' }
@@ -274,7 +274,7 @@
     }
 
     async function deleteKH(id, name) {
-        if (confirm(`Bạn có chắc muốn xóa khách hàng [${name}]?`)) {
+        showConfirm('Xóa Khách Hàng', `Bạn có chắc muốn xóa? Hành động này không thể hoàn tác.`, async () => {
             const res = await fetch(`/khach-hang/${id}`, {
                 method: 'DELETE',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
@@ -282,11 +282,11 @@
             
             if (res.success) {
                 showToast(res.message);
-                location.reload();
+                setTimeout(() => location.reload(), 2000);
             } else {
                 alert(res.message);
             }
-        }
+        });
     }
 
     function exportKHExcel() {

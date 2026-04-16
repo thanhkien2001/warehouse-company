@@ -20,8 +20,8 @@
 
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid #e2e8f0; display: flex; gap: 40px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 350px; font-size: 14px; color: #0f172a; line-height: 2.2;">
-                <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; color: #8b5cf6; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
-                    <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i> THÔNG TIN GIAO HÀNG
+                <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
+                    <i class="fas fa-map-marker-alt" style="margin-right: 5px; color: #0070D2;"></i> THÔNG TIN GIAO HÀNG
                 </h3>
                 <div style="display: flex;"><span style="color: #64748b; width: 130px;">Khách hàng:</span> <b style="flex: 1;">{{ $delivery->ten_kh }}</b></div>
                 <div style="display: flex;"><span style="color: #64748b; width: 130px;">Mã khách hàng:</span> <span style="flex: 1; font-weight: 600;">{{ $delivery->ma_kh }}</span></div>
@@ -30,8 +30,8 @@
             </div>
 
             <div style="flex: 1; min-width: 300px; font-size: 14px; color: #0f172a; line-height: 2.2;">
-                <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; color: #0ea5e9; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
-                    <i class="fas fa-receipt" style="margin-right: 5px;"></i> CHỨNG TỪ THAM CHIẾU
+                <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
+                    <i class="fas fa-receipt" style="margin-right: 5px; color: #0070D2;"></i> CHỨNG TỪ THAM CHIẾU
                 </h3>
                 <div style="display: flex;"><span style="color: #64748b; width: 130px;">Ngày xuất:</span> <b style="flex:1">{{ $delivery->delivery_date->format('d/m/Y') }}</b></div>
                 <div style="display: flex;"><span style="color: #64748b; width: 130px;">Hạn thanh toán:</span> <b style="flex:1; color:#ef4444">{{ $delivery->han_thanh_toan }} ngày</b></div>
@@ -52,8 +52,8 @@
                         <option value="Đã giao xong" {{ $delivery->trang_thai=='Đã giao xong'?'selected':'' }}>Đã giao xong</option>
                         <option value="Đã hủy" {{ $delivery->trang_thai=='Đã hủy'?'selected':'' }}>Đã hủy</option>
                     </select>
-                    <button class="ui-btn ui-btn-outline" style="border-color:#10b981; color:#10b981;" onclick="exportDNToPDF()"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
-                    <button class="ui-btn ui-btn-primary" style="background:#10b981;" onclick="updateDNStatus()"><i class="fas fa-save"></i> Lưu Trạng Thái</button>
+                    <button class="ui-btn ui-btn-pdf" onclick="exportDNToPDF()"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
+                    <button class="ui-btn ui-btn-save" onclick="updateDNStatus()"><i class="fas fa-save"></i> Lưu Trạng Thái</button>
                 </div>
             </div>
 
@@ -95,13 +95,13 @@
 <script>
     async function updateDNStatus() {
         const s = document.getElementById('dn_status').value;
-        const res = await apiPatch('{{ route("deliveries.status", $delivery->id) }}', { trang_thai: s });
+        const res = await apiPatch('{{ route("deliveries.update-status", $delivery->id) }}', { trang_thai: s });
         if (res.success) { showToast(res.message); }
         else { alert(res.message); }
     }
 
     function exportDNToPDF() {
-        window.open('{{ route("deliveries.pdf", $delivery->id) }}', '_blank');
+        alert('Chức năng xuất PDF đang được phát triển!');
     }
 </script>
 @endpush

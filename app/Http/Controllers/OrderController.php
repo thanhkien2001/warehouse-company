@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Services\CodeGeneratorService;
 use App\Services\InventoryService;
 use App\Services\LogService;
+use App\Models\SystemSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +18,9 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Order::with(['customer', 'meta']);
+        $query = Order::query();
 
+        // 1. Áp dụng Filter Thời gian
         $time = $request->get('time', 'all');
         if ($time === 'month') {
             $query->whereMonth('order_date', now()->month)->whereYear('order_date', now()->year);
@@ -30,6 +32,7 @@ class OrderController extends Controller
             $query->whereBetween('order_date', [$request->date_start, $request->date_end]);
         }
 
+        // 2. Áp dụng Filter Tìm kiếm
         if ($kw = $request->get('search')) {
             $query->where(function($q) use ($kw) {
                 $q->where('cto_code', 'like', "%{$kw}%")
@@ -39,10 +42,20 @@ class OrderController extends Controller
             });
         }
 
+        // 3. Đếm theo trạng thái (Clone query trước khi lọc theo status)
+        $countQuery = clone $query;
+        $counts = $countQuery->select('trang_thai', DB::raw('COUNT(*) as order_count'))
+            ->groupBy('trang_thai')->pluck('order_count', 'trang_thai')->toArray();
+        $counts['all'] = array_sum($counts);
+
+        // 4. Áp dụng Filter Trạng thái (cho table)
         if ($status = $request->get('status')) {
-            $query->where('trang_thai', $status);
+            if ($status !== 'all') {
+                $query->where('trang_thai', $status);
+            }
         }
 
+        // 5. Sắp xếp & Paginate
         $sort = $request->get('sort', 'newest');
         match ($sort) {
             'oldest' => $query->orderBy('order_date'),
@@ -50,16 +63,13 @@ class OrderController extends Controller
         };
 
         $limit = $request->get('limit', 20);
-        $orders = $query->paginate($limit)->withQueryString();
-
-        // Đếm theo trạng thái
-        $counts = Order::select('trang_thai', DB::raw('COUNT(*) as total'))
-            ->groupBy('trang_thai')->pluck('total', 'trang_thai')->toArray();
-        $counts['all'] = array_sum($counts);
+        $orders = $query->with(['customer', 'meta'])->paginate($limit)->withQueryString();
 
         $customers = Customer::orderBy('ten_cty')->get(['id','ma_kh','ten_cty']);
 
-        return view('orders.index', compact('orders', 'time', 'sort', 'counts', 'customers'));
+        $ty_gia = SystemSetting::get('ty_gia', 25450);
+
+        return view('orders.index', compact('orders', 'time', 'sort', 'counts', 'customers', 'ty_gia'));
     }
 
     public function show(Order $order)

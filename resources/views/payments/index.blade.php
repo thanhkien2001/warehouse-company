@@ -19,7 +19,7 @@
         <div style="display: flex; gap: 10px;">
             <button onclick="location.reload()" class="ui-btn ui-btn-outline"><i class="fas fa-sync-alt"></i> Làm mới</button>
             @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
-            <button onclick="openModalPayment()" class="ui-btn ui-btn-primary" style="background: #10568f;"><i class="fas fa-plus"></i> Tạo Thanh Toán Mới</button>
+            <button onclick="openModalPayment()" class="ui-btn ui-btn-primary" style="background: #0070D2;"><i class="fas fa-plus"></i> Tạo Thanh Toán Mới</button>
             @endif
         </div>
     </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; align-items: center;">
-        <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px;">
+        <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px;">
             <a href="{{ route('payments.index', ['filter'=>'all']) }}" class="don-filter-btn {{ $filter=='all'?'active':'' }}">Tất cả</a>
             <a href="{{ route('payments.index', ['filter'=>'month']) }}" class="don-filter-btn {{ $filter=='month'?'active':'' }}">Tháng này</a>
             <a href="{{ route('payments.index', ['filter'=>'year']) }}" class="don-filter-btn {{ $filter=='year'?'active':'' }}">Năm nay</a>
@@ -39,7 +39,7 @@
         <div style="height: 44px; position: relative; flex: 1; min-width: 250px;">
             <form method="GET">
                 <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập Mã TT, CTO, Tên KH..." style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 20px 0 42px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13.5px; outline: none;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập Mã TT, CTO, Tên KH..." style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 20px 0 42px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; outline: none;">
             </form>
         </div>
     </div>
@@ -123,9 +123,9 @@
 
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab.active { color: #10568f; border-bottom-color: #10568f; }
-    .don-filter-btn { padding: 8px 16px; border-radius: 50px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; border: none; background: transparent; cursor: pointer; }
-    .don-filter-btn.active { background: #10568f; color: white; }
+    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .don-filter-btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; border: none; background: transparent; cursor: pointer; }
+    .don-filter-btn.active { background: #0070D2; color: white; }
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; }
 </style>

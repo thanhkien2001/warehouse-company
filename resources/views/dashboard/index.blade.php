@@ -179,7 +179,7 @@
         background: transparent;
         border: none;
         padding: 8px 18px;
-        border-radius: 50px;
+        border-radius: 6px;
         font-size: 13px;
         color: #64748b;
         font-weight: 600;
@@ -191,7 +191,7 @@
     }
 
     .filter-btn.active {
-        background: #10568f;
+        background: #0070D2;
         color: white;
         box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
     }
@@ -199,22 +199,22 @@
 @endpush
 
 @section('content')
-{{-- FILTER BAR --}}
 <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center;">
-    <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <a href="{{ route('dashboard', ['filter'=>'month']) }}" class="filter-btn {{ $filter==='month'?'active':'' }}">Tháng này</a>
         <a href="{{ route('dashboard', ['filter'=>'quarter']) }}" class="filter-btn {{ $filter==='quarter'?'active':'' }}">Quý này</a>
         <a href="{{ route('dashboard', ['filter'=>'year']) }}" class="filter-btn {{ $filter==='year'?'active':'' }}">Năm nay</a>
     </div>
     
-    <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    
+    <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <input type="hidden" name="filter" value="custom">
         <input type="date" name="date_start" value="{{ $dateStart }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
         <span style="color:#94a3b8; font-weight: bold;">-</span>
         <input type="date" name="date_end" value="{{ $dateEnd }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
-        <button type="submit" style="height: 34px; background: #10b981; color: white; border: none; border-radius: 50px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">Áp dụng</button>
+        <button type="submit" style="height: 34px; background: #10b981; color: white; border: none; border-radius: 6px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">Áp dụng</button>
     </form>
-    <a href="{{ route('dashboard', ['filter'=>$filter]) }}" style="background: #fff; border-radius: 8px; padding: 10px 16px; color: #10b981; border: 1px solid #10b981; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: auto; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-sync-alt"></i> Làm mới</a>
+    <a href="{{ route('dashboard', ['filter'=>$filter]) }}" style="background: #fff; border-radius: 6px; padding: 10px 16px; color: #10b981; border: 1px solid #10b981; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: auto; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-sync-alt"></i> Làm mới</a>
 </div>
 
 {{-- KPI CARDS --}}
@@ -271,7 +271,7 @@
     <div class="chart-box" style="border-color:#fecaca; background:#fffcfc;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px dashed #fca5a5; padding-bottom:12px;">
             <div class="chart-title" style="color:#ef4444; margin:0"><i class="fas fa-exclamation-triangle"></i> Sắp Đến Hạn TT</div>
-            <span style="background:#fee2e2; color:#ef4444; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:800">≤ 3 Ngày</span>
+            <span style="background:#fee2e2; color:#ef4444; font-size:11px; padding:3px 10px; border-radius:6px; font-weight:800">≤ 3 Ngày</span>
         </div>
         <div style="overflow-y:auto; max-height:250px;">
             @forelse($debtWarnings as $w)
@@ -360,7 +360,7 @@ new Chart(document.getElementById('inventoryChart'), {
     data: {
         labels: @json(collect($inventoryTop10)->pluck('ma_hang')->toArray()),
         datasets: [
-            { label: 'Tồn Kho', data: @json(collect($inventoryTop10)->pluck('con_lai')->toArray()), backgroundColor: '#10568f', borderRadius: 4 }
+            { label: 'Tồn Kho', data: @json(collect($inventoryTop10)->pluck('con_lai')->toArray()), backgroundColor: '#0070D2', borderRadius: 4 }
         ]
     },
     options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }

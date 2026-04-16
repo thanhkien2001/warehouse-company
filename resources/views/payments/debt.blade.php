@@ -51,7 +51,7 @@
                     <td style="text-align: right; color: #059669; border-bottom-color: #fecaca;">{{ number_format($od['tong_don'] - $od['con_lai']) }}</td>
                     <td style="text-align: right; color: #dc2626; font-weight: 800; border-bottom-color: #fecaca;">{{ number_format($od['con_lai']) }}</td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">{{ $od['ngay_giao'] ?? '---' }}</td>
-                    <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700;">{{ $od['tinh_trang'] }}</span></td>
+                    <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">{{ $od['tinh_trang'] }}</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">
                         <button onclick="openDebtModal('{{ $od['cto_code'] }}', '{{ $od['ten_kh'] }}', {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px; background: #ef4444;"><i class="fas fa-wallet"></i> Thu tiền</button>
                     </td>
@@ -84,7 +84,7 @@
             <tbody>
                 @forelse($allDebts as $d)
                 <tr>
-                    <td style="text-align: center; font-weight: 700; color: #10568f;">{{ $d['cto_code'] }}</td>
+                    <td style="text-align: center; font-weight: 700; color: #0070D2;">{{ $d['cto_code'] }}</td>
                     <td style="font-weight: 700; color: #0f172a; text-transform: uppercase;">{{ $d['ten_kh'] }}</td>
                     <td style="text-align: right; color: #475569;">{{ number_format($d['tong_don']) }}</td>
                     <td style="text-align: right; color: #059669; font-weight: 800;">{{ number_format($d['tong_don'] - $d['con_lai']) }}</td>
@@ -145,7 +145,7 @@
 
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab.active { color: #10568f; border-bottom-color: #10568f; }
+    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
 </style>
 @endsection
 

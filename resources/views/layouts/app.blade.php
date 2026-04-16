@@ -60,7 +60,7 @@
         .menu-item {
             display: flex; align-items: center; gap: 12px;
             padding: 12px 18px; border-radius: 8px;
-            color: #cbd5e1; font-size: 14px; font-weight: 500;
+            color: #cbd5e1; font-size: 16px; font-weight: 500;
             text-decoration: none; cursor: pointer; transition: 0.2s;
             margin-bottom: 5px; border: none; background: transparent; width: 100%; text-align: left;
         }
@@ -75,7 +75,7 @@
         .submenu-item {
             display: flex; align-items: center; gap: 10px;
             padding: 8px 15px; border-radius: 6px;
-            color: #94a3b8; font-size: 13px; font-weight: 500;
+            color: #94a3b8; font-size: 15px; font-weight: 500;
             text-decoration: none; cursor: pointer; transition: 0.2s;
         }
         .submenu-item:hover { color: #fff; }
@@ -126,12 +126,27 @@
         .card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 24px; border: 1px solid #f1f5f9; }
         
         /* TABLE STYLE */
-        .legacy-table-container { border: none; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .legacy-table { width: 100%; border-collapse: collapse; border: none; }
-        .legacy-table thead th { background: #f8fafc; padding: 16px 15px; color: #1e293b; font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 2.5px solid #cbd5e1; text-align: left; letter-spacing: 0.5px; }
-        .legacy-table tbody td { padding: 16px 15px; border-bottom: 1.5px solid #e2e8f0; font-size: 14px; color: #334155; }
+        .legacy-table-container { border-left: none !important; border-right: none !important; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .legacy-table { width: 100%; border-collapse: collapse; border-left: none !important; border-right: none !important; }
+        .legacy-table thead th { background: #f8fafc; padding: 16px 15px; color: #1e293b !important; font-size: 13px !important; font-weight: 800 !important; text-transform: uppercase; border-bottom: 2.5px solid #cbd5e1; text-align: left; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; }
+        .legacy-table tbody td { padding: 16px 15px; border-bottom: 1.5px solid #e2e8f0; font-size: 14px; color: #334155; border-left: none !important; border-right: none !important; }
         .legacy-table tbody tr:last-child td { border-bottom: none; }
         .legacy-table tbody tr:hover { background: #f8fafc; }
+        
+        /* STATUS BADGES */
+        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #fff; white-space: nowrap; }
+        .badge-status.cho-xac-nhan { color: #E67E22; border: 1px solid #E67E22; }
+        .badge-status.dang-xu-ly { color: #3498DB; border: 1px solid #3498DB; }
+        .badge-status.da-huy { color: #E74C3C; border: 1px solid #E74C3C; }
+        .badge-status.hoan-thanh, .badge-status.da-giao-xong { color: #27AE60; border: 1px solid #27AE60; }
+        .badge-status.dang-van-chuyen, .badge-status.dang-giao { color: #8E44AD; border: 1px solid #8E44AD; }
+        .badge-status.cho-giao-hang { color: #F39C12; border: 1px solid #F39C12; }
+
+        /* REGION BADGES */
+        .badge-region { padding: 2px 8px; font-size: 11px; font-weight: 700; background: #fff; }
+        .badge-region.mien-bac { color: #3498DB; border: 1px solid #3498DB; border-radius: 20px; }
+        .badge-region.mien-trung { color: #E67E22; border: 1px solid #E67E22; border-radius: 20px; }
+        .badge-region.mien-nam { color: #27AE60; border: 1px solid #27AE60; border-radius: 20px; }
 
         /* MODAL (Clean Modern) */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; }
@@ -140,27 +155,35 @@
         @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         /* BUTTONS */
-        .ui-btn { padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: inherit; }
+        .ui-btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: inherit; }
         .ui-btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(67,24,255,0.2); }
         .ui-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(67,24,255,0.25); }
-        .ui-btn-outline { background: #fff; color: #10568f; border: 1px solid #10568f; }
+        .ui-btn-outline { background: #fff; color: #0070D2; border: 1px solid #0070D2; }
         .ui-btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+        
+        /* STANDARDIZED BUTTONS */
+        .ui-btn-pdf { background: #FF0000 !important; color: white !important; }
+        .ui-btn-pdf:hover { background: #cc0000 !important; }
+        .ui-btn-save { background: #0070D2 !important; color: white !important; }
+        .ui-btn-save:hover { background: #005bb5 !important; }
 
-        /* TOAST */
+        /* TOAST & SWEETALERT Z-INDEX OVERRIDES */
         #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; }
         .toast { padding: 12px 24px; border-radius: 12px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-left: 6px solid; display: flex; align-items: center; gap: 12px; font-weight: 700; color: #2d3748; font-size: 14px; animation: slideInX 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); min-width: 250px; }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--danger); }
         @keyframes slideInX { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        /* Fix SweetAlert being hidden behind Modals */
+        .swal2-container { z-index: 99999 !important; }
 
         /* PAGINATION OVERRIDES */
         .pagination { display: flex; list-style: none; gap: 5px; margin: 0; padding: 0; }
         .page-item .page-link { 
-            padding: 8px 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; 
+            padding: 8px 14px; border: 1.5px solid #e2e8f0; border-radius: 6px; 
             color: #475569; font-weight: 700; text-decoration: none; font-size: 13px;
             background: #fff; transition: 0.2s;
         }
-        .page-item.active .page-link { background: #10568f; color: #fff; border-color: #10568f; box-shadow: 0 4px 10px rgba(67,24,255,0.25); }
+        .page-item.active .page-link { background: #0070D2; color: #fff; border-color: #0070D2; box-shadow: 0 4px 10px rgba(67,24,255,0.25); }
         .page-item.disabled .page-link { color: #cbd5e1; background: #f8fafc; border-color: #f1f5f9; cursor: not-allowed; }
         .page-item:hover:not(.active):not(.disabled) .page-link { background: #f1f5f9; border-color: #cbd5e1; color: var(--primary); }
 
@@ -259,7 +282,7 @@
                 </div>
                 
                 <div style="display: flex; align-items: center; gap: 20px;">
-                    <button class="ui-btn ui-btn-outline" style="border-radius: 50px; padding: 8px 15px;" onclick="location.reload()">
+                    <button class="ui-btn ui-btn-outline" style="border-radius: 6px; padding: 8px 15px;" onclick="location.reload()">
                         <i class="fas fa-sync-alt"></i> Tải lại
                     </button>
                     {{-- Avatar small for top bar just for aesthetic if needed, but legacy has it in sidebar footer --}}
@@ -298,6 +321,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div id="toast-container"></div>
 
     <script>
@@ -312,13 +336,42 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
         function showToast(msg, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${msg}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => { toast.remove(); }, 3500);
+            Swal.fire({
+                title: type === 'success' ? 'Thành công' : 'Lỗi',
+                text: msg,
+                icon: type,
+                timer: 2000,
+                showConfirmButton: false
+            });
         }
+
+        function showConfirm(title, text, callback) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Có, thực hiện!',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback();
+                }
+            });
+        }
+
+        // Auto override standard alert
+        window.alert = function(msg) {
+            Swal.fire({
+                title: 'Thông báo',
+                text: msg,
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Đóng'
+            });
+        };
 
         @if(session('success')) showToast("{{ session('success') }}", 'success'); @endif
         @if(session('error')) showToast("{{ session('error') }}", 'error'); @endif
