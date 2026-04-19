@@ -372,7 +372,7 @@
         }).then(r => r.json());
 
         if (res.success) {
-            showToast(res.message);
+            await showToast(res.message);
             location.reload();
         } else {
             alert(res.message || 'Lỗi khi lưu đơn hàng');
@@ -380,24 +380,25 @@
     }
 
     function deleteOrder(id) {
-        showConfirm('Xóa Đơn Hàng', 'Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này không thể hoàn tác.', () => {
-            fetch(`/don-hang/${id}`, {
+        showConfirm('Xóa Đơn Hàng', 'Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này không thể hoàn tác.', async () => {
+            const res = await fetch(`/don-hang/${id}`, {
                 method: 'DELETE',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
-            }).then(r => r.json()).then(res => {
-                if (res.success) { 
-                    showToast(res.message); 
-                    setTimeout(() => location.reload(), 2000); 
-                }
-                else { alert(res.message); }
-            });
+            }).then(r => r.json());
+            
+            if (res.success) { 
+                await showToast(res.message); 
+                location.reload(); 
+            } else { 
+                alert(res.message); 
+            }
         });
     }
 
-    function saveTyGia() {
+    async function saveTyGia() {
         const v = document.getElementById('ty-gia-val').value.replace(/[^0-9]/g,'');
-        apiPost('{{ route("admin.settings.save") }}', { key_name: 'ty_gia', value: v })
-            .then(r => { if (r.success) showToast('Đã lưu tỷ giá!'); });
+        const res = await apiPost('{{ route("admin.settings.save") }}', { key_name: 'ty_gia', value: v });
+        if (res.success) await showToast('Đã lưu tỷ giá!');
     }
 </script>
 @endpush

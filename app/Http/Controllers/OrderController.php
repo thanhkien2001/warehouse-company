@@ -179,6 +179,7 @@ class OrderController extends Controller
             'items'           => 'nullable|array',
             'trang_thai'      => 'nullable|string',
             'vat_percent'     => 'nullable|numeric|min:0|max:100',
+            'ghi_chu'         => 'nullable|string',
         ]);
 
         // Lưu meta
@@ -190,9 +191,13 @@ class OrderController extends Controller
             ]
         );
 
-        // Cập nhật trạng thái
-        if ($request->trang_thai) {
-            $order->update(['trang_thai' => $request->trang_thai]);
+        // Cập nhật trạng thái và ghi chú
+        $updateData = [];
+        if ($request->trang_thai) $updateData['trang_thai'] = $request->trang_thai;
+        if ($request->has('ghi_chu')) $updateData['ghi_chu'] = $request->ghi_chu;
+        
+        if (!empty($updateData)) {
+            $order->update($updateData);
         }
 
         // Xóa items cũ và lưu lại

@@ -179,7 +179,7 @@
         background: transparent;
         border: none;
         padding: 8px 18px;
-        border-radius: 6px;
+        border-radius: 50px;
         font-size: 13px;
         color: #64748b;
         font-weight: 600;
@@ -200,21 +200,21 @@
 
 @section('content')
 <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center;">
-    <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <a href="{{ route('dashboard', ['filter'=>'month']) }}" class="filter-btn {{ $filter==='month'?'active':'' }}">Tháng này</a>
         <a href="{{ route('dashboard', ['filter'=>'quarter']) }}" class="filter-btn {{ $filter==='quarter'?'active':'' }}">Quý này</a>
         <a href="{{ route('dashboard', ['filter'=>'year']) }}" class="filter-btn {{ $filter==='year'?'active':'' }}">Năm nay</a>
     </div>
     
     
-    <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 6px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <input type="hidden" name="filter" value="custom">
         <input type="date" name="date_start" value="{{ $dateStart }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
         <span style="color:#94a3b8; font-weight: bold;">-</span>
         <input type="date" name="date_end" value="{{ $dateEnd }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
-        <button type="submit" style="height: 34px; background: #10b981; color: white; border: none; border-radius: 6px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">Áp dụng</button>
+        <button type="submit" style="height: 34px; background: #0070D2; color: white; border: none; border-radius: 50px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,112,210,0.25);">Áp dụng</button>
     </form>
-    <a href="{{ route('dashboard', ['filter'=>$filter]) }}" style="background: #fff; border-radius: 6px; padding: 10px 16px; color: #10b981; border: 1px solid #10b981; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: auto; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-sync-alt"></i> Làm mới</a>
+    <a href="{{ route('dashboard', ['filter'=>$filter]) }}" style="background: #fff; border-radius: 6px; padding: 10px 16px; color: #0070D2; border: 1px solid #0070D2; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: auto; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-sync-alt"></i> Làm mới</a>
 </div>
 
 {{-- KPI CARDS --}}
@@ -312,58 +312,65 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const CHART_OPTS = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } } };
+window.addEventListener('load', function() {
+    const CHART_OPTS = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } } };
 
-// Revenue
-new Chart(document.getElementById('revenueChart'), {
-    type: 'line',
-    data: {
-        labels: @json($revenueData['labels']),
-        datasets: [{ label: 'Doanh Thu', data: @json($revenueData['data']), borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true, tension: .4 }]
-    },
-    options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
-});
+    // Revenue
+    const revenueEl = document.getElementById('revenueChart');
+    if (revenueEl) new Chart(revenueEl, {
+        type: 'line',
+        data: {
+            labels: @json($revenueData['labels']),
+            datasets: [{ label: 'Doanh Thu', data: @json($revenueData['data']), borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true, tension: .4 }]
+        },
+        options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
+    });
 
-// Orders
-new Chart(document.getElementById('ordersChart'), {
-    type: 'bar',
-    data: {
-        labels: @json($ordersChart['labels']),
-        datasets: [{ label: 'Số Đơn', data: @json($ordersChart['data']), backgroundColor: '#8b5cf6', borderRadius: 6 }]
-    },
-    options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
-});
+    // Orders
+    const ordersEl = document.getElementById('ordersChart');
+    if (ordersEl) new Chart(ordersEl, {
+        type: 'bar',
+        data: {
+            labels: @json($ordersChart['labels']),
+            datasets: [{ label: 'Số Đơn', data: @json($ordersChart['data']), backgroundColor: '#8b5cf6', borderRadius: 6 }]
+        },
+        options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
+    });
 
-// Status
-new Chart(document.getElementById('statusChart'), {
-    type: 'doughnut',
-    data: {
-        labels: @json($statusChart['labels']),
-        datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#f59e0b','#3b82f6','#8b5cf6','#10b981','#ef4444'], borderWidth: 0 }]
-    },
-    options: { ...CHART_OPTS, cutout: '65%' }
-});
+    // Status
+    const statusEl = document.getElementById('statusChart');
+    if (statusEl) new Chart(statusEl, {
+        type: 'doughnut',
+        data: {
+            labels: @json($statusChart['labels']),
+            datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#f59e0b','#3b82f6','#8b5cf6','#10b981','#ef4444'], borderWidth: 0 }]
+        },
+        options: { ...CHART_OPTS, cutout: '65%' }
+    });
 
-// Top Products
-new Chart(document.getElementById('topProductsChart'), {
-    type: 'bar',
-    data: {
-        labels: @json(collect($topProducts)->pluck('ten_hang')->map(fn($n) => mb_substr($n,0,12).'...')->toArray()),
-        datasets: [{ label: 'Số lượng', data: @json(collect($topProducts)->pluck('total_qty')->toArray()), backgroundColor: '#10b981', borderRadius: 6 }]
-    },
-    options: { ...CHART_OPTS, indexAxis: 'y', plugins: { legend: { display: false } } }
-});
+    // Top Products
+    const topEl = document.getElementById('topProductsChart');
+    if (topEl) new Chart(topEl, {
+        type: 'bar',
+        data: {
+            labels: @json(collect($topProducts)->pluck('ten_hang')->map(fn($n) => mb_substr($n,0,15).'...')->toArray()),
+            datasets: [{ label: 'Số lượng', data: @json(collect($topProducts)->pluck('total_qty')->toArray()), backgroundColor: '#10b981', borderRadius: 6 }]
+        },
+        options: { ...CHART_OPTS, indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
 
-// Inventory
-new Chart(document.getElementById('inventoryChart'), {
-    type: 'bar',
-    data: {
-        labels: @json(collect($inventoryTop10)->pluck('ma_hang')->toArray()),
-        datasets: [
-            { label: 'Tồn Kho', data: @json(collect($inventoryTop10)->pluck('con_lai')->toArray()), backgroundColor: '#0070D2', borderRadius: 4 }
-        ]
-    },
-    options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
+    // Inventory
+    const invEl = document.getElementById('inventoryChart');
+    if (invEl) new Chart(invEl, {
+        type: 'bar',
+        data: {
+            labels: @json(collect($inventoryTop10)->pluck('ma_hang')->toArray()),
+            datasets: [
+                { label: 'Tồn Kho', data: @json(collect($inventoryTop10)->pluck('con_lai')->toArray()), backgroundColor: '#0070D2', borderRadius: 4 }
+            ]
+        },
+        options: { ...CHART_OPTS, scales: { y: { beginAtZero: true } } }
+    });
 });
 </script>
 @endpush

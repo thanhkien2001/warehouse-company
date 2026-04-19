@@ -191,7 +191,7 @@
     function showDNOrderList() { filterDNOrderList(); }
     function filterDNOrderList() {
         const q = document.getElementById('dn_search_cto').value.toLowerCase();
-        const filtered = availableOrders.filter(o => o.ma_don.toLowerCase().includes(q) || (o.customer && o.customer.ten_cty.toLowerCase().includes(q)));
+        const filtered = availableOrders.filter(o => (o.cto_code && o.cto_code.toLowerCase().includes(q)) || (o.ten_kh && o.ten_kh.toLowerCase().includes(q)));
         const dd = document.getElementById('dn-order-dropdown');
         dd.innerHTML = '';
         if (filtered.length > 0) {
@@ -200,7 +200,7 @@
                 item.style.padding = '10px 15px';
                 item.style.cursor = 'pointer';
                 item.style.borderBottom = '1px solid #f1f5f9';
-                item.innerHTML = `<b style="color:#0070D2">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
+                item.innerHTML = `<b style="color:#0070D2">${o.cto_code}</b> - <span style="color:#475569">${o.ten_kh}</span>`;
                 item.onclick = () => selectDNOrder(o);
                 dd.appendChild(item);
             });
@@ -209,9 +209,9 @@
     }
 
     function selectDNOrder(o) {
-        document.getElementById('dn_cto_code').value = o.ma_don;
-        document.getElementById('dn_search_cto').value = o.ma_don;
-        document.getElementById('dn_view_kh').value = o.customer ? o.customer.ten_cty : '---';
+        document.getElementById('dn_cto_code').value = o.cto_code;
+        document.getElementById('dn_search_cto').value = `[${o.cto_code}] ${o.ten_kh}`;
+        document.getElementById('dn_view_kh').value = o.ten_kh || '---';
         document.getElementById('dn-order-dropdown').style.display = 'none';
     }
 
@@ -224,7 +224,7 @@
             dn_code: document.getElementById('dn_code_preview').value,
             han_thanh_toan: document.getElementById('dn_han_tt').value
         });
-        if (res.success) { showToast(res.message); location.reload(); }
+        if (res.success) { await showToast(res.message); location.reload(); }
         else { alert(res.message); }
     }
 
@@ -235,10 +235,10 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
             })
             .then(r => r.json())
-            .then(res => {
+            .then(async res => {
                 if (res.success) { 
-                    showToast(res.message); 
-                    setTimeout(() => location.reload(), 2000); 
+                    await showToast(res.message); 
+                    location.reload(); 
                 }
                 else { alert(res.message); }
             });

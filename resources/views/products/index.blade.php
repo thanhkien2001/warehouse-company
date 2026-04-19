@@ -253,7 +253,10 @@
             is_new: true
         };
         const res = await apiPost('{{ route("products.store") }}', data);
-        if (res.success) { showToast(res.message); location.reload(); }
+        if (res.success) { 
+            await showToast(res.message); 
+            location.reload();
+        }
         else { alert(res.message); }
     }
 </script>

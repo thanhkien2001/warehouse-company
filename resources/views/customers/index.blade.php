@@ -16,7 +16,7 @@
                 <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
-        <button onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-user-plus"></i> Thêm Khách hàng
         </button>
     </div>
@@ -132,7 +132,7 @@
             <div>
                 <label class="modal-pro-label">Khu vực</label>
                 <select id="kh_khuvuc" class="modal-pro-input">
-                    <option value="">-- Chọn khu vực --</option>
+                    <option value="">Chọn khu vực</option>
                     <option value="Miền Bắc">Miền Bắc</option>
                     <option value="Miền Trung">Miền Trung</option>
                     <option value="Miền Nam">Miền Nam</option>
@@ -168,8 +168,8 @@
             </div>
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
-            <button class="ui-btn ui-btn-outline" style="border-radius: 50px;" onclick="closeModal('modal-kh')">Hủy bỏ</button>
-            <button class="ui-btn ui-btn-primary" style="border-radius: 50px; background: #0070D2;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
+            <button class="ui-btn ui-btn-outline" style="border-radius: 6px;" onclick="closeModal('modal-kh')">Hủy bỏ</button>
+            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #0070D2;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
         </div>
     </div>
 </div>
@@ -241,7 +241,7 @@
         }).then(r => r.json());
 
         if (res.success) {
-            showToast(res.message);
+            await showToast(res.message);
             location.reload();
         } else {
             alert(res.message || 'Có lỗi xảy ra!');
@@ -281,8 +281,8 @@
             }).then(r => r.json());
             
             if (res.success) {
-                showToast(res.message);
-                setTimeout(() => location.reload(), 2000);
+                await showToast(res.message);
+                location.reload();
             } else {
                 alert(res.message);
             }

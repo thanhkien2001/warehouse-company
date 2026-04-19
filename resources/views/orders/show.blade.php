@@ -338,15 +338,13 @@
                     <table class="legacy-table">
                         <thead>
                             <tr>
-                                <th style="width: 100px;">Mã Hàng</th>
-                                <th>Tên Sản Phẩm</th>
-                                <th style="width: 140px;">Mô tả phụ</th>
-                                <th style="width: 80px;">SL</th>
+                                <th style="width: 120px;">Mã Hàng</th>
+                                <th>Mô tả hàng hóa</th>
+                                <th style="width: 80px;">Số lượng</th>
                                 <th style="width: 70px;">ĐVT</th>
-                                <th style="width: 120px;">Đơn Giá</th>
-                                <th style="width: 90px;">Mã LOT</th>
-                                <th style="width: 110px;">Hạn SD</th>
-                                <th style="width: 130px; text-align: right;">Thành Tiền</th>
+                                <th style="width: 140px;">Đơn giá (VND)</th>
+                                <th style="width: 150px; text-align: right;">Thành tiền (VND)</th>
+                                <th style="width: 120px;">Công nợ</th>
                                 <th class="col-action"><i class="fas fa-trash"></i></th>
                             </tr>
                         </thead>
@@ -372,7 +370,9 @@
                         <div class="summary-row" style="align-items: center;">
                             <div class="vat-box">
                                 <span>Thuế VAT</span>
-                                <input type="number" id="vat-input" value="{{ $order->meta?->vat_percent ?? 8 }}" step="0.1" onchange="calcTotal()">
+                                <input type="text" id="vat-input"
+                                    value="{{ rtrim(rtrim(number_format($order->meta?->vat_percent ?? 8, 2, '.', ''), '0'), '.') }}"
+                                    onchange="calcTotal()" style="text-align:center;">
                                 <span>%</span>
                             </div>
                             <b id="sum-vat">0</b>
@@ -385,28 +385,28 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+                <!-- <div style="margin-top: 25px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
                     <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; color: #475569; text-transform: uppercase;">
                         <i class="fas fa-sticky-note" style="margin-right: 5px;"></i> Ghi chú & Thao tác
                     </h3>
                     <div class="form-group">
-                        <textarea id="val-ghi-chu" class="form-control" rows="3" placeholder="Nhập ghi chú vận hành...">{{ $order->ghi_chu }}</textarea>
+                        <textarea id="val-ghi-chu" class="form-control" rows="3" placeholder="Nhập ghi chú vận hành..." style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; outline: none; font-family: inherit; font-size: 14px;">{{ $order->ghi_chu }}</textarea>
                     </div>
 
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
                         @if(!$order->deliveryNote && $order->trang_thai != 'Đã hủy' && (auth()->user()->canDo('phieugiao','edit') || auth()->user()->isAdmin()))
-                        <button class="btn" style="background: #8b5cf6; color: #fff; border-radius: 8px;" onclick="openModalTaoPhieu()">
+                        <button class="ui-btn" style="background: #8b5cf6; color: #fff; border-radius: 8px;" onclick="openModalTaoPhieu()">
                             <i class="fas fa-truck-loading"></i> Tạo Phiếu Giao Hàng
                         </button>
                         @endif
 
                         @if($order->deliveryNote)
-                        <a href="{{ route('deliveries.show', $order->deliveryNote->id) }}" class="btn" style="background:#f59e0b; color:#fff; border-radius: 8px; text-decoration: none; padding: 10px 16px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <a href="{{ route('deliveries.show', $order->deliveryNote->id) }}" class="ui-btn" style="background:#f59e0b; color:#fff; border-radius: 8px; text-decoration: none; padding: 10px 16px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
                             <i class="fas fa-file-invoice"></i> Xem PGH ({{ $order->deliveryNote->dn_code }})
                         </a>
                         @endif
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -487,23 +487,25 @@ function createRowHtml(stt, data = {}) {
     const sl = data.so_luong || '';
     const dvt = data.don_vi_tinh || '';
     const gia = data.don_gia || '';
-    const lot = data.ma_lot || '';
-    const han = data.han_su_dung ? data.han_su_dung.substring(0,10) : '';
-    
+    const nợ = data.cong_no || ''; // Placeholder for "Công nợ"
+
     const warn = (ma && STOCK[ma] !== undefined && STOCK[ma] < Number(sl)) 
                  ? `<div class="warn-stock" style="font-size:10px;color:red;margin-top:2px">! Tồn: ${STOCK[ma]}</div>` : '';
                  
     return `
     <tr class="item-row">
         <td><input type="text" class="in-ma" value="${ma}" list="productList" onchange="autoFill(this)" placeholder="Mã..." ${!canEdit?'readonly':''}>${warn}</td>
-        <td><textarea class="in-ten" placeholder="Tên SP..." rows="1" style="height:35px" ${!canEdit?'readonly':''}>${ten}</textarea></td>
-        <td><textarea class="in-phu" placeholder="..." rows="1" style="height:35px" ${!canEdit?'readonly':''}>${phu}</textarea></td>
+        <td>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <input type="text" class="in-ten" value="${ten}" placeholder="Tên sản phẩm..." style="font-weight: 700; height: 30px;" ${!canEdit?'readonly':''}>
+                <input type="text" class="in-phu" value="${phu}" placeholder="Mô tả phụ (quy cách, chất liệu...)" style="font-size: 12px; color: #64748b; height: 26px;" ${!canEdit?'readonly':''}>
+            </div>
+        </td>
         <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" style="text-align:center" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-dvt" value="${dvt}" style="text-align:center" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-gia" value="${formatMoney(gia)}" oninput="formatAndCalc(this)" onfocus="this.select()" style="text-align:right" ${!canEdit?'readonly':''}></td>
-        <td><input type="text" class="in-lot" value="${lot}" style="text-align:center" ${!canEdit?'readonly':''}></td>
-        <td><input type="date" class="in-han" value="${han}" ${!canEdit?'readonly':''}></td>
-        <td class="calc-tt" style="text-align:right; font-weight:700; color:#0f172a">0</td>
+        <td class="calc-tt" style="text-align:right; font-weight:700; color:#FF0000 !important">0</td>
+        <td><input type="text" class="in-no" value="${nợ}" placeholder="..." style="text-align:center; font-size: 12px;" ${!canEdit?'readonly':''}></td>
         <td class="col-action">
             ${canEdit ? `<button class="btn-remove-row" onclick="removeRow(this)" tabindex="-1"><i class="fas fa-times-circle"></i></button>` : ''}
         </td>
@@ -609,8 +611,7 @@ async function saveOrderDetails() {
                 so_luong: tr.querySelector('.in-sl').value,
                 don_vi_tinh: tr.querySelector('.in-dvt').value.trim(),
                 don_gia: tr.querySelector('.in-gia').value.replace(/\./g,''),
-                ma_lot: tr.querySelector('.in-lot').value.trim(),
-                han_su_dung: tr.querySelector('.in-han').value.trim()
+                cong_no: tr.querySelector('.in-no').value.trim()
             });
         }
     });
@@ -620,6 +621,7 @@ async function saveOrderDetails() {
         items,
         vat_percent: document.getElementById('vat-input').value,
         trang_thai: tr_thai,
+        ghi_chu: document.getElementById('val-ghi-chu')?.value || ''
     };
     
     const btn = document.getElementById('btn-save');
@@ -629,16 +631,15 @@ async function saveOrderDetails() {
     try {
         const res = await apiPost('{{ route("orders.save-items", $order->id) }}', data);
         if(res.success) {
-            // Update order info
-            await apiPatch('{{ route("orders.update", $order->id) }}', {
-                trang_thai: tr_thai,
-                ghi_chu: document.getElementById('val-ghi-chu').value
-            });
-            showToast('Đã lưu toàn bộ thay đổi thành công!');
+            await showToast('Đã lưu toàn bộ thay đổi thành công!');
+            location.reload();
         } else {
             showToast(res.message, 'error');
         }
-    } catch(e) { showToast('Lỗi máy chủ', 'error'); }
+    } catch(e) { 
+        console.error(e);
+        showToast('Lỗi máy chủ hoặc dữ liệu không hợp lệ', 'error'); 
+    }
     finally { btn.innerHTML = old; }
 }
 
@@ -656,8 +657,8 @@ async function submitTaoPhieu() {
     try {
         const res = await apiPost('{{ route("deliveries.store") }}', data);
         if(res.success) {
-            showToast('Tạo phiếu thành công!');
-            setTimeout(() => location.reload(), 1000);
+            await showToast('Tạo phiếu thành công!');
+            location.reload();
         } else { showToast(res.message, 'error'); }
     } catch(e) { showToast('Lỗi', 'error'); }
 }

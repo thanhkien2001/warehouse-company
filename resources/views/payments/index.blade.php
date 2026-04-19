@@ -188,7 +188,10 @@
             so_tien: amount,
             ghi_chu: document.getElementById('tt_note').value
         });
-        if (res.success) { showToast(res.message); location.reload(); }
+        if (res.success) { 
+            await showToast(res.message); 
+            location.reload();
+        }
         else { alert(res.message); }
     }
 </script>

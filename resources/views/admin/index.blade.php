@@ -390,8 +390,8 @@ async function saveUser() {
         }).then(r => r.json());
         
         if (res.success) { 
-            showToast('Đã lưu thành công!'); 
-            setTimeout(()=>location.reload(), 800); 
+            await showToast('Đã lưu thành công!'); 
+            location.reload(); 
         } else { 
             showToast(res.message, 'error'); 
         }
@@ -404,7 +404,7 @@ function deleteUser(id, un) {
     showConfirm('Xóa Tài Khoản', `Bạn có chắc muốn xóa tài khoản? Hành động này không thể hoàn tác.`, async () => {
         try {
             const res = await apiDelete(`/admin/users/${id}`);
-            if (res.success) { showToast('Đã xóa tài khoản'); setTimeout(()=>location.reload(), 500); }
+            if (res.success) { await showToast('Đã xóa tài khoản'); location.reload(); }
             else { showToast('Lỗi khi xóa!', 'error'); }
         } catch(e) { showToast('Lỗi hệ thống!', 'error'); }
     });

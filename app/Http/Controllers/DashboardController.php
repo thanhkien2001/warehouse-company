@@ -92,18 +92,23 @@ class DashboardController extends Controller
             $months[] = now()->subMonths($i)->format('Y-m');
         }
 
-        $revenues = Order::select(
-                DB::raw("DATE_FORMAT(order_date, '%Y-%m') as month"),
-                DB::raw('SUM(oi.thanh_tien) as total')
+        $rows = Order::select(
+                DB::raw("DATE_FORMAT(order_date, '%Y-%m') as ym"),
+                DB::raw('SUM(oi.thanh_tien) as rev_total')
             )
             ->join('order_items as oi', 'orders.id', '=', 'oi.order_id')
             ->where('order_date', '>=', now()->subMonths(11)->startOfMonth())
-            ->groupBy('month')
-            ->pluck('total', 'month');
+            ->groupBy('ym')
+            ->get();
+
+        $revenues = [];
+        foreach ($rows as $row) {
+            $revenues[(string)$row->ym] = (float)$row->rev_total;
+        }
 
         return [
             'labels' => array_map(fn($m) => date('M/y', strtotime($m . '-01')), $months),
-            'data'   => array_map(fn($m) => (float)($revenues[$m] ?? 0), $months),
+            'data'   => array_map(fn($m) => $revenues[$m] ?? 0, $months),
         ];
     }
 
@@ -114,30 +119,41 @@ class DashboardController extends Controller
             $months[] = now()->subMonths($i)->format('Y-m');
         }
 
-        $counts = Order::select(
-                DB::raw("DATE_FORMAT(order_date, '%Y-%m') as month"),
-                DB::raw('COUNT(*) as total')
+        $rows = Order::select(
+                DB::raw("DATE_FORMAT(order_date, '%Y-%m') as ym"),
+                DB::raw('COUNT(*) as cnt_total')
             )
             ->where('order_date', '>=', now()->subMonths(5)->startOfMonth())
-            ->groupBy('month')
-            ->pluck('total', 'month');
+            ->groupBy('ym')
+            ->get();
+
+        $counts = [];
+        foreach ($rows as $row) {
+            $counts[(string)$row->ym] = (int)$row->cnt_total;
+        }
 
         return [
             'labels' => array_map(fn($m) => date('m/y', strtotime($m . '-01')), $months),
-            'data'   => array_map(fn($m) => (int)($counts[$m] ?? 0), $months),
+            'data'   => array_map(fn($m) => $counts[$m] ?? 0, $months),
         ];
     }
 
     private function getStatusChart(): array
     {
         $statuses = ['Chờ xác nhận', 'Đang xử lý', 'Đang vận chuyển', 'Hoàn thành', 'Đã hủy'];
-        $counts   = Order::select('trang_thai', DB::raw('COUNT(*) as total'))
+
+        $rows = Order::select('trang_thai', DB::raw('COUNT(*) as cnt'))
             ->groupBy('trang_thai')
-            ->pluck('total', 'trang_thai');
+            ->get();
+
+        $counts = [];
+        foreach ($rows as $row) {
+            $counts[$row->trang_thai] = (int)$row->cnt;
+        }
 
         return [
             'labels' => $statuses,
-            'data'   => array_map(fn($s) => (int)($counts[$s] ?? 0), $statuses),
+            'data'   => array_map(fn($s) => $counts[$s] ?? 0, $statuses),
         ];
     }
 
