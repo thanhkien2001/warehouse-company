@@ -6,7 +6,7 @@
 @section('content')
 <div class="card" style="padding: 24px;">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;">
+    <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 54px; height: 54px; background: #fef2f2; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.15); flex-shrink: 0;">
                 <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #ef4444;"></i>
@@ -32,14 +32,14 @@
         <table class="legacy-table">
             <thead>
                 <tr>
-                    <th style="text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">MÃ ĐƠN</th>
-                    <th style="text-align: left; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
-                    <th style="text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
-                    <th style="text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
-                    <th style="text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">CÒN LẠI</th>
-                    <th style="text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">NGÀY GIAO</th>
-                    <th style="text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
-                    <th style="text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">THAO TÁC</th>
+                    <th style="width: 12%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">MÃ CTO</th>
+                    <th style="width: 25%; text-align: left; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
+                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
+                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
+                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">CÒN LẠI</th>
+                    <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">NGÀY GIAO</th>
+                    <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
+                    <th style="width: 9%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,14 +71,14 @@
         <table class="legacy-table">
             <thead>
                 <tr>
-                    <th style="text-align: center;">MÃ ĐƠN</th>
-                    <th style="text-align: left;">KHÁCH HÀNG</th>
-                    <th style="text-align: right;">TỔNG ĐƠN</th>
-                    <th style="text-align: right;">ĐÃ TRẢ</th>
-                    <th style="text-align: right;">CÒN LẠI</th>
-                    <th style="text-align: center;">NGÀY GIAO</th>
-                    <th style="text-align: center;">HẠN (NGÀY)</th>
-                    <th style="text-align: center;">THAO TÁC</th>
+                    <th style="width: 12%; text-align: center;">MÃ ĐƠN</th>
+                    <th style="width: 25%; text-align: left;">KHÁCH HÀNG</th>
+                    <th style="width: 12%; text-align: right;">TỔNG ĐƠN</th>
+                    <th style="width: 12%; text-align: right;">ĐÃ TRẢ</th>
+                    <th style="width: 12%; text-align: right;">CÒN LẠI</th>
+                    <th style="width: 10%; text-align: center;">NGÀY GIAO</th>
+                    <th style="width: 8%; text-align: center;">HẠN (NGÀY)</th>
+                    <th style="width: 7%; text-align: center;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody>
@@ -143,9 +143,21 @@
     </div>
 </div>
 
-<style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
     .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+
+    /* Responsive adjustments */
+    .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    
+    @media (max-width: 1400px) {
+        .legacy-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .legacy-table { min-width: 1000px; }
+    }
+
+    @media (max-width: 768px) {
+        .card { padding: 15px !important; }
+        .page-header-row { flex-direction: column; align-items: flex-start !important; gap: 15px; }
+    }
 </style>
 @endsection
 

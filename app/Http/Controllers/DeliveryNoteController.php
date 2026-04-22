@@ -16,15 +16,12 @@ class DeliveryNoteController extends Controller
     {
         $query = DeliveryNote::with('customer');
 
-        $filter = $request->get('filter', 'all');
-        if ($filter === '7days') {
-            $query->where('delivery_date', '>=', now()->subDays(7));
-        } elseif ($filter === 'month') {
-            $query->whereMonth('delivery_date', now()->month)->whereYear('delivery_date', now()->year);
-        } elseif ($filter === 'year') {
-            $query->whereYear('delivery_date', now()->year);
-        } elseif ($filter === 'custom' && $request->date_start && $request->date_end) {
-            $query->whereBetween('delivery_date', [$request->date_start, $request->date_end]);
+        // 1. Time & Search Filters (Apply first for accurate counts)
+        if ($request->date_start) {
+            $query->whereDate('delivery_date', '>=', $request->date_start);
+        }
+        if ($request->date_end) {
+            $query->whereDate('delivery_date', '<=', $request->date_end);
         }
 
         if ($kw = $request->get('search')) {
@@ -36,6 +33,22 @@ class DeliveryNoteController extends Controller
             });
         }
 
+        // 2. Counts by Status
+        $countQuery = clone $query;
+        $counts = $countQuery->select('trang_thai', \Illuminate\Support\Facades\DB::raw('COUNT(*) as total'))
+            ->groupBy('trang_thai')
+            ->pluck('total', 'trang_thai')
+            ->toArray();
+        $counts['all'] = array_sum($counts);
+
+        // 3. Status Filter
+        if ($status = $request->get('status')) {
+            if ($status !== 'all') {
+                $query->where('trang_thai', $status);
+            }
+        }
+
+        // 4. Sort & Paginate
         $sort = $request->get('sort', 'newest');
         match ($sort) {
             'az'      => $query->orderBy('ten_kh'),
@@ -47,10 +60,12 @@ class DeliveryNoteController extends Controller
         $limit = $request->get('limit', 20);
         $deliveries = $query->paginate($limit)->withQueryString();
         $availableOrders = Order::whereNotIn('trang_thai', ['Đã hủy'])
+            ->whereDoesntHave('deliveryNote')
             ->orderByDesc('order_date')
             ->get(['id','cto_code','ma_kh','ten_kh']);
 
-        return view('delivery-notes.index', compact('deliveries', 'filter', 'sort', 'availableOrders'));
+
+        return view('delivery-notes.index', compact('deliveries', 'counts', 'sort', 'availableOrders'));
     }
 
     public function show(DeliveryNote $deliveryNote)
@@ -118,6 +133,48 @@ class DeliveryNoteController extends Controller
         LogService::log('Cập nhật phiếu giao', "Phiếu [{$deliveryNote->dn_code}] → {$request->trang_thai}");
 
         return response()->json(['success' => true, 'message' => 'Đã cập nhật trạng thái!']);
+    }
+
+    public function saveItems(Request $request, DeliveryNote $deliveryNote)
+    {
+        $request->validate([
+            'items' => 'required|array',
+            'trang_thai' => 'nullable|string',
+        ]);
+
+        if ($request->trang_thai) {
+            $deliveryNote->update(['trang_thai' => $request->trang_thai]);
+            // Đồng bộ trạng thái CTO
+            $order = $deliveryNote->order;
+            if ($order) {
+                $newOrderStatus = match ($request->trang_thai) {
+                    'Đang giao'    => 'Đang vận chuyển',
+                    'Đã giao xong' => 'Hoàn thành',
+                    'Đã hủy'       => 'Đã hủy',
+                    default        => $order->trang_thai,
+                };
+                $order->update(['trang_thai' => $newOrderStatus]);
+            }
+        }
+
+        foreach ($request->items as $itemData) {
+            if (isset($itemData['id'])) {
+                $item = \App\Models\OrderItem::find($itemData['id']);
+                if ($item && $item->order_id == $deliveryNote->order_id) {
+                    $item->update([
+                        'ma_lot'      => $itemData['ma_lot'] ?? null,
+                        'han_su_dung' => !empty($itemData['han_su_dung']) ? $itemData['han_su_dung'] : null,
+                        'quy_cach'    => $itemData['quy_cach'] ?? null,
+                        'quy_doi'     => (float)($itemData['quy_doi'] ?? 0),
+                        'ghi_chu'     => $itemData['ghi_chu'] ?? null,
+                    ]);
+                }
+            }
+        }
+
+        LogService::log('Cập nhật hàng hóa phiếu giao', "Phiếu [{$deliveryNote->dn_code}] - Cập nhật số lô, hsd...");
+
+        return response()->json(['success' => true, 'message' => 'Đã lưu thông tin phiếu giao thành công!']);
     }
 
     public function destroy(DeliveryNote $deliveryNote)

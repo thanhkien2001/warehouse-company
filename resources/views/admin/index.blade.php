@@ -54,13 +54,13 @@
             <table class="legacy-table">
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 60px;">STT</th>
-                        <th style="width: 180px;">Tài khoản</th>
-                        <th>Tên hiển thị</th>
-                        <th style="text-align: center; width: 140px;">Chức vụ</th>
-                        <th style="text-align: center; width: 140px;">Trạng Thái</th>
-                        <th style="text-align: center; width: 160px;">Ngày đăng ký</th>
-                        <th style="text-align: center; width: 120px;">Thao tác</th>
+                        <th style="width: 5%; text-align: center;">STT</th>
+                        <th style="width: 15%;">Tài khoản</th>
+                        <th style="width: 35%;">Tên hiển thị</th>
+                        <th style="width: 15%; text-align: center;">Chức vụ</th>
+                        <th style="width: 12%; text-align: center;">Trạng Thái</th>
+                        <th style="width: 10%; text-align: center;">Ngày đăng ký</th>
+                        <th style="width: 8%; text-align: center;">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>

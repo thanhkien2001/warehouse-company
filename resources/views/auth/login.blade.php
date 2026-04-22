@@ -100,20 +100,96 @@
         .login-card {
             position: relative;
             z-index: 10;
-            width: 420px;
-            background: rgba(255,255,255,0.97);
-            border-radius: 20px;
+            width: 1000px;
+            max-width: calc(100% - 40px);
+            min-height: 620px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 24px;
             box-shadow:
                 0 0 0 1px rgba(255,255,255,0.15),
                 0 25px 60px rgba(0,0,0,0.5),
                 0 8px 20px rgba(0,112,210,0.2);
             overflow: hidden;
-            animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            display: flex;
+            animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
         @keyframes cardIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            from { opacity: 0; transform: translateY(40px) scale(0.98); }
             to   { opacity: 1; transform: translateY(0)    scale(1); }
         }
+
+        /* Visual Panel */
+        .card-visual {
+            flex: 1.1;
+            position: relative;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            color: white;
+            overflow: hidden;
+        }
+        
+        /* Subtle abstract patterns instead of image */
+        .card-visual::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            background-image: radial-gradient(circle at 20% 30%, rgba(0, 112, 210, 0.15) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 70%, rgba(67, 24, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .visual-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .visual-content .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(0, 112, 210, 0.2);
+            border: 1px solid rgba(0, 112, 210, 0.4);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            color: #60a5fa;
+        }
+        .visual-content h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.8px;
+            line-height: 1.2;
+        }
+        .visual-content p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 380px;
+        }
+        .visual-features {
+            display: flex;
+            gap: 24px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+        }
+        .feature-item i {
+            color: #0070D2;
+        }
+
 
         /* Top accent bar */
         .card-accent {
@@ -124,7 +200,14 @@
         }
         @keyframes shineBar { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
-        .card-body { padding: 40px 44px 36px; }
+        .card-body { 
+            flex: 1;
+            padding: 48px 60px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
 
         /* Brand */
         .brand {
@@ -305,10 +388,15 @@
         .security-note i { color: #94a3b8; font-size: 12px; }
         .security-note span { font-size: 11.5px; color: #94a3b8; }
 
-        @media (max-width: 480px) {
-            .login-card { width: calc(100vw - 32px); margin: 16px; }
-            .card-body { padding: 32px 28px 28px; }
+        @media (max-width: 992px) {
+            .login-card { width: 440px; min-height: auto; }
+            .card-visual { display: none; }
+            .card-body { padding: 40px 32px; }
         }
+        @media (max-width: 480px) {
+            .login-card { width: 100%; border-radius: 0; min-height: 100vh; }
+        }
+
     </style>
 </head>
 <body>
@@ -333,20 +421,34 @@
 
     <!-- ── CENTERED CARD ── -->
     <div class="login-card">
-        <div class="card-accent"></div>
+        <!-- Simplified Visual Side -->
+        <div class="card-visual">
+            <div class="visual-content">
+                <span class="badge">Warehouse Evolution</span>
+                <h2>Quản lý kho hàng <br> Thông minh & Hiệu quả</h2>
+                <p>Nền tảng WMS tiên tiến giúp tối ưu hóa không gian, nhân lực và quy trình vận hành kho bãi của bạn.</p>
+                <div class="visual-features">
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Chính xác 99%</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Tiết kiệm 30% chi phí</div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="card-body">
+            <div class="card-accent" style="position: absolute; top: 0; left: 0; right: 0;"></div>
 
             <!-- Brand Logo -->
-            <div style="text-align: center; margin-bottom: 28px;">
+            <div style="text-align: center; margin-bottom: 32px;">
                 <img src="https://i.ibb.co/whdGg4FK/Chat-GPT-Image-00-40-01-22-thg-3-2026.png"
                      alt="Logo"
-                     style="height: 80px; width: auto; object-fit: contain; display: inline-block;">
+                     style="height: 70px; width: auto; object-fit: contain; display: inline-block;">
             </div>
 
             <!-- Heading -->
             <div class="form-header">
-                <h2>Đăng nhập hệ thống</h2>
-                <p>Nhập thông tin tài khoản để tiếp tục sử dụng</p>
+                <h2>Chào mừng trở lại</h2>
+                <p>Vui lòng đăng nhập để truy cập hệ thống</p>
             </div>
 
             <!-- Form -->
@@ -394,7 +496,7 @@
 
                 <button type="submit" class="btn-login" id="btn-submit">
                     <i class="fas fa-sign-in-alt"></i>
-                    Đăng nhập
+                    Đăng nhập ngay
                 </button>
             </form>
 
@@ -408,6 +510,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <script>

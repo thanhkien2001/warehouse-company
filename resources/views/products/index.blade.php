@@ -6,7 +6,7 @@
 @section('content')
 <div class="card" style="padding: 24px;">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
+    <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15); flex-shrink: 0;">
                 <i class="fas fa-boxes" style="font-size: 24px; color: #0070D2;"></i>
@@ -31,14 +31,14 @@
 
     @if($tab == 'tonkho')
     <div id="khu-vuc-baocao">
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; align-items: center;">
+        <div class="filter-row" style="margin-bottom: 20px;">
             <div style="height: 35px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 3px;">
                 <button class="don-filter-btn active">Tất cả</button>
                 <button class="don-filter-btn">Tuần này</button>
                 <button class="don-filter-btn">Tháng này</button>
             </div>
             
-            <div style="height: 35px; position: relative; flex: 1; min-width: 250px;">
+            <div style="height: 35px; position: relative; flex: 1; min-width: 250px; max-width: 500px;">
                 <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
                 <input type="text" id="inp-search-tonkho" placeholder="Tìm mã hoặc tên Sản phẩm..." onkeyup="filterTK()" style="width: 100%; height: 100%; box-sizing: border-box; padding: 0 16px 0 36px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none;">
             </div>
@@ -57,13 +57,13 @@
             <table class="legacy-table" id="table-tk">
                 <thead>
                     <tr>
-                        <th style="text-align: center; width: 50px;">STT</th>
-                        <th style="width: 140px; text-align: center;">MÃ HÀNG</th>
-                        <th>TÊN SẢN PHẨM</th>
-                        <th style="width: 120px; text-align: right;">TỔNG NHẬP</th>
-                        <th style="width: 120px; text-align: right;">TỔNG XUẤT</th>
-                        <th style="width: 140px; text-align: center;">TỒN KHO</th>
-                        <th style="width: 120px; text-align: center;">ĐVT</th>
+                        <th style="width: 5%; text-align: center;">STT</th>
+                        <th style="width: 15%; text-align: center;">MÃ HÀNG</th>
+                        <th style="width: 40%; text-align: left;">TÊN SẢN PHẨM</th>
+                        <th style="width: 11%; text-align: right;">TỔNG NHẬP</th>
+                        <th style="width: 11%; text-align: right;">TỔNG XUẤT</th>
+                        <th style="width: 10%; text-align: center;">TỒN KHO</th>
+                        <th style="width: 8%; text-align: center;">ĐVT</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -222,6 +222,25 @@
     .modal-pro-label span { color: #ef4444; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; font-family: inherit; }
     .modal-pro-input:focus { border-color: #3b82f6; background: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
+
+    /* Responsive adjustments */
+    .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .filter-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    
+    @media (max-width: 1400px) {
+        .legacy-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .legacy-table { min-width: 1000px; }
+    }
+
+    @media (max-width: 1200px) {
+        .filter-row { flex-direction: column; align-items: stretch; }
+        .filter-group { justify-content: flex-start; }
+    }
+
+    @media (max-width: 768px) {
+        .card { padding: 15px !important; }
+        .page-header-row { flex-direction: column; align-items: flex-start !important; gap: 15px; }
+    }
 </style>
 @endsection
 

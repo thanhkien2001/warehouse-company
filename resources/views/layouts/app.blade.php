@@ -28,6 +28,10 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: var(--font-family); background: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        input[type="date"], input[type="text"], input[type="number"], select, textarea {
+            font-family: inherit !important;
+        }
 
         /* ═══════════════ HEADER ═══════════════ */
         #topbar {
@@ -174,12 +178,64 @@
             height: 100%;
             flex-shrink: 0;
             border-right: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
             z-index: 1000;
-            overflow-y: auto;
+            position: relative;
         }
-        #sidebar::-webkit-scrollbar { width: 3px; }
-        #sidebar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+        #sidebar-inner {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+            width: var(--sidebar-width);
+        }
+        #sidebar-inner::-webkit-scrollbar { width: 3px; }
+        #sidebar-inner::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+        /* Sidebar Toggle Button */
+        #sidebar-toggle {
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--primary);
+            font-size: 16px;
+        }
+        #sidebar-toggle:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 6px 16px rgba(0,112,210,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Collapsed State */
+        body.sidebar-collapsed #sidebar {
+            width: 0;
+            border-right: none;
+        }
+        body.sidebar-collapsed #sidebar-toggle {
+            right: -18px;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        body.sidebar-collapsed #sidebar-inner {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.3s, opacity 0.2s linear;
+        }
 
         .sidebar-section-title {
             font-size: 10.5px;
@@ -261,25 +317,30 @@
         /* TABLE STYLE */
         .legacy-table-container { border-left: none !important; border-right: none !important; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .legacy-table { width: 100%; border-collapse: collapse; border-left: none !important; border-right: none !important; }
-        .legacy-table thead th { background: #f8fafc; padding: 16px 15px; color: #1e293b !important; font-size: 13px !important; font-weight: 800 !important; text-transform: uppercase; border-bottom: 2.5px solid #cbd5e1; text-align: left; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; }
-        .legacy-table tbody td { padding: 16px 15px; border-bottom: 1.5px solid #e2e8f0; font-size: 14px; color: #334155; border-left: none !important; border-right: none !important; }
+        .legacy-table thead th { background: #f8fafc; padding: 16px 15px; color: #1e293b !important; font-size: 13px !important; font-weight: 800 !important; text-transform: uppercase; border-bottom: 2.5px solid #cbd5e1; text-align: center; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; }
+        .legacy-table tbody td { padding: 12px 15px; border-bottom: 1.5px solid #e2e8f0; font-size: 14px; color: #334155; border-left: none !important; border-right: none !important; text-align: center; }
         .legacy-table tbody tr:last-child td { border-bottom: none; }
         .legacy-table tbody tr:hover { background: #f8fafc; }
+
+        /* Cell Alignments */
+        .col-left { text-align: left !important; }
+        .col-center { text-align: center !important; }
+        .col-right { text-align: right !important; }
         
         /* STATUS BADGES */
-        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #fff; white-space: nowrap; }
-        .badge-status.cho-xac-nhan { color: #E67E22; border: 1px solid #E67E22; }
-        .badge-status.dang-xu-ly { color: #3498DB; border: 1px solid #3498DB; }
-        .badge-status.da-huy { color: #E74C3C; border: 1px solid #E74C3C; }
-        .badge-status.hoan-thanh, .badge-status.da-giao-xong { color: #27AE60; border: 1px solid #27AE60; }
-        .badge-status.dang-van-chuyen, .badge-status.dang-giao { color: #8E44AD; border: 1px solid #8E44AD; }
-        .badge-status.cho-giao-hang { color: #F39C12; border: 1px solid #F39C12; }
+        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 50px; font-size: 11px; font-weight: 700; background: #fff; white-space: nowrap; }
+        .badge-status.cho-xac-nhan { color: white; background: #E67E22; border: 1px solid #E67E22; }
+        .badge-status.dang-xu-ly { color: white; background: #3498DB; border: 1px solid #3498DB; }
+        .badge-status.da-huy { color: white; background: #E74C3C; border: 1px solid #E74C3C; }
+        .badge-status.hoan-thanh, .badge-status.da-giao-xong { color: white; background: #27AE60; border: 1px solid #27AE60; }
+        .badge-status.dang-van-chuyen, .badge-status.dang-giao { color: white; background: #8E44AD; border: 1px solid #8E44AD; }
+        .badge-status.cho-giao-hang { color: white; background: #F39C12; border: 1px solid #F39C12; }
 
         /* REGION BADGES */
-        .badge-region { padding: 2px 8px; font-size: 11px; font-weight: 700; background: #fff; }
-        .badge-region.mien-bac { color: #3498DB; border: 1px solid #3498DB; border-radius: 20px; }
-        .badge-region.mien-trung { color: #E67E22; border: 1px solid #E67E22; border-radius: 20px; }
-        .badge-region.mien-nam { color: #27AE60; border: 1px solid #27AE60; border-radius: 20px; }
+        .badge-region { padding: 4px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; min-width: 80px; text-align: center; }
+        .badge-region.mien-bac { color: white; border: 1px solid #3498DB; border-radius: 20px; background: #3498DB }
+        .badge-region.mien-trung { color: white; border: 1px solid #E67E22; border-radius: 20px; background: #E67E22 }
+        .badge-region.mien-nam { color: white; border: 1px solid #27AE60; border-radius: 20px; background: #27AE60 }
 
         /* MODAL (Clean Modern) */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; }
@@ -380,55 +441,61 @@
 
         <!-- ═══════════════ SIDEBAR ═══════════════ -->
         <aside id="sidebar">
-            <div class="menu-container">
-                <ul class="menu-list">
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                            <i class="fas fa-home"></i> <span>Tổng quan</span>
-                        </a>
-                    </li>
-
-                    <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
-                        <div class="menu-item" onclick="toggleSubmenu(this)">
-                            <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>
-                            <i class="fas fa-chevron-down arrow"></i>
-                        </div>
-                        <ul class="submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'show' : '' }}">
-                            <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Khách hàng</a></li>
-                            <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Đơn hàng (CTO)</a></li>
-                            <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Phiếu giao hàng</a></li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('products.index') }}" class="menu-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
-                            <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
-                        </a>
-                    </li>
-
-                    <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">
-                        <div class="menu-item" onclick="toggleSubmenu(this)">
-                            <i class="fas fa-folder-open"></i> <span>Quản lý công nợ</span>
-                            <i class="fas fa-chevron-down arrow"></i>
-                        </div>
-                        <ul class="submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'show' : '' }}">
-                            <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li>
-                            <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li>
-                        </ul>
-                    </li>
-
-                    @if(auth()->user()->isAdmin())
-                    <li>
-                        <a href="{{ route('admin.index') }}" class="menu-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
-                            <i class="fas fa-user-shield"></i> <span>Quyền quản trị viên</span>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
+            <div id="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left"></i>
             </div>
+            
+            <div id="sidebar-inner">
+                <div class="menu-container">
+                    <ul class="menu-list">
+                        <li>
+                            <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <i class="fas fa-home"></i> <span>Tổng quan</span>
+                            </a>
+                        </li>
 
-            <div class="sidebar-bottom">
-                <p>COPYRIGHT © GAMBERTE 2026</p>
+                        <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
+                            <div class="menu-item" onclick="toggleSubmenu(this)">
+                                <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>
+                                <i class="fas fa-chevron-down arrow"></i>
+                            </div>
+                            <ul class="submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'show' : '' }}">
+                                <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Tạo mã khách hàng</a></li>
+                                <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Tạo đơn hàng</a></li>
+                                <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Tạo phiếu giao hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{{ route('products.index') }}" class="menu-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                                <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
+                            </a>
+                        </li>
+
+                        <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">
+                            <div class="menu-item" onclick="toggleSubmenu(this)">
+                                <i class="fas fa-folder-open"></i> <span>Quản lý công nợ</span>
+                                <i class="fas fa-chevron-down arrow"></i>
+                            </div>
+                            <ul class="submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'show' : '' }}">
+                                <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li>
+                                <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li>
+                            </ul>
+                        </li>
+
+                        @if(auth()->user()->isAdmin())
+                        <li>
+                            <a href="{{ route('admin.index') }}" class="menu-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
+                                <i class="fas fa-user-shield"></i> <span>Quyền quản trị viên</span>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+
+                <div class="sidebar-bottom">
+                    <p>COPYRIGHT © GAMBERTE 2026</p>
+                </div>
             </div>
         </aside>
 
@@ -499,6 +566,22 @@
     <div id="toast-container"></div>
 
     <script>
+        // Sidebar Toggle Logic
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-collapsed');
+            // Save state to localStorage
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+
+        // Restore sidebar state on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isCollapsed) {
+                document.body.classList.add('sidebar-collapsed');
+            }
+        });
+
         function toggleSubmenu(el) {
             const parent = el.closest('.has-submenu');
             const submenu = parent.querySelector('.submenu');
@@ -587,14 +670,13 @@
 
         // Global Formatters
         function formatMoney(amount) {
-            if (amount === undefined || amount === null || amount === '') return '0';
-            return Number(amount).toLocaleString('vi-VN');
+            if (amount === undefined || amount === null || amount === '') return '0,00';
+            return Number(amount).toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function formatQuantity(qty) {
-            if (qty === undefined || qty === null || qty === '') return '0';
-            // Show up to 3 decimals, remove trailing zeros
-            return parseFloat(Number(qty).toFixed(3)).toLocaleString('vi-VN');
+            if (qty === undefined || qty === null || qty === '') return '0,00';
+            return Number(qty).toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
     </script>
     @stack('scripts')

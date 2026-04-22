@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/khach-hang/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy')
             ->middleware('permission:khachhang,delete');
         Route::get('/khach-hang/check-duplicate', [CustomerController::class, 'checkDuplicate'])->name('customers.check');
+        Route::post('/khach-hang/import', [CustomerController::class, 'import'])->name('customers.import')
+            ->middleware('permission:khachhang,edit');
 
         // ==========================================================
         // ĐƠN HÀNG
@@ -60,6 +62,8 @@ Route::middleware('auth')->group(function () {
             ->middleware('permission:donhang,view');
         Route::get('/don-hang/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit')
             ->middleware('permission:donhang,edit');
+        Route::get('/don-hang/{order}/pdf', [OrderController::class, 'exportPdf'])->name('orders.pdf')
+            ->middleware('permission:donhang,view');
         Route::get('/don-hang/{order}', [OrderController::class, 'show'])->name('orders.show')
             ->middleware('permission:donhang,view');
         Route::post('/don-hang', [OrderController::class, 'store'])->name('orders.store')
@@ -81,6 +85,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/phieu-giao', [DeliveryNoteController::class, 'store'])->name('deliveries.store')
             ->middleware('permission:phieugiao,edit');
         Route::patch('/phieu-giao/{deliveryNote}/trang-thai', [DeliveryNoteController::class, 'updateStatus'])->name('deliveries.update-status')
+            ->middleware('permission:phieugiao,edit');
+        Route::post('/phieu-giao/{deliveryNote}/save-items', [DeliveryNoteController::class, 'saveItems'])->name('deliveries.save-items')
             ->middleware('permission:phieugiao,edit');
         Route::delete('/phieu-giao/{deliveryNote}', [DeliveryNoteController::class, 'destroy'])->name('deliveries.destroy')
             ->middleware('permission:phieugiao,delete');

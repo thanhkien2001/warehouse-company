@@ -8,6 +8,7 @@ use App\Services\CodeGeneratorService;
 use App\Services\LogService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -15,14 +16,22 @@ class CustomerController extends Controller
     {
         $query = Customer::query();
 
+        // Quyền hiển thị
+        if (!auth()->user()->isAdmin()) {
+            $query->where('user_id', auth()->user()->id);
+        }
+
         // Bộ lọc thời gian
         $filter = $request->get('filter', 'all');
-        if ($filter === 'month') {
-            $query->whereMonth('created_date', now()->month)->whereYear('created_date', now()->year);
-        } elseif ($filter === 'year') {
-            $query->whereYear('created_date', now()->year);
-        } elseif ($filter === 'custom' && $request->date_start && $request->date_end) {
+        if ($request->date_start && $request->date_end) {
             $query->whereBetween('created_date', [$request->date_start, $request->date_end]);
+            $filter = 'custom';
+        } else {
+            if ($filter === 'month') {
+                $query->whereMonth('created_date', now()->month)->whereYear('created_date', now()->year);
+            } elseif ($filter === 'year') {
+                $query->whereYear('created_date', now()->year);
+            }
         }
 
         // Tìm kiếm
@@ -41,6 +50,11 @@ class CustomerController extends Controller
             $query->where('khu_vuc', $kv);
         }
 
+        // Tình trạng
+        if ($tt = $request->get('tinh_trang')) {
+            $query->where('tinh_trang', $tt);
+        }
+
         // Sắp xếp
         $sort = $request->get('sort', 'newest');
         match ($sort) {
@@ -51,7 +65,7 @@ class CustomerController extends Controller
         };
 
         $limit = $request->get('limit', 20);
-        $customers = $query->paginate($limit)->withQueryString();
+        $customers = $query->with('creator')->paginate($limit)->withQueryString();
         $allCustomers = Customer::orderBy('ten_cty')->get(['id','ma_kh','ten_cty','sdt']);
 
         return view('customers.index', compact('customers', 'filter', 'sort', 'allCustomers'));
@@ -63,11 +77,44 @@ class CustomerController extends Controller
             return response()->json($customer);
         }
 
-        $orders = Order::where('customer_id', $customer->id)
-            ->orderByDesc('order_date')
-            ->paginate(10);
+        $query = Order::where('customer_id', $customer->id);
 
-        return view('customers.show', compact('customer', 'orders'));
+        if ($request->date_start) {
+            $query->whereDate('order_date', '>=', $request->date_start);
+        }
+        if ($request->date_end) {
+            $query->whereDate('order_date', '<=', $request->date_end);
+        }
+        if ($kw = $request->get('search')) {
+            $query->where('cto_code', 'like', "%{$kw}%");
+        }
+
+        // Dynamic Counts for tabs BASED ON filtered period and search (but not status itself)
+        $statusCountsQuery = clone $query;
+        $statusCounts = $statusCountsQuery
+            ->select('trang_thai', DB::raw('count(*) as count'))
+            ->groupBy('trang_thai')
+            ->pluck('count', 'trang_thai')
+            ->toArray();
+        $allCount = array_sum($statusCounts);
+
+        if ($status = $request->get('status')) {
+            if ($status !== 'all') {
+                $query->where('trang_thai', $status);
+            }
+        }
+
+        $sort = $request->get('sort', 'newest');
+        if ($sort === 'newest') {
+            $query->orderByDesc('order_date');
+        } else {
+            $query->orderBy('order_date');
+        }
+
+        $limit = $request->get('limit', 10);
+        $orders = $query->paginate($limit)->withQueryString();
+
+        return view('customers.show', compact('customer', 'orders', 'allCount', 'statusCounts'));
     }
 
     public function store(Request $request)
@@ -84,13 +131,20 @@ class CustomerController extends Controller
             'email'        => 'nullable|email|max:150',
             'khu_vuc'      => 'nullable|string',
             'ghi_chu'      => 'nullable|string',
+            'tinh_trang'   => 'nullable|string',
+            'tai_lieu_file'=> 'nullable|file|max:5120', // Tối đa 5MB
         ], [
             'ten_cty.unique'    => 'Tên công ty đã tồn tại.',
             'ma_so_thue.unique' => 'Mã số thuế đã tồn tại.',
         ]);
 
+        if ($request->hasFile('tai_lieu_file')) {
+            $data['tai_lieu'] = $request->file('tai_lieu_file')->store('customer_docs', 'public');
+        }
+
         $maKH = CodeGeneratorService::generateMaKH($data['ma_so_thue'], $data['created_date']);
         $data['ma_kh'] = $maKH;
+        $data['user_id'] = auth()->user()->id;
 
         $customer = Customer::create($data);
         LogService::log('Thêm khách hàng', "Thêm KH [{$maKH}] {$data['ten_cty']}");
@@ -112,7 +166,13 @@ class CustomerController extends Controller
             'email'        => 'nullable|email|max:150',
             'khu_vuc'      => 'nullable|string',
             'ghi_chu'      => 'nullable|string',
+            'tinh_trang'   => 'nullable|string',
+            'tai_lieu_file'=> 'nullable|file|max:5120',
         ]);
+
+        if ($request->hasFile('tai_lieu_file')) {
+            $data['tai_lieu'] = $request->file('tai_lieu_file')->store('customer_docs', 'public');
+        }
 
         $customer->update($data);
         LogService::log('Sửa khách hàng', "Sửa KH [{$customer->ma_kh}]");
@@ -148,5 +208,11 @@ class CustomerController extends Controller
             'ten_cty_exists'   => $q1->exists(),
             'ma_so_thue_exists' => $q2->exists(),
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        // Placeholder for Excel import logic
+        return response()->json(['success' => true, 'message' => 'Tính năng nhập Excel đang được phát triển.']);
     }
 }

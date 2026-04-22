@@ -25,7 +25,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        background: #ef4444;
+        background: #0070D2 !important;
         color: #fff;
         padding: 6px 20px;
         font-weight: 800;
@@ -158,13 +158,14 @@
     }
 
     .add-row-btn {
-        width: 100%;
+        width: 100%;    
         padding: 12px;
+        border:none;
         margin-top: 10px;
         border-radius: 8px;
-        border: 1px dashed #94a3b8;
-        background: #f8fafc;
-        color: #475569;
+        font-size: 15px;
+        background: #0070D2 !important;
+        color: white;
         font-weight: 600;
         cursor: pointer;
         transition: 0.2s;
@@ -271,8 +272,7 @@
 
         <div style="padding: 24px;">
             <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; padding-right: 120px;">
-                <a href="{{ route('orders.index') }}" 
-                   style="display: inline-block; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; font-weight: 600; color: #334155; font-size: 13px; text-decoration: none; transition: 0.2s; margin-bottom: 15px;">
+                <a href="{{ route('orders.index') }}" class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 13px; margin-bottom: 15px;">
                     <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
                 </a>
                 <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Đơn Hàng</h2>
@@ -320,10 +320,13 @@
                         </select>
 
                         <div style="display: flex; gap: 5px;">
-                            <button class="ui-btn ui-btn-pdf" 
-                                    onclick="alert('Chức năng IN PDF Đơn Hàng (CTO) đang chờ tiếp nhận form mẫu chuẩn.')">
+                            <a href="{{ route('orders.pdf', $order->id) }}" target="_blank"
+                               class="ui-btn ui-btn-pdf"
+                               style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:700; background:#ef4444; color:#fff; box-shadow: 0 2px 8px rgba(239,68,68,0.3); transition:0.2s;"
+                               onmouseover="this.style.background='#dc2626'"
+                               onmouseout="this.style.background='#ef4444'">
                                 <i class="fas fa-file-pdf"></i> Xuất PDF
-                            </button>
+                            </a>
                         </div>
 
                         @if(auth()->user()->canDo('donhang','edit') || auth()->user()->isAdmin())
@@ -338,14 +341,14 @@
                     <table class="legacy-table">
                         <thead>
                             <tr>
-                                <th style="width: 120px;">Mã Hàng</th>
-                                <th>Mô tả hàng hóa</th>
-                                <th style="width: 80px;">Số lượng</th>
-                                <th style="width: 70px;">ĐVT</th>
-                                <th style="width: 140px;">Đơn giá (VND)</th>
-                                <th style="width: 150px; text-align: right;">Thành tiền (VND)</th>
-                                <th style="width: 120px;">Công nợ</th>
-                                <th class="col-action"><i class="fas fa-trash"></i></th>
+                                <th style="width: 10%;">Mã Hàng</th>
+                                <th style="width: 30%;">Mô tả hàng hóa</th>
+                                <th style="width: 8%;">Số lượng</th>
+                                <th style="width: 6%;">ĐVT</th>
+                                <th style="width: 14%;">Đơn giá (VND)</th>
+                                <th style="width: 16%;">Thành tiền (VND)</th>
+                                <th style="width: 12%;">Công nợ</th>
+                                <th style="width: 4%; text-align:center"><i class="fas fa-trash"></i></th>
                             </tr>
                         </thead>
                         <tbody id="items-body">
@@ -422,7 +425,7 @@
 <div id="modal-taophieu" class="modal-overlay">
     <div class="modal-box" style="border-radius: 16px;">
         <div class="modal-header" style="border-bottom: 2px solid #f1f5f9;">
-            <h3 style="font-weight: 800;"><i class="fas fa-truck-loading" style="color:#8b5cf6"></i> Tạo Phiếu Giao Hàng</h3>
+            <h3 style="font-weight: 800;"><i class="fas fa-truck-loading" style="color:#0070D2"></i> Tạo Phiếu Giao Hàng</h3>
             <button class="modal-close" onclick="closeModal('modal-taophieu')"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body" style="padding: 24px;">
@@ -466,6 +469,12 @@ function syncStatusFromSelect() {
 }
 
 // Table Logic
+function parseLocaleNumber(str) {
+    if (!str) return 0;
+    // Replace thousand separator (.) and decimal separator (,) for standard float parsing
+    return parseFloat(str.replace(/\./g, '').replace(',', '.')) || 0;
+}
+
 function loadTable() {
     const tbody = document.getElementById('items-body');
     tbody.innerHTML = '';
@@ -501,10 +510,10 @@ function createRowHtml(stt, data = {}) {
                 <input type="text" class="in-phu" value="${phu}" placeholder="Mô tả phụ (quy cách, chất liệu...)" style="font-size: 12px; color: #64748b; height: 26px;" ${!canEdit?'readonly':''}>
             </div>
         </td>
-        <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" style="text-align:center" ${!canEdit?'readonly':''}></td>
+        <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" style="text-align:right" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-dvt" value="${dvt}" style="text-align:center" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-gia" value="${formatMoney(gia)}" oninput="formatAndCalc(this)" onfocus="this.select()" style="text-align:right" ${!canEdit?'readonly':''}></td>
-        <td class="calc-tt" style="text-align:right; font-weight:700; color:#FF0000 !important">0</td>
+        <td class="calc-tt" style="text-align:right; font-weight:700; color:#FF0000 !important">0,00</td>
         <td><input type="text" class="in-no" value="${nợ}" placeholder="..." style="text-align:center; font-size: 12px;" ${!canEdit?'readonly':''}></td>
         <td class="col-action">
             ${canEdit ? `<button class="btn-remove-row" onclick="removeRow(this)" tabindex="-1"><i class="fas fa-times-circle"></i></button>` : ''}
@@ -558,8 +567,8 @@ function formatAndCalc(input) {
 
 function calcRow(el) {
     const tr = el.closest('tr');
-    const sl = Number(tr.querySelector('.in-sl').value) || 0;
-    const gia = Number((tr.querySelector('.in-gia').value).replace(/\./g,'')) || 0;
+    const sl = parseLocaleNumber(tr.querySelector('.in-sl').value);
+    const gia = parseLocaleNumber(tr.querySelector('.in-gia').value);
     const tt = sl * gia;
     tr.querySelector('.calc-tt').innerText = formatMoney(tt);
     
@@ -582,8 +591,8 @@ function calcRow(el) {
 function calcTotal() {
     let sub = 0;
     document.querySelectorAll('.item-row').forEach(tr => {
-        const sl = Number(tr.querySelector('.in-sl').value) || 0;
-        const gia = Number((tr.querySelector('.in-gia').value).replace(/\./g,'')) || 0;
+        const sl = parseLocaleNumber(tr.querySelector('.in-sl').value);
+        const gia = parseLocaleNumber(tr.querySelector('.in-gia').value);
         const tt = sl * gia;
         tr.querySelector('.calc-tt').innerText = formatMoney(tt);
         sub += tt;
@@ -608,9 +617,9 @@ async function saveOrderDetails() {
                 ma_hang: ma,
                 ten_hang: tr.querySelector('.in-ten').value.trim(),
                 mo_ta_phu: tr.querySelector('.in-phu').value.trim(),
-                so_luong: tr.querySelector('.in-sl').value,
+                so_luong: parseLocaleNumber(tr.querySelector('.in-sl').value),
                 don_vi_tinh: tr.querySelector('.in-dvt').value.trim(),
-                don_gia: tr.querySelector('.in-gia').value.replace(/\./g,''),
+                don_gia: parseLocaleNumber(tr.querySelector('.in-gia').value),
                 cong_no: tr.querySelector('.in-no').value.trim()
             });
         }

@@ -48,16 +48,16 @@
         <table class="legacy-table">
             <thead>
                 <tr>
-                    <th style="padding: 16px 10px; text-align: center; width: 4%;">STT</th>
-                    <th style="padding: 16px 10px; text-align: center; width: 10%;">NGÀY TẠO</th>
-                    <th style="padding: 16px 10px; text-align: center; width: 10%;">MÃ TT</th>
-                    <th style="padding: 16px 10px; text-align: center; width: 10%;">MÃ ĐƠN HÀNG</th>
-                    <th style="padding: 16px 10px; text-align: left; width: 25%;">THÔNG TIN KHÁCH HÀNG</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 3%;">STT</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 8%;">NGÀY TẠO</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 9%;">MÃ TT</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 9%;">MÃ ĐƠN HÀNG</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 25%;">THÔNG TIN KHÁCH HÀNG</th>
                     <th style="padding: 16px 10px; text-align: center; width: 8%;">KHU VỰC</th>
-                    <th style="padding: 16px 10px; text-align: right; width: 10%;">TỔNG ĐƠN</th>
-                    <th style="padding: 16px 10px; text-align: right; width: 10%;">TIỀN TRẢ</th>
-                    <th style="padding: 16px 10px; text-align: right; width: 10%;">CÒN LẠI</th>
-                    <th style="padding: 16px 10px; text-align: left; width: 10%;">GHI CHÚ</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 10%;">TỔNG ĐƠN</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 10%;">TIỀN TRẢ</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 10%;">CÒN LẠI</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 8%;">GHI CHÚ</th>
                 </tr>
             </thead>
             <tbody>
