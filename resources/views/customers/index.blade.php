@@ -95,7 +95,7 @@
                 <tr style="cursor: pointer;" onclick="if(!event.target.closest('button') && !event.target.closest('input') && !event.target.closest('a')) { window.location.href='{{ route('customers.show', $kh->id) }}'; }">
                     <td style="text-align: center;"><input type="checkbox" class="check-kh" value="{{ $kh->id }}"></td>
                     <td style="text-align: center;">{{ $customers->firstItem() + $idx }}</td>
-                    <td style="text-align: center;">{{ $kh->created_at->format('d/m/Y') }}</td>
+                    <td style="text-align: center;">{{ $kh->created_date ? \Carbon\Carbon::parse($kh->created_date)->format('d/m/Y') : $kh->created_at->format('d/m/Y') }}</td>
                     <td style="text-align: center;"><b style="color:#0070D2">{{ $kh->ma_kh }}</b></td>
                     <td class="col-left">
                         <div style="font-weight: 800; color: #0f172a; margin-bottom: 5px; font-size: 14.5px;">{{ $kh->ten_cty }}</div>
@@ -246,6 +246,9 @@
     .badge-status-kh { padding: 4px 12px; border-radius: 20px; color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; border: none; }
     .badge-status-kh.active { background: #27AE60; }
     .badge-status-kh.unactive { background: #ef4444; }
+
+    /* Checkbox styling */
+    .check-kh, #check-all-kh { width: 20px; height: 20px; cursor: pointer; vertical-align: middle; }
 
     /* Responsive adjustments */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -400,11 +403,22 @@
     }
 
     function exportKHExcel() {
-        // Build query string from form
-        const formData = new FormData(document.getElementById('search-form-new'));
-        const params = new URLSearchParams(formData);
-        params.set('export', 'excel');
-        window.location.href = '{{ route("customers.index") }}?' + params.toString();
+        const form = document.getElementById('search-form-new');
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        
+        for (let [key, value] of formData.entries()) {
+            if (value) params.append(key, value);
+        }
+        
+        // Add selected IDs if any
+        const checkedBoxes = document.querySelectorAll('.check-kh:checked');
+        if (checkedBoxes.length > 0) {
+            const ids = Array.from(checkedBoxes).map(cb => cb.value);
+            params.append('ids', ids.join(','));
+        }
+        
+        window.location.href = '{{ route("customers.export") }}?' + params.toString();
     }
 
     function toggleCheckAll(source) {
@@ -416,14 +430,17 @@
         if (!input.files || !input.files[0]) return;
         const file = input.files[0];
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('excel_file', file);
 
-        showToast('Đang xử lý nhập liệu...', 'info');
+        await showToast('Đang xử lý nhập liệu...', 'info');
 
         try {
-            const res = await fetch('/customers/import', {
+            const res = await fetch('{{ route("customers.import") }}', {
                 method: 'POST',
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                headers: { 
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
                 body: formData
             }).then(r => r.json());
 
@@ -434,7 +451,10 @@
                 alert(res.message || 'Lỗi khi nhập Excel');
             }
         } catch (e) {
+            console.error(e);
             alert('Có lỗi xảy ra khi kết nối máy chủ');
+        } finally {
+            input.value = ''; // Reset input
         }
     }
 </script>

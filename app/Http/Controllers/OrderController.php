@@ -191,6 +191,8 @@ class OrderController extends Controller
             [
                 'tinh_trang'  => $request->trang_thai ?? $order->trang_thai,
                 'vat_percent' => $request->vat_percent ?? 8,
+                'ty_gia'      => $request->ty_gia ? str_replace('.', '', $request->ty_gia) : null,
+                'ngay_ty_gia' => $request->ngay_ty_gia ?? null,
             ]
         );
 

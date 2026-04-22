@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+    protected $attributes = [
+        'tinh_trang' => 'active',
+    ];
+
     protected $fillable = [
         'ma_kh', 'ten_cty', 'ma_so_thue', 'dia_chi', 'nguoi_lien_he',
         'sdt', 'dia_chi_nhan', 'sdt_nhan', 'email', 'khu_vuc', 'ghi_chu', 'created_date',

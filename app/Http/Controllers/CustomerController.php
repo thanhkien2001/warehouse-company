@@ -6,6 +6,9 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Services\CodeGeneratorService;
 use App\Services\LogService;
+use App\Exports\CustomersExport;
+use App\Imports\CustomersImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -18,15 +21,15 @@ class CustomerController extends Controller
 
         // Quyền hiển thị
         if (!auth()->user()->isAdmin()) {
-            $query->where('user_id', auth()->user()->id);
+            $query->where('user_id', auth()->id());
         }
 
-        // Bộ lọc thời gian
+        // Bộ lọc thời gian (Chỉ áp dụng nếu không có từ khóa tìm kiếm hoặc ép buộc lọc)
         $filter = $request->get('filter', 'all');
         if ($request->date_start && $request->date_end) {
             $query->whereBetween('created_date', [$request->date_start, $request->date_end]);
             $filter = 'custom';
-        } else {
+        } elseif (!$request->get('search')) {
             if ($filter === 'month') {
                 $query->whereMonth('created_date', now()->month)->whereYear('created_date', now()->year);
             } elseif ($filter === 'year') {
@@ -212,7 +215,58 @@ class CustomerController extends Controller
 
     public function import(Request $request)
     {
-        // Placeholder for Excel import logic
-        return response()->json(['success' => true, 'message' => 'Tính năng nhập Excel đang được phát triển.']);
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls,csv|max:5120',
+        ]);
+
+        try {
+            Excel::import(new CustomersImport, $request->file('excel_file'));
+            LogService::log('Nhập Excel khách hàng', "Đã nhập dữ liệu khách hàng từ file " . $request->file('excel_file')->getClientOriginalName());
+            return response()->json(['success' => true, 'message' => 'Nhập dữ liệu Excel thành công!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Lỗi khi nhập Excel: ' . $e->getMessage()]);
+        }
+    }
+
+    public function export(Request $request)
+    {
+        $query = Customer::query();
+
+        // Quyền hiển thị
+        if (!auth()->user()->isAdmin()) {
+            $query->where('user_id', auth()->id());
+        }
+
+        // Ưu tiên lọc theo IDs nếu có chọn checkbox
+        if ($request->ids) {
+            $ids = explode(',', $request->ids);
+            $query->whereIn('id', $ids);
+        } else {
+            // Ngược lại thì lọc theo bộ lọc hiện tại
+            if ($request->date_start && $request->date_end) {
+                $query->whereBetween('created_date', [$request->date_start, $request->date_end]);
+            } elseif (!$request->get('search')) {
+                $filter = $request->get('filter');
+                if ($filter === 'month') {
+                    $query->whereMonth('created_date', now()->month)->whereYear('created_date', now()->year);
+                } elseif ($filter === 'year') {
+                    $query->whereYear('created_date', now()->year);
+                }
+            }
+
+            if ($kw = $request->get('search')) {
+                $query->where(function($q) use ($kw) {
+                    $q->where('ten_cty', 'like', "%{$kw}%")
+                      ->orWhere('ma_kh', 'like', "%{$kw}%")
+                      ->orWhere('ma_so_thue', 'like', "%{$kw}%");
+                });
+            }
+
+            if ($kv = $request->get('khu_vuc')) {
+                $query->where('khu_vuc', $kv);
+            }
+        }
+
+        return Excel::download(new CustomersExport($query), 'Danh_sach_khach_hang_' . date('Ymd_His') . '.xlsx');
     }
 }

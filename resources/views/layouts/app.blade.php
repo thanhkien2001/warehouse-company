@@ -612,8 +612,13 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
         function showToast(msg, type = 'success') {
+            let title = 'Thông báo';
+            if (type === 'success') title = 'Thành công';
+            if (type === 'error') title = 'Lỗi';
+            if (type === 'warning') title = 'Cảnh báo';
+
             return Swal.fire({
-                title: type === 'success' ? 'Thành công' : 'Lỗi',
+                title: title,
                 text: msg,
                 icon: type,
                 timer: 2000,

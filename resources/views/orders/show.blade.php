@@ -310,6 +310,21 @@
                     </h3>
 
                     <div style="display: flex; gap: 10px; align-items: center;">
+                        <div style="height: 38px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 0 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                            <i class="fas fa-coins" style="color: #3b82f6;"></i>
+                            <span style="font-size: 13.5px; font-weight: 700; color: #475569;">Tỷ giá:</span>
+                            <input type="text" id="inp-tygia" 
+                                value="{{ number_format((float)($order->meta?->ty_gia ?? 25450), 0, ',', '.') }}" 
+                                placeholder="Tỷ giá..."
+                                oninput="formatExchangeRate(this)"
+                                style="width: 85px; border: none; outline: none; text-align: right; color: #0f172a; font-weight: 800; font-size: 14px; background:transparent;">
+                            <span style="color: #cbd5e1;">|</span>
+                            <input type="text" id="inp-ngay-tygia" 
+                                value="{{ $order->meta?->ngay_ty_gia ?? now()->format('d/m/Y') }}" 
+                                placeholder="DD/MM/YYYY"
+                                style="width: 90px; border: none; outline: none; text-align: center; color: #64748b; font-size: 13px; background:transparent;">
+                        </div>
+
                         <span style="font-size: 14px; font-weight: 600; color: #475569;">Trạng thái:</span>
                         <select id="sel-status" class="status-select" onchange="syncStatusFromSelect()">
                             <option value="Chờ xác nhận">Chờ xác nhận</option>
@@ -565,6 +580,11 @@ function formatAndCalc(input) {
     calcRow(input);
 }
 
+function formatExchangeRate(input) {
+    let val = input.value.replace(/[^0-9]/g, '');
+    input.value = val ? Number(val).toLocaleString('vi-VN') : '';
+}
+
 function calcRow(el) {
     const tr = el.closest('tr');
     const sl = parseLocaleNumber(tr.querySelector('.in-sl').value);
@@ -629,6 +649,8 @@ async function saveOrderDetails() {
     const data = {
         items,
         vat_percent: document.getElementById('vat-input').value,
+        ty_gia: document.getElementById('inp-tygia').value,
+        ngay_ty_gia: document.getElementById('inp-ngay-tygia').value,
         trang_thai: tr_thai,
         ghi_chu: document.getElementById('val-ghi-chu')?.value || ''
     };

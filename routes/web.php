@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
         // ==========================================================
         Route::get('/khach-hang', [CustomerController::class, 'index'])->name('customers.index')
             ->middleware('permission:khachhang,view');
+        Route::get('/khach-hang/export', [CustomerController::class, 'export'])->name('customers.export')
+            ->middleware('permission:khachhang,view');
         Route::get('/khach-hang/{customer}', [CustomerController::class, 'show'])->name('customers.show')
             ->middleware('permission:khachhang,view');
         Route::post('/khach-hang', [CustomerController::class, 'store'])->name('customers.store')

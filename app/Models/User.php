@@ -53,9 +53,4 @@ class User extends Authenticatable
         };
     }
 
-    // Override để dùng username thay vì email
-    public function getAuthIdentifierName()
-    {
-        return 'username';
-    }
 }
