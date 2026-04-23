@@ -29,34 +29,6 @@
         overflow: hidden;
     }
 
-    .dash-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
-        border-color: #e2e8f0;
-    }
-
-    .dash-card::before {
-        content: '';
-        position: absolute;
-        right: -20px;
-        top: -20px;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        opacity: 0.1;
-        transition: transform 0.5s;
-    }
-
-    .dash-card.card-blue::before { background: #3b82f6; }
-    .dash-card.card-purple::before { background: #8b5cf6; }
-    .dash-card.card-orange::before { background: #f59e0b; }
-    .dash-card.card-green::before { background: #10b981; }
-    .dash-card.card-red::before { background: #ef4444; }
-
-    .dash-card:hover::before {
-        transform: scale(1.5);
-    }
-
     .dash-icon-wrap {
         width: 65px;
         height: 65px;
@@ -70,9 +42,9 @@
         transition: transform 0.3s;
     }
 
-    .dash-card:hover .dash-icon-wrap {
+    /* .dash-card:hover .dash-icon-wrap {
         transform: rotate(-10deg) scale(1.08);
-    }
+    } */
 
     .bg-blue { background: #eff6ff; color: #3b82f6; }
     .bg-purple { background: #faf5ff; color: #8b5cf6; }
