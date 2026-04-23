@@ -2,9 +2,11 @@ FROM php:8.4-cli
 
 # Cài thư viện cần thiết cho GD + Laravel
 RUN apt-get update && apt-get install -y \
-    git unzip curl libpng-dev libjpeg-dev libfreetype6-dev \
+    git unzip curl \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libzip-dev \
     && docker-php-ext-configure gd \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql zip
 
 # Cài Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
