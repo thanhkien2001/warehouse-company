@@ -96,16 +96,26 @@ Route::middleware('auth')->group(function () {
         // ==========================================================
         // TỒN KHO & SẢN PHẨM
         // ==========================================================
-        Route::get('/ton-kho', [ProductController::class, 'index'])->name('products.index')
-            ->middleware('permission:tonkho,view');
-        Route::post('/ton-kho', [ProductController::class, 'store'])->name('products.store')
-            ->middleware('permission:tonkho,edit');
-        Route::match(['PUT', 'PATCH'], '/ton-kho/{product}', [ProductController::class, 'update'])->name('products.update')
-            ->middleware('permission:tonkho,edit');
-        Route::delete('/ton-kho/{product}', [ProductController::class, 'destroy'])->name('products.destroy')
-            ->middleware('permission:tonkho,delete');
-        Route::get('/ton-kho/api/stock/{maHang}', [ProductController::class, 'getStock'])->name('products.stock');
-        Route::get('/ton-kho/api/all-stock', [ProductController::class, 'getAllStock'])->name('products.all-stock');
+        Route::prefix('ton-kho')->name('inventory.')->group(function() {
+            Route::get('/nhap-kho', [ProductController::class, 'inbound'])->name('inbound')
+                ->middleware('permission:tonkho,view');
+            Route::get('/bao-cao-xuat-kho', [ProductController::class, 'outboundReport'])->name('outbound-report')
+                ->middleware('permission:tonkho,view');
+            Route::get('/bao-cao-ton-kho', [ProductController::class, 'stockReport'])->name('stock-report')
+                ->middleware('permission:tonkho,view');
+
+            // APIs
+            Route::get('/api/stock/{maHang}', [ProductController::class, 'getStock'])->name('stock');
+            Route::get('/api/all-stock', [ProductController::class, 'getAllStock'])->name('all-stock');
+
+            // Legacy store/update/delete if still needed for the new logic later
+            Route::post('/', [ProductController::class, 'store'])->name('store')
+                ->middleware('permission:tonkho,edit');
+            Route::match(['PUT', 'PATCH'], '/{product}', [ProductController::class, 'update'])->name('update')
+                ->middleware('permission:tonkho,edit');
+            Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy')
+                ->middleware('permission:tonkho,delete');
+        });
 
         // ==========================================================
         // CÔNG NỢ & THANH TOÁN

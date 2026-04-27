@@ -466,10 +466,16 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="{{ route('products.index') }}" class="menu-item {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                        <li class="has-submenu {{ request()->routeIs('inventory.*') ? 'open' : '' }}">
+                            <div class="menu-item" onclick="toggleSubmenu(this)">
                                 <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
-                            </a>
+                                <i class="fas fa-chevron-down arrow"></i>
+                            </div>
+                            <ul class="submenu {{ request()->routeIs('inventory.*') ? 'show' : '' }}">
+                                <li><a href="{{ route('inventory.inbound') }}" class="submenu-item {{ request()->routeIs('inventory.inbound') ? 'active' : '' }}">Nhập kho</a></li>
+                                <li><a href="{{ route('inventory.outbound-report') }}" class="submenu-item {{ request()->routeIs('inventory.outbound-report') ? 'active' : '' }}">Báo cáo xuất kho</a></li>
+                                <li><a href="{{ route('inventory.stock-report') }}" class="submenu-item {{ request()->routeIs('inventory.stock-report') ? 'active' : '' }}">Báo cáo tồn kho</a></li>
+                            </ul>
                         </li>
 
                         <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">

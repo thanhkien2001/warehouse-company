@@ -12,6 +12,21 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function inbound()
+    {
+        return view('products.inbound');
+    }
+
+    public function outboundReport()
+    {
+        return view('products.outbound_report');
+    }
+
+    public function stockReport()
+    {
+        return view('products.stock_report');
+    }
+
     public function index(Request $request)
     {
         // Sub-tab: tonkho | lichsu
