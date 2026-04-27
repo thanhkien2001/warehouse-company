@@ -100,7 +100,7 @@
                     <td class="col-left">
                         <div style="font-weight: 800; color: #0f172a; margin-bottom: 5px; font-size: 14.5px;">{{ $kh->ten_cty }}</div>
                         <div style="font-size: 12px; color: #64748b; line-height: 1.6;">
-                            <div><i class="fas fa-phone-alt" style="margin-right: 6px; width: 12px;"></i>{{ $kh->sdt }}</div>
+                            <div><i class="fas fa-phone-alt" style="margin-right: 6px; width: 12px; transform: scaleX(-1); display: inline-block;"></i>{{ $kh->sdt }}</div>
                             <div title="{{ $kh->dia_chi }}"><i class="fas fa-map-marker-alt" style="margin-right: 6px; width: 12px;"></i>{{ Str::limit($kh->dia_chi, 50) }}</div>
                         </div>
                     </td>

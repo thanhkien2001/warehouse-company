@@ -213,7 +213,7 @@
         <div class="info-grid">
             <div class="form-group">
                 <label>Số phiếu<span>*</span></label>
-                <input type="text" class="ib-input" value="NK-2025-00045" readonly>
+                <input type="text" class="ib-input" placeholder="NK-2025-00001">
             </div>
             <div class="form-group">
                 <label>Số hóa đơn</label>
