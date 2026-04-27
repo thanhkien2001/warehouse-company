@@ -252,8 +252,8 @@
             </div>
 
             <div class="form-group">
-                <label>Địa chỉ</label>
-                <input type="text" class="ib-input" placeholder="Địa chỉ..." readonly>
+                <label>Xuất xứ</label>
+                <input type="text" class="ib-input" placeholder="Xuất xứ..." readonly>
             </div>
             <div class="form-group">
                 <label>Người nhập<span>*</span></label>
@@ -299,18 +299,17 @@
                     <tr>
                         <th width="35">STT</th>
                         <th width="90">Mã hàng</th>
-                        <th width="150">Tên hàng</th>
+                        <th width="200">Tên hàng</th>
                         <th width="90">Nhóm</th>
                         <th width="50">ĐVT</th>
-                        <th width="150">Quy cách</th>
+                        <th width="90">Quy cách</th>
                         <th width="70">SL</th>
                         <th width="90">Đơn giá</th>
                         <th width="100">Thành tiền</th>
-                        <th width="90">Lot</th>
+                        <th width="90">Số lô</th>
                         <th width="100">NSX</th>
-                        <th width="100">Hạn dùng</th>
-                        <th width="110">Kho</th>
-                        <th width="100">Ghi chú</th>
+                        <th width="100">HSD</th>
+                        <th width="130">Kho</th>
                         <th width="35"></th>
                     </tr>
                 </thead>
@@ -354,7 +353,6 @@
                     <option>Kho Lab</option>
                 </select>
             </td>
-            <td><input type="text" class="ib-input"></td>
             <td style="text-align: center;">
                 <i class="fas fa-eye" style="color: #0070D2; cursor: pointer;"></i>
             </td>

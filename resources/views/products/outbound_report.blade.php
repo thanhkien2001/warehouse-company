@@ -240,7 +240,7 @@
     }
 
     .data-table th {
-        background: #adcae7;
+        background: #EFF6FF;
         padding: 9px 6px;
         font-size: 11px;
         font-weight: 700;

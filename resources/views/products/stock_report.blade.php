@@ -185,7 +185,7 @@
     }
 
     .data-table th {
-        background: #adcae7;
+        background: #EFF6FF;
         padding: 9px 6px;
         font-size: 11px;
         font-weight: 700;
@@ -221,10 +221,10 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        background: white;
         width: 20px; height: 20px;
         border-radius: 4px;
-        background: #0070D2;
-        color: #fff;
+        color: black;
         font-size: 10px;
         cursor: pointer;
         transition: transform 0.2s;
