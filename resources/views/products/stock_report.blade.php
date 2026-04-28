@@ -469,6 +469,7 @@
                 <table class="data-table" id="stockTable">
                     <thead>
                         <tr>
+                            <th width="30" style="text-align:center;"><input type="checkbox" id="check-all-sk" onclick="toggleCheckAllSK(this)" style="width:15px;height:15px;cursor:pointer;"></th>
                             <th width="40">STT</th>
                             <th width="85">Mã hàng</th>
                             <th width="160">Tên hàng</th>
@@ -543,6 +544,7 @@
                         @foreach($products as $pi => $prod)
                         {{-- PARENT ROW --}}
                         <tr class="parent-row" onclick="toggleGroup({{ $pi }})">
+                            <td class="td-center" onclick="event.stopPropagation()"><input type="checkbox" class="check-sk" style="width:15px;height:15px;cursor:pointer;"></td>
                             <td class="td-center">
                                 <div class="parent-stt-cell">
                                     <button class="toggle-btn" id="toggle-{{ $pi }}">
@@ -624,6 +626,10 @@
 
 @push('scripts')
 <script>
+    function toggleCheckAllSK(src) {
+        document.querySelectorAll('.check-sk').forEach(cb => cb.checked = src.checked);
+    }
+
     function toggleGroup(groupId) {
         const children = document.querySelectorAll(`.child-row[data-group="${groupId}"]`);
         const btn = document.getElementById(`toggle-${groupId}`);

@@ -317,8 +317,8 @@
         /* TABLE STYLE */
         .legacy-table-container { border-left: none !important; border-right: none !important; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .legacy-table { width: 100%; border-collapse: collapse; border-left: none !important; border-right: none !important; }
-        .legacy-table thead th { background: #f8fafc; padding: 16px 15px; color: #1e293b !important; font-size: 13px !important; font-weight: 800 !important; text-transform: uppercase; border-bottom: 2.5px solid #cbd5e1; text-align: center; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; }
-        .legacy-table tbody td { padding: 12px 15px; border-bottom: 1.5px solid #e2e8f0; font-size: 14px; color: #334155; border-left: none !important; border-right: none !important; text-align: center; }
+        .legacy-table thead th { background: #f8fafc; padding: 14px 12px; color: #475569 !important; font-size: 12px !important; font-weight: 700 !important; text-transform: uppercase; border-bottom: 2px solid #edf2f7; text-align: center; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; white-space: nowrap; }
+        .legacy-table tbody td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #1e293b; border-left: none !important; border-right: none !important; text-align: center; }
         .legacy-table tbody tr:last-child td { border-bottom: none; }
         .legacy-table tbody tr:hover { background: #f8fafc; }
 

@@ -27,19 +27,19 @@
                     <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px 0 0 6px; padding: 0 12px; border-right: none;">
                         <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
                     </div>
-                    <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 10px; border: 1px solid #cbd5e1; border-left: none; font-size: 14px; color: #475569; outline: none; width: 140px;" placeholder="Từ ngày">
+                    <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Từ ngày">
                     <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; padding: 0 12px; border-left: none; border-right: none;">
-                        <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
+                        <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
                     </div>
-                    <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 10px; border: 1px solid #cbd5e1; border-left: none; border-radius: 0 6px 6px 0; font-size: 14px; color: #475569; outline: none; width: 140px;" placeholder="Đến ngày">
+                    <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; border-radius: 0 6px 6px 0; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Đến ngày">
                 </div>
-                <button type="submit" style="background: #0070D2; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <button type="submit" style="background: #0070D2; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
                     <i class="fas fa-search"></i> Lọc
                 </button>
-                <a href="{{ route('customers.index') }}" style="background: #E74C3C; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Xóa lọc</a>
+                <a href="{{ route('customers.index') }}" style="background: #E74C3C; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Xóa lọc</a>
             </div>
 
-            <button type="button" onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;">
+            <button type="button" onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;">
                 <i class="fas fa-plus"></i> Thêm khách hàng
             </button>
         </div>
@@ -48,25 +48,25 @@
         <div class="filter-row">
             <div style="position: relative; flex: 1; min-width: 300px; max-width: 500px;">
                 <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm theo tên, SĐT, MST..." style="width: 100%; padding: 10px 15px 10px 40px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; box-sizing: border-box;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm theo tên, SĐT, MST..." style="width: 100%; padding: 8px 15px 8px 40px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;">
             </div>
 
             <div class="filter-group">
-                <select name="khu_vuc" onchange="this.form.submit()" style="padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
+                <select name="khu_vuc" onchange="this.form.submit()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
                     <option value="">Khu vực</option>
                     <option value="Miền Bắc" {{ request('khu_vuc')=='Miền Bắc'?'selected':'' }}>Miền Bắc</option>
                     <option value="Miền Trung" {{ request('khu_vuc')=='Miền Trung'?'selected':'' }}>Miền Trung</option>
                     <option value="Miền Nam" {{ request('khu_vuc')=='Miền Nam'?'selected':'' }}>Miền Nam</option>
                 </select>
-                <select name="tinh_trang" onchange="this.form.submit()" style="padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
+                <select name="tinh_trang" onchange="this.form.submit()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
                     <option value="">Tình trạng</option>
                     <option value="active" {{ request('tinh_trang')=='active'?'selected':'' }}>Đang hoạt động</option>
                     <option value="unactive" {{ request('tinh_trang')=='unactive'?'selected':'' }}>Ngưng giao dịch</option>
                 </select>
-                <button type="button" onclick="document.getElementById('kh-import-input').click()" style="background: #D97706; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                <button type="button" onclick="document.getElementById('kh-import-input').click()" style="background: #D97706; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
                     <i class="fas fa-download"></i> Nhập Excel
                 </button>
-                <button type="button" onclick="exportKHExcel()" style="background: #059669; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                <button type="button" onclick="exportKHExcel()" style="background: #059669; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
                     <i class="fas fa-upload"></i> Xuất Excel
                 </button>
             </div>
@@ -227,8 +227,11 @@
 </div>
 
 <style>
-    .modal-pro-label { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
-    .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 11px 14px; font-size: 14px; outline: none;box-sizing: border-box; transition: 0.3s; }
+    .modal-pro-label { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
+    .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; height: 36px; }
+    textarea.modal-pro-input { height: auto; }
+    select.modal-pro-input { height: 36px; }
+    input[type="file"].modal-pro-input { height: auto; padding: 6px 12px; }
     .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
     .action-btn { width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
@@ -248,7 +251,7 @@
     .badge-status-kh.unactive { background: #ef4444; }
 
     /* Checkbox styling */
-    .check-kh, #check-all-kh { width: 20px; height: 20px; cursor: pointer; vertical-align: middle; }
+    .check-kh, #check-all-kh { width: 15px; height: 15px; cursor: pointer; vertical-align: middle; }
 
     /* Responsive adjustments */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }

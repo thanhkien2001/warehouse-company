@@ -546,6 +546,7 @@
                 <table class="data-table" id="outboundTable">
                     <thead>
                         <tr>
+                            <th width="30" style="text-align:center;"><input type="checkbox" id="check-all-ob" onclick="toggleCheckAllOB(this)" style="width:15px;height:15px;cursor:pointer;"></th>
                             <th width="35">STT</th>
                             <th width="85">Ngày xuất</th>
                             <th width="100">Số phiếu</th>
@@ -582,6 +583,7 @@
 
                         @foreach ($rows as $i => $r)
                         <tr>
+                            <td class="td-center"><input type="checkbox" class="check-ob" style="width:15px;height:15px;cursor:pointer;"></td>
                             <td class="td-center" style="color:#64748b; font-size:11px;">{{ $i + 1 }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $r[0] }}</td>
                             <td class="td-center"><a href="#" class="link-phieu">{{ $r[1] }}</a></td>
@@ -643,6 +645,10 @@
 
 @push('scripts')
 <script>
+    function toggleCheckAllOB(src) {
+        document.querySelectorAll('.check-ob').forEach(cb => cb.checked = src.checked);
+    }
+
     // Clear filter
     document.querySelector('.btn-clear')?.addEventListener('click', () => {
         document.querySelectorAll('.filter-input').forEach(el => {

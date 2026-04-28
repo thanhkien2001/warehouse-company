@@ -22,10 +22,10 @@
 
     .search-box-container { position: relative; width: 300px; }
     .search-box-container i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; }
-    .search-input { width: 100%; padding: 8px 12px 8px 35px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; background: #fff; }
+    .search-input { width: 100%; padding: 8px 12px 8px 35px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: #fff; }
     .search-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
 
-    .sort-select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #475569; background: #fff; cursor: pointer; min-width: 150px; outline: none; }
+    .sort-select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 150px; outline: none; }
 
     /* Responsive adjustments */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -65,7 +65,7 @@
             </div>
         </div>
         @if(auth()->user()->canDo('phieugiao', 'edit') || auth()->user()->isAdmin())
-        <button onclick="openCreateDNModal()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateDNModal()" style="background: #0070D2; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Phiếu Giao Hàng
         </button>
         @endif
@@ -101,11 +101,11 @@
                 <div style="display: flex; align-items: center; padding: 0 10px; border-right: 1px solid #cbd5e1;">
                     <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
                 </div>
-                <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px; border: none; font-size: 14px; color: #475569; outline: none; width: 130px;">
+                <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px; border: none; font-size: 13px; color: #475569; outline: none; width: 130px;">
                 <div style="display: flex; align-items: center; padding: 0 10px; border-left: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; background: #f8fafc;">
-                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
+                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
                 </div>
-                <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px; border: none; font-size: 14px; color: #475569; outline: none; width: 130px;">
+                <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px; border: none; font-size: 13px; color: #475569; outline: none; width: 130px;">
             </div>
             
             <button type="submit" style="background: #0070D2; color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
@@ -262,8 +262,9 @@
     .btn-del-pro { background: #fef2f2; color: #ef4444; }
     .btn-del-pro:hover { background: #ef4444; color: #fff; }
 
-    .modal-pro-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
-    .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; font-size: 14px; outline: none; background: #fafafa; box-sizing: border-box; }
+    .modal-pro-label { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
+    .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; background: #fafafa; box-sizing: border-box; height: 36px; transition: border-color 0.2s, box-shadow 0.2s; }
+    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
 </style>
 @endsection
 
