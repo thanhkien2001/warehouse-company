@@ -405,7 +405,6 @@
     <div class="obr-header">
         <div>
             <h2>Báo cáo xuất kho</h2>
-            <p class="breadcrumb">Trang chủ › Quản lý kho › Báo cáo xuất kho</p>
         </div>
         <div class="obr-header-actions">
             <button class="btn-outline-hdr excel"><i class="fas fa-file-excel"></i> Xuất Excel</button>

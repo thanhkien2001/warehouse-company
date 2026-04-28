@@ -454,6 +454,19 @@
                             </a>
                         </li>
 
+                        <div class="sidebar-section-title">QUẢN LÝ DANH MỤC</div>
+                        <li class="has-submenu {{ request()->routeIs('catalog.*') ? 'open' : '' }}">
+                            <div class="menu-item" onclick="toggleSubmenu(this)">
+                                <i class="fas fa-th-large"></i> <span>Danh mục</span>
+                                <i class="fas fa-chevron-down arrow"></i>
+                            </div>
+                            <ul class="submenu {{ request()->routeIs('catalog.*') ? 'show' : '' }}">
+                                <li><a href="{{ route('catalog.index') }}" class="submenu-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">Sản phẩm</a></li>
+                            </ul>
+                        </li>
+
+                        <div class="sidebar-section-title">QUẢN LÝ NGHIỆP VỤ</div>
+
                         <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
                             <div class="menu-item" onclick="toggleSubmenu(this)">
                                 <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>

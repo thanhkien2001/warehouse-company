@@ -328,7 +328,6 @@
     <div class="sk-header">
         <div>
             <h2>Báo cáo tồn kho</h2>
-            <p class="breadcrumb">Trang chủ › Quản lý kho › Báo cáo tồn kho</p>
         </div>
         <div class="sk-header-actions">
             <button class="btn-outline-hdr excel"><i class="fas fa-file-excel"></i> Xuất Excel</button>

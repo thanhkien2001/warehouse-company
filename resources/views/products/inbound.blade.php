@@ -34,8 +34,8 @@
 
     .info-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 420px; 
-        grid-template-rows: repeat(5, auto);
+        grid-template-columns: 1fr 1fr 420px;
+        grid-template-rows: repeat(5, 36px);
         gap: 8px 20px;
     }
 
@@ -43,6 +43,8 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        height: 36px;
+        align-self: start;
     }
 
     .form-group label {
@@ -64,6 +66,8 @@
         outline: none;
         background: #fff;
         flex: 1;
+        height: 34px;
+        box-sizing: border-box;
     }
 
     .ib-input:focus { border-color: var(--primary); }
@@ -73,6 +77,8 @@
     .dropzone-container {
         grid-column: 3;
         grid-row: 1 / span 3;
+        /* 3 rows * 36px + 2 gaps * 8px = 124px */
+        height: calc(3 * 36px + 2 * 8px);
         border: 1.5px dashed #cbd5e1;
         border-radius: 8px;
         background: #fcfcfc;
@@ -82,6 +88,7 @@
         justify-content: center;
         padding: 15px;
         text-align: center;
+        box-sizing: border-box;
     }
     
     .dropzone-icon { font-size: 30px; color: #94a3b8; margin-bottom: 8px; }
@@ -106,10 +113,12 @@
     .attachment-col {
         grid-column: 3;
         grid-row: 4 / span 2;
+        /* 2 rows * 36px + 1 gap * 8px = 80px */
+        height: calc(2 * 36px + 1 * 8px);
         border: 1px solid #e2e8f0;
         border-radius: 6px;
         overflow-y: auto;
-        max-height: 100px;
+        box-sizing: border-box;
     }
 
     .attachment-table {
@@ -198,7 +207,6 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
         <div>
             <h2 style="font-weight: 800; font-size: 18px;">NHẬP KHO HÀNG HÓA</h2>
-            <p style="font-size: 11px; color: #64748b;">Trang chủ > Quản lý tồn kho > Nhập kho</p>
         </div>
         <div style="display: flex; gap: 8px;">
             <button class="btn-outline-custom"><i class="fas fa-arrow-left"></i> Quay lại</button>
@@ -271,9 +279,9 @@
                 </table>
             </div>
 
-            <div class="form-group">
-                <label>Ghi chú</label>
-                <textarea class="ib-input" style="height: 32px; min-height: 32px; resize: vertical;" placeholder="..."></textarea>
+            <div class="form-group" style="align-items: flex-start; padding-top: 1px;">
+                <label style="padding-top: 6px;">Ghi chú</label>
+                <textarea class="ib-input" style="height: 34px; min-height: 34px; resize: vertical; box-sizing: border-box;" placeholder="..."></textarea>
             </div>
             <div class="form-group">
                 <label>Bộ phận</label>
@@ -329,16 +337,27 @@
 
 @push('scripts')
 <script>
+    const categories = @json($categories);
     let counter = 0;
     function addRow() {
         counter++;
         const tbody = document.querySelector('#main-table tbody');
         const row = document.createElement('tr');
+        
+        let catOptions = '<option value="">Tất cả</option>';
+        categories.forEach(cat => {
+            catOptions += `<option value="${cat.id}">${cat.name}</option>`;
+        });
+
         row.innerHTML = `
             <td style="text-align: center; color: #64748b; font-size: 11px;">${counter}</td>
             <td><input type="text" class="ib-input"></td>
             <td><input type="text" class="ib-input"></td>
-            <td><input type="text" class="ib-input"></td>
+            <td>
+                <select class="ib-input">
+                    ${catOptions}
+                </select>
+            </td>
             <td><input type="text" class="ib-input"></td>
             <td><input type="text" class="ib-input"></td>
             <td><input type="text"  style="text-align: right;"class="ib-input val-qty" step="0.01" value="0.00" oninput="calc(this)"></td>

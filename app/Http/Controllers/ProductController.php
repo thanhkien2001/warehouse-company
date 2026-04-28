@@ -14,7 +14,8 @@ class ProductController extends Controller
 {
     public function inbound()
     {
-        return view('products.inbound');
+        $categories = \App\Models\Category::orderBy('name')->get();
+        return view('products.inbound', compact('categories'));
     }
 
     public function outboundReport()
@@ -25,6 +26,20 @@ class ProductController extends Controller
     public function stockReport()
     {
         return view('products.stock_report');
+    }
+
+    public function catalog(Request $request)
+    {
+        $categories = \App\Models\Category::orderBy('name')->get();
+
+        // For demonstration based on user image, showing some products
+        // In a real app, this would be a separate Product catalog table
+        $products = Product::with('category')
+            ->select('ma_hang', 'ten_hang', 'don_vi_tinh', 'don_gia', 'trang_thai', 'category_id')
+            ->groupBy('ma_hang', 'ten_hang', 'don_vi_tinh', 'don_gia', 'trang_thai', 'category_id')
+            ->paginate(20);
+
+        return view('products.catalog', compact('products', 'categories'));
     }
 
     public function index(Request $request)

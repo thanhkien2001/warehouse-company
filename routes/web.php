@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DeliveryNoteController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,27 @@ Route::middleware('auth')->group(function () {
 
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        // ==========================================================
+        // DANH MỤC SẢN PHẨM
+        // ==========================================================
+        Route::prefix('san-pham')->name('catalog.')->group(function () {
+            Route::get('/', [ProductCatalogController::class, 'index'])->name('index')
+                ->middleware('permission:tonkho,view');
+            Route::post('/', [ProductCatalogController::class, 'store'])->name('store')
+                ->middleware('permission:tonkho,edit');
+            Route::get('/export', [ProductCatalogController::class, 'export'])->name('export')
+                ->middleware('permission:tonkho,view');
+            Route::post('/import', [ProductCatalogController::class, 'import'])->name('import')
+                ->middleware('permission:tonkho,edit');
+            Route::get('/template', [ProductCatalogController::class, 'template'])->name('template');
+            Route::get('/check-ma-hang', [ProductCatalogController::class, 'checkMaHang'])->name('check-ma-hang');
+            Route::get('/{productCatalog}', [ProductCatalogController::class, 'show'])->name('show');
+            Route::match(['PUT','PATCH'], '/{productCatalog}', [ProductCatalogController::class, 'update'])->name('update')
+                ->middleware('permission:tonkho,edit');
+            Route::delete('/{productCatalog}', [ProductCatalogController::class, 'destroy'])->name('destroy')
+                ->middleware('permission:tonkho,delete');
+        });
 
         // ==========================================================
         // KHÁCH HÀNG
