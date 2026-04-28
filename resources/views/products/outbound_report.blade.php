@@ -227,10 +227,15 @@
     .table-scroll {
         flex: 1;
         overflow-y: auto;
-        overflow-x: auto;
+        overflow-x: scroll;
         border: 1px solid #e2e8f0;
         border-radius: 5px;
     }
+    .table-scroll::-webkit-scrollbar { height: 8px; width: 6px; }
+    .table-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
 
     /* ===== DATA TABLE ===== */
     .data-table {
