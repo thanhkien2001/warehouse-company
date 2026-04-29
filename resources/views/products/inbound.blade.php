@@ -382,7 +382,7 @@
                 <tbody>
                     @foreach($inboundItems as $index => $item)
                         @php $r = $item->receipt; @endphp
-                        <tr class="existing-row" data-receipt-id="{{ $r ? $r->id : '' }}" 
+                        <tr class="existing-row" data-id="{{ $item->id }}" data-receipt-id="{{ $r ? $r->id : '' }}" 
                             data-receipt-code="{{ $r ? $r->receipt_code : '' }}"
                             data-invoice-no="{{ $r ? $r->invoice_no : '' }}"
                             data-receipt-date="{{ $r && $r->receipt_date ? $r->receipt_date->format('Y-m-d') : '' }}"
@@ -418,7 +418,7 @@
                                 </select>
                             </td>
                             <td style="text-align:center;">
-                                <i class="fas fa-times" style="color:#ef4444;cursor:pointer;" onclick="event.stopPropagation(); removeRow(this)"></i>
+                                <i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="event.stopPropagation(); removeRow(this)"></i>
                             </td>
                         </tr>
                     @endforeach
@@ -503,12 +503,12 @@
             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:right;" value="0" oninput="calc(this)"></td>
             <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0" readonly></td>
             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="0" readonly></td>
-            <td><input type="text" class="ib-input col-lo" placeholder="Số lô" readonly></td>
+            <td><input type="text" class="ib-input col-lo" placeholder="Số lô"></td>
             <td><input type="date" class="ib-input col-nsx"></td>
             <td><input type="date" class="ib-input col-hsd"></td>
             <td><select class="ib-input col-kho">${khoOptions}</select></td>
             <td style="text-align:center;">
-                <i class="fas fa-times" style="color:#ef4444;cursor:pointer;" onclick="removeRow(this)"></i>
+                <i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="removeRow(this)"></i>
             </td>
         `;
 
@@ -523,15 +523,87 @@
     }
 
     function removeRow(btn) {
-        btn.closest('tr').remove();
-        reOrder();
+        const tr = btn.closest('tr');
+        const id = tr.dataset.id;
+        
+        if (!id) {
+            tr.remove();
+            reOrder();
+            return;
+        }
+
+        showConfirm('Xóa dòng hàng hóa', 'Bạn có chắc chắn muốn xóa dòng này?', async () => {
+            try {
+                const res = await fetch(`/ton-kho/nhap-kho/item/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF,
+                        'Accept': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert(data.message || 'Lỗi khi xóa dữ liệu');
+                    return;
+                }
+            } catch (e) {
+                alert('Lỗi kết nối máy chủ!');
+                return;
+            }
+            tr.remove();
+            reOrder();
+            resetForm();
+            showToast('Đã xóa dòng hàng hóa thành công!', 'success');
+        });
     }
 
     function deleteCheckedRows() {
-        document.querySelectorAll('#main-table tbody tr').forEach(tr => {
-            if (tr.querySelector('.row-ck')?.checked) tr.remove();
-        });
-        reOrder();
+        const checkedRows = Array.from(document.querySelectorAll('#main-table tbody tr')).filter(tr => tr.querySelector('.row-ck')?.checked);
+        if (!checkedRows.length) {
+            alert('Vui lòng chọn ít nhất 1 dòng để xóa!');
+            return;
+        }
+
+        const unsavedRows = checkedRows.filter(tr => !tr.dataset.id);
+        const savedRows   = checkedRows.filter(tr => tr.dataset.id);
+
+        // Xóa nhanh dòng chưa lưu
+        unsavedRows.forEach(tr => tr.remove());
+
+        if (savedRows.length > 0) {
+            showConfirm('Xóa nhiều dòng', `Bạn có chắc chắn muốn xóa ${savedRows.length} dòng dữ liệu đã lưu?`, async () => {
+                for (let tr of savedRows) {
+                    const id = tr.dataset.id;
+                    try {
+                        const res = await fetch(`/ton-kho/nhap-kho/item/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': CSRF,
+                                'Accept': 'application/json'
+                            }
+                        });
+                        const data = await res.json();
+                        if (!data.success) {
+                            alert(data.message || 'Lỗi khi xóa dữ liệu ID: ' + id);
+                            continue;
+                        }
+                    } catch (e) {
+                        alert('Lỗi kết nối máy chủ khi xóa dòng!');
+                        continue;
+                    }
+                    tr.remove();
+                }
+                reOrder();
+                resetForm();
+                showToast(`Đã xóa thành công ${savedRows.length} dòng hàng hóa!`, 'success');
+            });
+        } else {
+            reOrder();
+            resetForm();
+            if (unsavedRows.length > 0) {
+                showToast(`Đã xóa nhanh ${unsavedRows.length} dòng chưa lưu!`, 'success');
+            }
+        }
     }
 
     function toggleAllRows(src) {

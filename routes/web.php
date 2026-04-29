@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
                 ->middleware('permission:tonkho,view');
             Route::post('/nhap-kho', [InboundController::class, 'store'])->name('inbound.store');
             Route::delete('/nhap-kho/attachment/{id}', [InboundController::class, 'deleteAttachment'])->name('inbound.attachment.delete');
+            Route::delete('/nhap-kho/item/{id}', [InboundController::class, 'deleteItem'])->name('inbound.item.delete');
             Route::get('/nhap-kho/next-code', [InboundController::class, 'nextCode'])->name('inbound.next-code');
             Route::get('/nhap-kho/product-search', [InboundController::class, 'productSearch'])->name('inbound.product-search');
             Route::get('/bao-cao-xuat-kho', [ProductController::class, 'outboundReport'])->name('outbound-report')

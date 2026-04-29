@@ -156,6 +156,30 @@ class InboundController extends Controller
         }
     }
 
+    /** DELETE /ton-kho/nhap-kho/item/{id} — xóa dòng hàng */
+    public function deleteItem($id)
+    {
+        $item = InboundItem::findOrFail($id);
+        $receiptId = $item->receipt_id;
+        
+        $item->delete();
+        
+        if ($receiptId) {
+            $remaining = InboundItem::where('receipt_id', $receiptId)->count();
+            if ($remaining === 0) {
+                // Xóa cả file đính kèm
+                $atts = InboundAttachment::where('receipt_id', $receiptId)->get();
+                foreach($atts as $a) {
+                    Storage::disk('public')->delete($a->file_path);
+                    $a->delete();
+                }
+                InboundReceipt::destroy($receiptId);
+            }
+        }
+        
+        return response()->json(['success' => true, 'message' => 'Đã xóa dòng dữ liệu thành công!']);
+    }
+
     /** DELETE /ton-kho/nhap-kho/attachment/{id} — xóa file đính kèm */
     public function deleteAttachment($id)
     {
