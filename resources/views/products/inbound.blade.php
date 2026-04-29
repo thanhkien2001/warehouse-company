@@ -10,7 +10,7 @@
         gap: 10px;
         max-width: 1600px;
         margin: 0 auto;
-        height: calc(100vh - 100px);
+        min-height: calc(100vh - 120px);
     }
 
     .ib-block {
@@ -127,7 +127,7 @@
     .attachment-table td { padding: 6px; border-bottom: 1px solid #f1f5f9; }
 
     /* TABLE ITEM */
-    .item-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .item-table { width: 100%; min-width: 1300px; border-collapse: collapse; table-layout: fixed; }
 
     .item-table th {
         background: #EFF6FF;
@@ -187,7 +187,7 @@
     .btn-outline-custom { background: #fff; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px; }
 
     .table-block { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-    .table-responsive { flex: 1; overflow-y: auto; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 4px; }
+    .table-responsive { flex: 1; overflow-y: auto; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 4px; min-height: 400px; }
     
     /* PAGINATION BAR */
     .pagination-bar {
@@ -257,15 +257,11 @@
 @endpush
 
 @section('content')
-<div class="inbound-container" style="height: calc(100vh - 120px); display: flex; flex-direction: column; overflow: hidden;">
+<div class="inbound-container" style="min-height: calc(100vh - 120px); display: flex; flex-direction: column;">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
         <div>
             <h2 style="font-weight: 800; font-size: 18px;">NHẬP KHO HÀNG HÓA</h2>
-        </div>
-        <div style="display: flex; gap: 8px;">
-            <a href="{{ url()->previous() }}" class="btn-outline-custom"><i class="fas fa-arrow-left"></i> Quay lại</a>
-            <button class="ui-btn ui-btn-primary" style="height: 32px;" onclick="submitInbound()"><i class="fas fa-check-circle"></i> Lưu & Hoàn tất</button>
         </div>
     </div>
 
@@ -353,8 +349,9 @@
                 <input type="text" id="table-search" class="ib-input" placeholder="Tìm kiếm tên, mã hàng..." style="width: 250px; height: 30px; padding: 2px 10px; font-size: 12px;" oninput="filterTable()">
             </div>
             <div style="display: flex; gap: 8px;">
+                <button class="btn-outline-custom" onclick="resetForm()"><i class="fas fa-redo"></i> Nhập mới</button>
                 <button class="btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Thêm dòng</button>
-                <button class="btn-outline-custom" style="color: #ef4444;" onclick="deleteCheckedRows()">Xóa dòng</button>
+                <button class="ui-btn ui-btn-primary" style="height: 28px; font-size: 12px; padding: 0 12px;" id="btn-save" onclick="submitInbound()"><i class="fas fa-check-circle"></i> Lưu & Hoàn tất</button>
             </div>
         </div>
 
@@ -362,7 +359,7 @@
             <table class="item-table" id="main-table">
                 <thead>
                     <tr>
-                        <th width="30"><input type="checkbox" id="ck-all" onchange="toggleAllRows(this)" style="width:14px;height:14px;cursor:pointer;"></th>
+
                         <th width="35">STT</th>
                         <th width="110">Mã hàng</th>
                         <th width="200">Tên hàng</th>
@@ -395,7 +392,7 @@
                             data-initial-category-id="{{ $item->category_id }}"
                             onclick="loadReceiptFromRow(this)"
                             style="cursor: pointer; transition: background 0.2s;">
-                            <td style="text-align:center;"><input type="checkbox" class="row-ck" style="width:14px;height:14px;" onclick="event.stopPropagation()"></td>
+
                             <td style="text-align:center;color:#64748b;font-size:11px;" class="stt-cell">{{ $inboundItems->firstItem() + $index }}</td>
                             <td style="position:relative;">
                                 <input type="text" class="ib-input col-ma" placeholder="Mã hàng" value="{{ $item->ma_hang }}" autocomplete="off" readonly>
@@ -447,8 +444,8 @@
                 </div>
                 <div class="page-size">
                     <select class="per-page-select" onchange="changePerPage(this.value)">
-                        @foreach([20,50,100] as $pp)
-                            <option value="{{ $pp }}" {{ request('per_page', 20) == $pp ? 'selected' : '' }}>{{ $pp }} / trang</option>
+                        @foreach([15,30,50,100] as $pp)
+                            <option value="{{ $pp }}" {{ request('per_page', 15) == $pp ? 'selected' : '' }}>{{ $pp }} / trang</option>
                         @endforeach
                     </select>
                 </div>
@@ -456,10 +453,7 @@
         </div>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 5px;">
-        <button class="btn-outline-custom" style="padding: 6px 20px;" onclick="resetForm()">Nhập mới</button>
-        <button class="ui-btn ui-btn-primary" style="padding: 6px 30px;" id="btn-save" onclick="submitInbound()">Lưu & Hoàn tất</button>
-    </div>
+
 
 </div>
 @endsection
@@ -489,7 +483,7 @@
 
         row.dataset.rid = rowCounter;
         row.innerHTML = `
-            <td style="text-align:center;"><input type="checkbox" class="row-ck" style="width:14px;height:14px;"></td>
+
             <td style="text-align:center;color:#64748b;font-size:11px;" class="stt-cell">${rowCounter}</td>
             <td style="position:relative;">
                 <input type="text" class="ib-input col-ma" placeholder="Mã hàng" autocomplete="off"

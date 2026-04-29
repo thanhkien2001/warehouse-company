@@ -24,7 +24,7 @@ class InboundController extends Controller
                             ->get(['id','ma_hang','ten_hang','category_id','don_vi_tinh','quy_cach','gia_nhap','nha_cung_cap']);
         $nextCode     = InboundReceipt::generateCode();
         
-        $perPage      = $request->input('per_page', 20);
+        $perPage      = $request->input('per_page', 15);
         $inboundItems = InboundItem::with(['receipt.attachments', 'category'])
                             ->orderByDesc('created_at')
                             ->paginate($perPage);
