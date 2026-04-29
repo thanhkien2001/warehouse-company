@@ -16,11 +16,12 @@ class InventoryService
     public static function getReport(): array
     {
         // Tổng nhập theo mã hàng
-        $nhap = Product::select('ma_hang', 'ten_hang',
-                DB::raw('SUM(so_luong_nhap) as tong_nhap'),
-                DB::raw('MAX(nhap_date) as ngay_cap_nhat'),
-                DB::raw('MAX(don_vi_tinh) as don_vi_tinh'),
-                DB::raw('MAX(id) as last_id'))
+        $nhap = DB::table('inbound_items')
+            ->select('ma_hang', 'ten_hang',
+                DB::raw('SUM(so_luong) as tong_nhap'),
+                DB::raw('MAX(created_at) as ngay_cap_nhat'),
+                DB::raw('MAX(don_vi_tinh) as don_vi_tinh')
+            )
             ->whereNotNull('ma_hang')
             ->groupBy('ma_hang', 'ten_hang')
             ->get()
@@ -78,7 +79,7 @@ class InventoryService
      */
     public static function getStock(string $maHang): float
     {
-        $nhap = Product::where('ma_hang', $maHang)->sum('so_luong_nhap');
+        $nhap = DB::table('inbound_items')->where('ma_hang', $maHang)->sum('so_luong');
 
         $deliveredCtos = DeliveryNote::where('trang_thai', 'Đã giao xong')
             ->pluck('cto_code')->toArray();
