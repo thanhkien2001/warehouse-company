@@ -83,10 +83,8 @@
     .legacy-table-wrapper {
         border: 1px solid #cbd5e1;
         border-radius: 12px;
-        overflow: hidden;
         background: #ffffff;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        overflow-x: auto;
         margin-bottom: 15px;
     }
 
@@ -260,6 +258,32 @@
         cursor: pointer;
         font-size: 14px;
     }
+
+    /* Autocomplete */
+    .prod-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 400px;
+        background: #fff;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 999;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        display: none;
+        text-align: left;
+    }
+    .prod-autocomplete .ac-item {
+        padding: 8px 10px;
+        cursor: pointer;
+        font-size: 12px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #000 !important;
+    }
+    .prod-autocomplete .ac-item:hover { background: #eff6ff; }
+    .prod-autocomplete .ac-code { font-weight: 700; color: #0070D2; }
 </style>
 @endpush
 
@@ -469,7 +493,7 @@
 @push('scripts')
 <script>
 const STOCK = @json($stockMap);
-const PRODUCTS = @json($products->keyBy('ma_hang'));
+const PRODUCTS = @json($products);
 let orderItems = @json($order->items);
 let currentStatus = '{{ $order->trang_thai }}';
 const canEdit = {{ (auth()->user()->canDo('donhang','edit') || auth()->user()->isAdmin()) ? 'true' : 'false' }};
@@ -518,7 +542,13 @@ function createRowHtml(stt, data = {}) {
                  
     return `
     <tr class="item-row">
-        <td><input type="text" class="in-ma" value="${ma}" list="productList" onchange="autoFill(this)" placeholder="Mã..." ${!canEdit?'readonly':''}>${warn}</td>
+        <td style="position:relative;">
+            <input type="text" class="in-ma" value="${ma}" placeholder="Mã..." 
+                oninput="searchProduct(this)" onfocus="searchProduct(this)" 
+                autocomplete="off" ${!canEdit?'readonly':''}>
+            <div class="prod-autocomplete"></div>
+            ${warn}
+        </td>
         <td>
             <div style="display: flex; flex-direction: column; gap: 4px;">
                 <input type="text" class="in-ten" value="${ten}" placeholder="Tên sản phẩm..." style="font-weight: 700; height: 30px;" ${!canEdit?'readonly':''}>
@@ -549,30 +579,59 @@ function removeRow(btn) {
     calcTotal();
 }
 
-function autoFill(input) {
-    const ma = input.value.trim();
-    if(!ma) return;
-    const p = PRODUCTS[ma];
-    if(p) {
-        const tr = input.closest('tr');
-        tr.querySelector('.in-ten').value = p.ten_hang || '';
-        tr.querySelector('.in-dvt').value = p.don_vi_tinh || '';
-        tr.querySelector('.in-gia').value = formatMoney(p.don_gia || 0);
-        
-        let warnBox = tr.querySelector('.warn-stock');
-        if(!warnBox) {
-            warnBox = document.createElement('div');
-            warnBox.className = 'warn-stock';
-            warnBox.style.cssText = 'font-size:10px;color:red;margin-top:2px';
-            input.parentNode.appendChild(warnBox);
-        }
-        if(STOCK[ma] !== undefined) {
-            warnBox.innerText = `Tồn kho: ${STOCK[ma]}`;
-            warnBox.style.color = '#3b82f6';
-        }
-    }
-    calcRow(input);
+function searchProduct(input) {
+    const q = input.value.trim().toLowerCase();
+    const dd = input.nextElementSibling; // .prod-autocomplete
+
+    const filtered = PRODUCTS.filter(p =>
+        p.ma_hang.toLowerCase().includes(q) || p.ten_hang.toLowerCase().includes(q)
+    ).slice(0, 15);
+
+    if (!filtered.length) { dd.style.display = 'none'; return; }
+
+    dd.innerHTML = filtered.map(p => `
+        <div class="ac-item" onmousedown="fillProduct(this)" 
+            data-id="${p.id}"
+            data-ma="${p.ma_hang}"
+            data-ten="${p.ten_hang}"
+            data-dvt="${p.don_vi_tinh ?? ''}"
+            data-gia="${p.gia_ban ?? 0}">
+            <span class="ac-code">[${p.ma_hang}]</span> ${p.ten_hang}
+        </div>`).join('');
+    dd.style.display = 'block';
 }
+
+function fillProduct(item) {
+    const tr = item.closest('tr');
+    tr.querySelector('.in-ma').value    = item.dataset.ma;
+    tr.querySelector('.in-ten').value   = item.dataset.ten;
+    tr.querySelector('.in-dvt').value   = item.dataset.dvt;
+    tr.querySelector('.in-gia').value   = formatMoney(item.dataset.gia || 0);
+
+    // Stock Warning Logic
+    const ma = item.dataset.ma;
+    let warnBox = tr.querySelector('.warn-stock');
+    if(!warnBox) {
+        warnBox = document.createElement('div');
+        warnBox.className = 'warn-stock';
+        warnBox.style.cssText = 'font-size:10px;color:red;margin-top:2px';
+        tr.querySelector('.in-ma').parentNode.appendChild(warnBox);
+    }
+    if(STOCK[ma] !== undefined) {
+        warnBox.innerText = `Tồn kho: ${STOCK[ma]}`;
+        warnBox.style.color = '#3b82f6';
+    }
+
+    calcRow(tr.querySelector('.in-sl'));
+    item.closest('.prod-autocomplete').style.display = 'none';
+}
+
+// Click ra ngoài để đóng popup
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.prod-autocomplete') && !e.target.closest('.in-ma')) {
+        document.querySelectorAll('.prod-autocomplete').forEach(dd => dd.style.display = 'none');
+    }
+});
 
 function formatAndCalc(input) {
     let val = input.value.replace(/[^0-9]/g, '');

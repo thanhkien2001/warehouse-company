@@ -419,31 +419,31 @@
 
     {{-- BLOCK 1: BỘ LỌC --}}
     <div class="obr-block">
-        <div class="filter-unified-6">
+        <form class="filter-unified-6" method="GET" action="{{ route('inventory.outbound-report') }}">
             {{-- Row 1: 5 inputs + 1 ô trống --}}
             <div class="filter-item">
                 <label>Từ ngày</label>
-                <input type="date" class="filter-input" value="{{ date('Y-m-01') }}">
+                <input type="date" name="tu_ngay" class="filter-input" value="{{ request('tu_ngay') }}">
             </div>
             <div class="filter-item">
                 <label>Đến ngày</label>
-                <input type="date" class="filter-input" value="{{ date('Y-m-d') }}">
+                <input type="date" name="den_ngay" class="filter-input" value="{{ request('den_ngay') }}">
             </div>
             <div class="filter-item">
                 <label>Loại xuất</label>
-                <select class="filter-input">
+                <select name="loai_xuat" class="filter-input">
                     <option value="">Tất cả</option>
-                    <option value="banhang">Bán hàng</option>
-                    <option value="noibo">Nội bộ</option>
+                    <option value="banhang" {{ request('loai_xuat') == 'banhang' ? 'selected' : '' }}>Bán hàng</option>
+                    <option value="noibo" {{ request('loai_xuat') == 'noibo' ? 'selected' : '' }}>Nội bộ</option>
                 </select>
             </div>
             <div class="filter-item">
                 <label>Mã hàng</label>
-                <input type="text" class="filter-input" placeholder="Chọn mã hàng">
+                <input type="text" name="ma_hang" class="filter-input" placeholder="Chọn mã hàng" value="{{ request('ma_hang') }}">
             </div>
             <div class="filter-item">
                 <label>Khách hàng</label>
-                <input type="text" class="filter-input" placeholder="Nhập tên khách hàng">
+                <input type="text" name="khach_hang" class="filter-input" placeholder="Nhập tên khách hàng" value="{{ request('khach_hang') }}">
             </div>
             {{-- Cột 6 row 1: trống --}}
             <div></div>
@@ -451,39 +451,40 @@
             {{-- Row 2: 5 inputs + 2 nút --}}
             <div class="filter-item">
                 <label>Kho xuất</label>
-                <select class="filter-input">
+                <select name="kho_xuat" class="filter-input">
                     <option value="">Tất cả</option>
-                    <option value="nguyen_lieu">Kho Nguyên Liệu</option>
-                    <option value="lab">Kho Lab</option>
+                    <option value="Kho Nguyên Liệu" {{ request('kho_xuat') == 'Kho Nguyên Liệu' ? 'selected' : '' }}>Kho Nguyên Liệu</option>
+                    <option value="Kho Lab" {{ request('kho_xuat') == 'Kho Lab' ? 'selected' : '' }}>Kho Lab</option>
+                    <option value="Kho Thành Phẩm" {{ request('kho_xuat') == 'Kho Thành Phẩm' ? 'selected' : '' }}>Kho Thành Phẩm</option>
                 </select>
             </div>
             <div class="filter-item">
                 <label>Số phiếu</label>
-                <input type="text" class="filter-input" placeholder="Nhập số phiếu">
+                <input type="text" name="so_phieu" class="filter-input" placeholder="Nhập số phiếu" value="{{ request('so_phieu') }}">
             </div>
             <div class="filter-item">
                 <label>Số đơn hàng</label>
-                <input type="text" class="filter-input" placeholder="Nhập số đơn hàng">
+                <input type="text" name="so_don_hang" class="filter-input" placeholder="Nhập số đơn hàng" value="{{ request('so_don_hang') }}">
             </div>
             <div class="filter-item">
                 <label>LOT</label>
-                <input type="text" class="filter-input" placeholder="Nhập số LOT">
+                <input type="text" name="lot" class="filter-input" placeholder="Nhập số LOT" value="{{ request('lot') }}">
             </div>
             <div class="filter-item">
                 <label>Nhóm hàng</label>
-                <select class="filter-input">
+                <select name="nhom_hang" class="filter-input">
                     <option value="">Tất cả</option>
-                    <option>Nguyên liệu</option>
-                    <option>Thành phẩm</option>
-                    <option>Bao bì</option>
+                    <option value="nguyenlieu" {{ request('nhom_hang') == 'nguyenlieu' ? 'selected' : '' }}>Nguyên liệu</option>
+                    <option value="thanhpham" {{ request('nhom_hang') == 'thanhpham' ? 'selected' : '' }}>Thành phẩm</option>
+                    <option value="baobi" {{ request('nhom_hang') == 'baobi' ? 'selected' : '' }}>Bao bì</option>
                 </select>
             </div>
             {{-- Cột 6 row 2: 2 nút ngang hàng --}}
             <div style="display: flex; flex-direction: row; gap: 6px; align-items: flex-end;">
-                <button class="btn-search" style="flex: 1;"><i class="fas fa-search"></i> Tìm kiếm</button>
-                <button class="btn-clear" style="flex: 1; background-color: #E74C3C; color: white; border-color: #E74C3C;">Xóa lọc</button>
+                <button type="submit" class="btn-search" style="flex: 1;"><i class="fas fa-search"></i> Tìm kiếm</button>
+                <button type="button" class="btn-clear" onclick="window.location.href='{{ route('inventory.outbound-report') }}'" style="flex: 1; background-color: #E74C3C; color: white; border-color: #E74C3C;">Xóa lọc</button>
             </div>
-        </div>
+        </form>
     </div>
 
     {{-- BLOCK 2: STAT CARDS --}}
@@ -492,7 +493,7 @@
             <div class="stat-icon blue"><i class="fas fa-file-alt"></i></div>
             <div>
                 <div class="stat-label">Tổng số phiếu</div>
-                <div class="stat-value">28</div>
+                <div class="stat-value">{{ $totalBills }}</div>
                 <div class="stat-unit">phiếu</div>
             </div>
         </div>
@@ -500,7 +501,7 @@
             <div class="stat-icon green"><i class="fas fa-boxes"></i></div>
             <div>
                 <div class="stat-label">Tổng số lượng xuất</div>
-                <div class="stat-value">1.245,50</div>
+                <div class="stat-value">{{ number_format($totalQty, 2, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -508,7 +509,7 @@
             <div class="stat-icon orange"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Tổng giá trị xuất (VNĐ)</div>
-                <div class="stat-value" style="font-size:16px;">1.254.850.000</div>
+                <div class="stat-value" style="font-size:16px;">{{ number_format($totalVal, 2, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>
@@ -516,7 +517,7 @@
             <div class="stat-icon purple"><i class="fas fa-building"></i></div>
             <div>
                 <div class="stat-label">Số khách hàng</div>
-                <div class="stat-value">12</div>
+                <div class="stat-value">{{ $totalCusts }}</div>
                 <div class="stat-unit">khách hàng</div>
             </div>
         </div>
@@ -524,7 +525,7 @@
             <div class="stat-icon teal"><i class="fas fa-warehouse"></i></div>
             <div>
                 <div class="stat-label">Số kho xuất</div>
-                <div class="stat-value">3</div>
+                <div class="stat-value">{{ $totalWHS }}</div>
                 <div class="stat-unit">kho</div>
             </div>
         </div>
@@ -571,74 +572,61 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        @php
-                        $rows = [
-                            ['12/03/2026','XK-2026-0032','Bán hàng','CÔNG TY TNHH ABC','KHO NGUYÊN LIỆU','EX-ALV-05','Chiết xuất Aloe vera','F20250406','14/08/2026','Kg',25,'900.000','22.500.000','Phiếu giao hàng','GH-2026-0045'],
-                            ['12/03/2026','XK-2026-0031','Bán hàng','CÔNG TY CP HÓA CHẤT VN','KHO NGUYÊN LIỆU','AC-NIA-25','Niacinamide PCC','F20250405','13/08/2026','Kg',50,'1.200.000','60.000.000','Phiếu giao hàng','GH-2026-0044'],
-                            ['11/03/2026','XK-2026-0030','Bán hàng','CÔNG TY TNHH XYZ','KHO THÀNH PHẨM','HM-GLY-25','Glycerin','F20250408','16/08/2026','Kg',25,'700.000','17.500.000','Phiếu giao hàng','GH-2026-0043'],
-                            ['11/03/2026','XK-2026-0029','Nội bộ','Sản xuất mỹ phẩm','KHO NGUYÊN LIỆU','EM-CG-25','Emolient CG','F20250409','17/08/2026','Kg',10,'950.000','9.500.000','Xuất kho nội bộ','NB-2026-0015'],
-                            ['10/03/2026','XK-2026-0028','Bán hàng','CÔNG TY TNHH ABC','KHO NGUYÊN LIỆU','PR-BC-25','Chất bảo quản','F20250410','18/08/2026','Kg',25,'1.000.000','25.000.000','Phiếu giao hàng','GH-2026-0042'],
-                            ['10/03/2026','XK-2026-0027','Bán hàng','CÔNG TY CP HÓA CHẤT VN','KHO NGUYÊN LIỆU','EX-ALV-05','Chiết xuất Aloe vera','F20250406','15/08/2026','Kg',25,'900.000','22.500.000','Phiếu giao hàng','GH-2026-0041'],
-                            ['09/03/2026','XK-2026-0026','Nội bộ','Phòng QC','KHO NGUYÊN LIỆU','AO-OXY-25','Chống oxy hóa','F20250411','20/08/2026','Kg',2,'1.050.000','2.100.000','Xuất kho nội bộ','NB-2026-0014'],
-                            ['09/03/2026','XK-2026-0025','Bán hàng','CÔNG TY TNHH XYZ','KHO THÀNH PHẨM','AC-NIA-25','Niacinamide PCC','F20250405','13/08/2026','Kg',25,'1.200.000','30.000.000','Phiếu giao hàng','GH-2026-0039'],
-                            ['08/03/2026','XK-2026-0024','Bán hàng','CÔNG TY TNHH ABC','KHO NGUYÊN LIỆU','HM-GLY-25','Glycerin','F20250408','16/08/2026','Kg',25,'700.000','17.500.000','Phiếu giao hàng','GH-2026-0038'],
-                            ['08/03/2026','XK-2026-0023','Bán hàng','CÔNG TY CP HÓA CHẤT VN','KHO NGUYÊN LIỆU','EX-ALV-05','Chiết xuất Aloe vera','F20250406','14/08/2026','Kg',25,'900.000','22.500.000','Phiếu giao hàng','GH-2026-0037'],
-                        ];
-                        @endphp
-
-                        @foreach ($rows as $i => $r)
+                    <tbody id="tableBody">
+                        @forelse ($rows as $i => $r)
                         <tr>
                             <td class="td-center"><input type="checkbox" class="check-ob" style="width:15px;height:15px;cursor:pointer;"></td>
-                            <td class="td-center" style="color:#64748b; font-size:11px;">{{ $i + 1 }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r[0] }}</td>
-                            <td class="td-center"><a href="#" class="link-phieu">{{ $r[1] }}</a></td>
+                            <td class="td-center" style="color:#64748b; font-size:11px;">{{ ($rows->firstItem() ?? 1) + $i }}</td>
+                            <td class="td-center" style="font-size:11px;">{{ \Carbon\Carbon::parse($r->delivery_date)->format('d/m/Y') }}</td>
+                            <td class="td-center"><a href="{{ url('/phieu-giao/' . $r->dn_id) }}" class="link-phieu">{{ $r->dn_code }}</a></td>
                             <td class="td-center">
-                                @if($r[2] === 'Bán hàng')
-                                    <span class="badge-type badge-banhang">Bán hàng</span>
-                                @else
-                                    <span class="badge-type badge-noibo">Nội bộ</span>
-                                @endif
+                                <span class="badge-type badge-banhang">Bán hàng</span>
                             </td>
-                            <td>{{ $r[3] }}</td>
-                            <td style="font-size:11px;">{{ $r[4] }}</td>
-                            <td class="td-center" style="font-weight:600; color:#0070D2; font-size:11px;">{{ $r[5] }}</td>
-                            <td style="font-size:11px;">{{ $r[6] }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r[7] }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r[8] }}</td>
-                            <td class="td-center">{{ $r[9] }}</td>
-                            <td class="td-right" style="font-weight:600;">{{ number_format($r[10], 2, ',', '.') }}</td>
-                            <td class="td-right">{{ $r[11] }}</td>
-                            <td class="td-right" style="font-weight:600; color:#1e293b;">{{ $r[12] }}</td>
+                            <td>{{ $r->ten_kh }}</td>
+                            <td class="td-center" style="font-size:11px;">{{ $r->kho_xuat ?? 'Kho Nguyên Liệu' }}</td>
+                            <td class="td-center" style="font-weight:600; color:#0070D2; font-size:11px;">{{ $r->ma_hang }}</td>
+                            <td style="font-size:11px;">{{ $r->ten_hang }}</td>
+                            <td class="td-center" style="font-size:11px;">{{ $r->ma_lot }}</td>
+                            <td class="td-center" style="font-size:11px;">{{ $r->han_su_dung ? \Carbon\Carbon::parse($r->han_su_dung)->format('d/m/Y') : '---' }}</td>
+                            <td class="td-center">{{ $r->don_vi_tinh }}</td>
+                            <td class="td-right" style="font-weight:600;">{{ number_format($r->so_luong, 2, ',', '.') }}</td>
+                            <td class="td-right">{{ number_format($r->don_gia, 2, ',', '.') }}</td>
+                            <td class="td-right" style="font-weight:600; color:#1e293b;">{{ number_format($r->thanh_tien, 2, ',', '.') }}</td>
                             <td style="text-align: center;">
                                 <div class="nguon-cell">
-                                    {{ $r[13] }}<br>
-                                    <span class="nguon-code">{{ $r[14] }}</span>
+                                    Đơn Hàng<br>
+                                    <span class="nguon-code"><a href="{{ url('/don-hang/' . $r->order_id) }}" style="color:#0070D2; text-decoration:none;">{{ $r->phieu_xuat }}</a></span>
                                 </div>
                             </td>
                             <td class="td-center">
-                                <button class="action-btn eye" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                                <a href="{{ url('/phieu-giao/' . $r->dn_id) }}" class="action-btn eye" title="Xem chi tiết"><i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="17" class="td-center" style="padding:30px; color:#64748b;">Không tìm thấy dữ liệu xuất kho.</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             {{-- PAGINATION --}}
             <div class="pagination-bar">
-                <div class="pagination-info">Hiện thị 1 đến 10 của 28 kết quả</div>
+                <div class="pagination-info">
+                    Hiển thị {{ $rows->firstItem() ?? 0 }} đến {{ $rows->lastItem() ?? 0 }} của {{ $rows->total() }} kết quả
+                </div>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <div class="pagination-controls">
-                        <button class="page-btn" disabled title="Trang đầu"><i class="fas fa-angle-double-left"></i></button>
-                        <button class="page-btn" disabled title="Trang trước"><i class="fas fa-angle-left"></i></button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn" title="Trang sau"><i class="fas fa-angle-right"></i></button>
-                        <button class="page-btn" title="Trang cuối"><i class="fas fa-angle-double-right"></i></button>
-                    </div>
-                    <div class="pagination-goto">
-                        Đến trang
-                        <input type="number" class="goto-input" value="1" min="1" max="99">
+                        <a class="page-btn {{ $rows->onFirstPage() ? 'disabled' : '' }}" href="{{ $rows->appends(request()->query())->url(1) }}" title="Trang đầu"><i class="fas fa-angle-double-left"></i></a>
+                        <a class="page-btn {{ $rows->onFirstPage() ? 'disabled' : '' }}" href="{{ $rows->appends(request()->query())->previousPageUrl() }}" title="Trang trước"><i class="fas fa-angle-left"></i></a>
+                        
+                        @foreach($rows->appends(request()->query())->getUrlRange(max(1, $rows->currentPage() - 2), min($rows->lastPage(), $rows->currentPage() + 2)) as $page => $url)
+                            <a class="page-btn {{ $page == $rows->currentPage() ? 'active' : '' }}" href="{{ $url }}">{{ $page }}</a>
+                        @endforeach
+
+                        <a class="page-btn {{ !$rows->hasMorePages() ? 'disabled' : '' }}" href="{{ $rows->appends(request()->query())->nextPageUrl() }}" title="Trang sau"><i class="fas fa-angle-right"></i></a>
+                        <a class="page-btn {{ !$rows->hasMorePages() ? 'disabled' : '' }}" href="{{ $rows->appends(request()->query())->url($rows->lastPage()) }}" title="Trang cuối"><i class="fas fa-angle-double-right"></i></a>
                     </div>
                 </div>
             </div>

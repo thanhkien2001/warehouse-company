@@ -182,6 +182,7 @@
         width: 100%;
         border-collapse: collapse;
         min-width: 1400px;
+        table-layout: fixed;
     }
 
     .data-table th {
@@ -257,7 +258,7 @@
 
     /* ===== BADGES ===== */
     .badge-status {
-        display: inline-flex; align-items: center;
+        display: inline-flex; align-items: center; justify-content: center;
         padding: 2px 8px; border-radius: 20px;
         font-size: 10px; font-weight: 700; white-space: nowrap;
     }
@@ -337,63 +338,65 @@
 
     {{-- BLOCK 1: BỘ LỌC --}}
     <div class="sk-block">
-        <div class="filter-unified">
+        <form class="filter-unified" method="GET" action="{{ route('inventory.stock-report') }}">
             {{-- Row 1: 5 inputs --}}
             <div class="filter-item">
                 <label>Từ ngày</label>
-                <input type="date" class="filter-input" value="{{ date('Y-m-01') }}">
+                <input type="date" name="tu_ngay" class="filter-input" value="{{ request('tu_ngay') }}">
             </div>
             <div class="filter-item">
                 <label>Đến ngày</label>
-                <input type="date" class="filter-input" value="{{ date('Y-m-d') }}">
+                <input type="date" name="den_ngay" class="filter-input" value="{{ request('den_ngay') }}">
             </div>
             <div class="filter-item">
                 <label>Mã hàng</label>
-                <input type="text" class="filter-input" placeholder="Chọn mã hàng">
+                <input type="text" name="ma_hang" class="filter-input" placeholder="Chọn mã hàng" value="{{ request('ma_hang') }}">
             </div>
             <div class="filter-item">
                 <label>Tên hàng</label>
-                <input type="text" class="filter-input" placeholder="Nhập tên hàng">
+                <input type="text" name="ten_hang" class="filter-input" placeholder="Nhập tên hàng" value="{{ request('ten_hang') }}">
             </div>
             <div class="filter-item">
                 <label>LOT</label>
-                <input type="text" class="filter-input" placeholder="Nhập số LOT">
+                <input type="text" name="so_lo" class="filter-input" placeholder="Nhập số LOT" value="{{ request('so_lo') }}">
             </div>
 
             {{-- Row 2: 4 inputs + 1 cell có 2 nút --}}
             <div class="filter-item">
                 <label>Nhóm hàng</label>
-                <select class="filter-input">
+                <select name="nhom_hang" class="filter-input">
                     <option value="">Tất cả</option>
-                    <option>Chiết xuất</option>
-                    <option>Chất dưỡng ẩm</option>
-                    <option>Dầu làm mềm</option>
-                    <option>Hoạt chất</option>
-                    <option>Chất bảo quản</option>
+                    @php
+                        $availableCats = \App\Models\Category::orderBy('name')->pluck('name')->toArray();
+                    @endphp
+                    @foreach($availableCats as $cat)
+                        <option value="{{ $cat }}" {{ request('nhom_hang') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="filter-item">
                 <label>Kho</label>
-                <select class="filter-input">
+                <select name="kho_nhap" class="filter-input">
                     <option value="">Tất cả</option>
-                    <option>Kho Nguyên Liệu</option>
-                    <option>Kho Lab</option>
+                    <option value="Kho Nguyên Liệu" {{ request('kho_nhap') == 'Kho Nguyên Liệu' ? 'selected' : '' }}>Kho Nguyên Liệu</option>
+                    <option value="Kho Lab" {{ request('kho_nhap') == 'Kho Lab' ? 'selected' : '' }}>Kho Lab</option>
+                    <option value="Kho Thành Phẩm" {{ request('kho_nhap') == 'Kho Thành Phẩm' ? 'selected' : '' }}>Kho Thành Phẩm</option>
                 </select>
             </div>
             <div class="filter-item">
                 <label>HSD từ ngày</label>
-                <input type="date" class="filter-input">
+                <input type="date" name="hsd_tu" class="filter-input" value="{{ request('hsd_tu') }}">
             </div>
             <div class="filter-item">
                 <label>HSD đến ngày</label>
-                <input type="date" class="filter-input">
+                <input type="date" name="hsd_den" class="filter-input" value="{{ request('hsd_den') }}">
             </div>
             {{-- Cột 5 của row 2: 2 nút ngang hàng --}}
             <div style="display: flex; flex-direction: row; gap: 6px; align-items: flex-end;">
-                <button class="btn-search" style="flex: 1;"><i class="fas fa-search"></i> Tìm kiếm</button>
-                <button class="btn-clear" style="flex: 1;">Xóa lọc</button>
+                <button type="submit" class="btn-search" style="flex: 1;"><i class="fas fa-search"></i> Tìm kiếm</button>
+                <button type="button" class="btn-clear" onclick="window.location.href='{{ route('inventory.stock-report') }}'" style="flex: 1; background-color: #E74C3C; color: white; border-color: #E74C3C;">Xóa lọc</button>
             </div>
-        </div>
+        </form>
     </div>
 
     {{-- BLOCK 2: STAT CARDS (6 ô) --}}
@@ -402,7 +405,7 @@
             <div class="stat-icon blue"><i class="fas fa-layer-group"></i></div>
             <div>
                 <div class="stat-label">Tổng số SKU</div>
-                <div class="stat-value">56</div>
+                <div class="stat-value">{{ number_format($statSKU, 0, ',', '.') }}</div>
                 <div class="stat-unit">mặt hàng</div>
             </div>
         </div>
@@ -410,7 +413,7 @@
             <div class="stat-icon green"><i class="fas fa-tags"></i></div>
             <div>
                 <div class="stat-label">Tổng số LOT</div>
-                <div class="stat-value">162</div>
+                <div class="stat-value">{{ number_format($statLOT, 0, ',', '.') }}</div>
                 <div class="stat-unit">lô hàng</div>
             </div>
         </div>
@@ -418,7 +421,7 @@
             <div class="stat-icon orange"><i class="fas fa-weight-hanging"></i></div>
             <div>
                 <div class="stat-label">Tổng tồn lượng</div>
-                <div class="stat-value" style="font-size:15px;">12.450,50</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($statQty, 2, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -426,7 +429,7 @@
             <div class="stat-icon purple"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Giá trị tồn kho</div>
-                <div class="stat-value" style="font-size:13px;">3.568.250.000</div>
+                <div class="stat-value" style="font-size:13px;">{{ number_format($statVal, 2, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>
@@ -434,7 +437,7 @@
             <div class="stat-icon amber"><i class="fas fa-exclamation-triangle"></i></div>
             <div>
                 <div class="stat-label">Hàng sắp hết hạn</div>
-                <div class="stat-value" style="color:#d97706;">7</div>
+                <div class="stat-value" style="color:#d97706;">{{ number_format($statNear, 0, ',', '.') }}</div>
                 <div class="stat-unit">lô hàng</div>
             </div>
         </div>
@@ -442,7 +445,7 @@
             <div class="stat-icon red"><i class="fas fa-exclamation-circle"></i></div>
             <div>
                 <div class="stat-label">Hàng hết hạn</div>
-                <div class="stat-value" style="color:#dc2626;">2</div>
+                <div class="stat-value" style="color:#dc2626;">{{ number_format($statExpired, 0, ',', '.') }}</div>
                 <div class="stat-unit">lô hàng</div>
             </div>
         </div>
@@ -487,59 +490,7 @@
                     </thead>
                     <tbody>
 
-                        @php
-                        $products = [
-                            [
-                                'ma' => 'EX-ALV-05', 'ten' => 'Chiết xuất Aloe vera', 'nhom' => 'Chiết xuất', 'dvt' => 'Kg',
-                                'ton' => '1.250,00', 'gtri' => '937.500.000',
-                                'lots' => [
-                                    ['F20250406','14/08/2026','KHO NGUYÊN LIỆU','500,00','750.000','375.000.000','Còn hạn','ok'],
-                                    ['F20250407','15/08/2026','KHO NGUYÊN LIỆU','400,00','750.000','300.000.000','Còn hạn','ok'],
-                                    ['F20250408','17/08/2026','KHO NGUYÊN LIỆU','250,00','1.050.000','262.500.000','Sắp hết hạn','near'],
-                                    ['F20250409','19/08/2026','KHO NGUYÊN LIỆU','100,00','1.050.000','105.000.000','Sắp hết hạn','near'],
-                                ],
-                            ],
-                            [
-                                'ma' => 'AC-NIA-25', 'ten' => 'Niacinamide PCC', 'nhom' => 'Hoạt chất', 'dvt' => 'Kg',
-                                'ton' => '1.000,00', 'gtri' => '800.000.000',
-                                'lots' => [
-                                    ['F20250501','20/09/2026','KHO NGUYÊN LIỆU','600,00','800.000','480.000.000','Còn hạn','ok'],
-                                    ['F20250502','22/09/2026','KHO LAB','400,00','800.000','320.000.000','Còn hạn','ok'],
-                                ],
-                            ],
-                            [
-                                'ma' => 'HM-GLY-25', 'ten' => 'Glycerin', 'nhom' => 'Chất dưỡng ẩm', 'dvt' => 'Kg',
-                                'ton' => '2.500,00', 'gtri' => '1.750.000.000',
-                                'lots' => [
-                                    ['G20250301','05/06/2026','KHO NGUYÊN LIỆU','1.500,00','700.000','1.050.000.000','Còn hạn','ok'],
-                                    ['G20250302','10/06/2026','KHO NGUYÊN LIỆU','1.000,00','700.000','700.000.000','Còn hạn','ok'],
-                                ],
-                            ],
-                            [
-                                'ma' => 'EM-CG-25', 'ten' => 'Emolient CG', 'nhom' => 'Dầu làm mềm', 'dvt' => 'Kg',
-                                'ton' => '950,00', 'gtri' => '617.500.000',
-                                'lots' => [
-                                    ['E20250401','01/05/2026','KHO LAB','450,00','650.000','292.500.000','Sắp hết hạn','near'],
-                                    ['E20250402','02/05/2026','KHO LAB','500,00','650.000','325.000.000','Sắp hết hạn','near'],
-                                ],
-                            ],
-                            [
-                                'ma' => 'PR-BQ-25', 'ten' => 'Chất bảo quản', 'nhom' => 'Chất bảo quản', 'dvt' => 'Kg',
-                                'ton' => '1.200,00', 'gtri' => '540.000.000',
-                                'lots' => [
-                                    ['P20250201','10/03/2026','KHO NGUYÊN LIỆU','200,00','450.000','90.000.000','Hết hạn','expired'],
-                                    ['P20250202','25/10/2026','KHO NGUYÊN LIỆU','1.000,00','450.000','450.000.000','Còn hạn','ok'],
-                                ],
-                            ],
-                            [
-                                'ma' => 'AO-OXY-25', 'ten' => 'Chống oxy hóa', 'nhom' => 'Hoạt chất', 'dvt' => 'Kg',
-                                'ton' => '300,00', 'gtri' => '78.750.000',
-                                'lots' => [
-                                    ['A20250301','15/09/2026','KHO LAB','300,00','262.500','78.750.000','Còn hạn','ok'],
-                                ],
-                            ],
-                        ];
-                        @endphp
+
 
                         @foreach($products as $pi => $prod)
                         {{-- PARENT ROW --}}
@@ -567,9 +518,9 @@
                             <td></td>
                         </tr>
 
-                        {{-- CHILD ROWS --}}
                         @foreach($prod['lots'] as $li => $lot)
                         <tr class="child-row" data-group="{{ $pi }}">
+                            <td></td>
                             <td class="child-stt">{{ $li + 1 }}</td>
                             <td style="color:#0070D2; font-size:11px; padding-left:16px;">{{ $prod['ma'] }}</td>
                             <td style="font-size:11px; color:#475569; padding-left:10px;">{{ $prod['ten'] }}</td>
@@ -577,7 +528,7 @@
                             <td class="td-center" style="font-size:11px;">{{ $prod['dvt'] }}</td>
                             <td class="td-center" style="font-size:11px; font-weight:600;">{{ $lot[0] }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $lot[1] }}</td>
-                            <td style="font-size:11px;">{{ $lot[2] }}</td>
+                            <td class="td-center" style="font-size:11px;">{{ $lot[2] }}</td>
                             <td class="td-right" style="font-weight:600;">{{ $lot[3] }}</td>
                             <td class="td-right" style="font-size:11px;">{{ $lot[4] }}</td>
                             <td class="td-right" style="font-size:11px;">{{ $lot[5] }}</td>

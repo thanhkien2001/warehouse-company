@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DeliveryNoteController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductCatalogController;
+use App\Http\Controllers\InboundController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
@@ -119,8 +120,12 @@ Route::middleware('auth')->group(function () {
         // TỒN KHO & SẢN PHẨM
         // ==========================================================
         Route::prefix('ton-kho')->name('inventory.')->group(function() {
-            Route::get('/nhap-kho', [ProductController::class, 'inbound'])->name('inbound')
+            Route::get('/nhap-kho', [InboundController::class, 'create'])->name('inbound')
                 ->middleware('permission:tonkho,view');
+            Route::post('/nhap-kho', [InboundController::class, 'store'])->name('inbound.store');
+            Route::delete('/nhap-kho/attachment/{id}', [InboundController::class, 'deleteAttachment'])->name('inbound.attachment.delete');
+            Route::get('/nhap-kho/next-code', [InboundController::class, 'nextCode'])->name('inbound.next-code');
+            Route::get('/nhap-kho/product-search', [InboundController::class, 'productSearch'])->name('inbound.product-search');
             Route::get('/bao-cao-xuat-kho', [ProductController::class, 'outboundReport'])->name('outbound-report')
                 ->middleware('permission:tonkho,view');
             Route::get('/bao-cao-ton-kho', [ProductController::class, 'stockReport'])->name('stock-report')

@@ -79,12 +79,9 @@ class OrderController extends Controller
         }
 
         $stockMap = InventoryService::getAllStockMap();
-        $products = \App\Models\Product::select('ma_hang', 'ten_hang', 'mo_ta', 'don_vi_tinh', 'don_gia')
-            ->whereNotNull('ma_hang')
+        $products = \App\Models\ProductCatalog::where('trang_thai', 'Hoạt động')
             ->orderBy('ma_hang')
-            ->get()
-            ->unique('ma_hang')
-            ->values();
+            ->get(['id', 'ma_hang', 'ten_hang', 'don_vi_tinh', 'gia_ban']);
 
         return view('orders.show', compact('order', 'stockMap', 'products'));
     }

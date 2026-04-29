@@ -336,7 +336,7 @@
     }
     .filter-unified-6 {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 16px;
         align-items: end;
     }
@@ -412,23 +412,23 @@
     }
     .catalog-table thead th {
         background: #f8fafc;
-        padding: 14px 12px;
-        font-size: 12px;
+        padding: 10px 8px;
+        font-size: 11px;
         font-weight: 700;
         color: #475569;
         text-align: center;
-        border-bottom: 2px solid #edf2f7;
+        border: 1px solid #e2e8f0;
         white-space: nowrap;
     }
     .catalog-table tbody td {
-        padding: 12px;
-        font-size: 13px;
+        padding: 9px 8px;
+        font-size: 12px;
         color: #1e293b;
         text-align: center;
-        border-bottom: 1px solid #f1f5f9;
+        border: 1px solid #e2e8f0;
         vertical-align: middle;
     }
-    .catalog-table tbody tr:hover { background: #fcfdfe; }
+    .catalog-table tbody tr:hover { background: #f0f7ff; }
 
     .text-left { text-align: left !important; }
     .text-right { text-align: right !important; }
