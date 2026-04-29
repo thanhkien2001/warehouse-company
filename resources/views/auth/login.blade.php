@@ -440,7 +440,7 @@
 
             <!-- Brand Logo -->
             <div style="text-align: center; margin-bottom: 32px;">
-                <img src="https://i.ibb.co/whdGg4FK/Chat-GPT-Image-00-40-01-22-thg-3-2026.png"
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(base_path('logo.png'))) }}"
                      alt="Logo"
                      style="height: 70px; width: auto; object-fit: contain; display: inline-block;">
             </div>
