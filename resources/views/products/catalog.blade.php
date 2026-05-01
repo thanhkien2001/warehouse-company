@@ -104,7 +104,7 @@
                         data-status="{{ $item->trang_thai }}"
                         data-note="{{ $item->ghi_chu }}">
                         <td><input type="checkbox" class="row-check" value="{{ $item->id }}"></td>
-                        <td>{{ $products->firstItem() + $loop->index }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td class="text-bold">{{ $item->ma_hang }}</td>
                         <td class="text-left">{{ $item->ten_hang }}</td>
                         <td>{{ $item->category->name ?? '---' }}</td>

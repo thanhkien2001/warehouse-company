@@ -35,8 +35,14 @@ class ProductCatalogController extends Controller
             $query->where('trang_thai', $status);
         }
 
-        $perPage = $request->get('per_page', 20);
-        $products = $query->orderBy('ma_hang')->paginate($perPage)->withQueryString();
+        $perPage  = $request->get('per_page', 20);
+        $sortBy   = $request->get('sort', 'newest'); // newest | ma_hang
+        if ($sortBy === 'ma_hang') {
+            $query->orderBy('ma_hang', 'asc');
+        } else {
+            $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+        }
+        $products = $query->paginate($perPage)->withQueryString();
 
         return view('products.catalog', compact('products', 'categories'));
     }

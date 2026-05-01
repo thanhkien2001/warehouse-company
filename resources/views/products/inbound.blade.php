@@ -408,11 +408,7 @@
                             <td><input type="date" class="ib-input col-nsx" value="{{ $item->ngay_san_xuat ? $item->ngay_san_xuat->format('Y-m-d') : '' }}"></td>
                             <td><input type="date" class="ib-input col-hsd" value="{{ $item->han_su_dung ? $item->han_su_dung->format('Y-m-d') : '' }}"></td>
                             <td>
-                                <select class="ib-input col-kho">
-                                    <option value="Kho Nguyên Liệu" {{ $item->kho_nhap == 'Kho Nguyên Liệu' ? 'selected' : '' }}>Kho Nguyên Liệu</option>
-                                    <option value="Kho Lab" {{ $item->kho_nhap == 'Kho Lab' ? 'selected' : '' }}>Kho Lab</option>
-                                    <option value="Kho Thành Phẩm" {{ $item->kho_nhap == 'Kho Thành Phẩm' ? 'selected' : '' }}>Kho Thành Phẩm</option>
-                                </select>
+                                <input type="text" class="ib-input col-kho" value="{{ $item->kho_nhap }}" readonly>
                             </td>
                             <td style="text-align:center;">
                                 <i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="event.stopPropagation(); removeRow(this)"></i>
@@ -495,12 +491,12 @@
             <td><input type="text" class="ib-input col-dvt" placeholder="Kg" readonly></td>
             <td><input type="text" class="ib-input col-qc" placeholder="Quy cách" readonly></td>
             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:right;" value="0" oninput="calc(this)"></td>
-            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0" readonly></td>
+            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0"></td>
             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="0" readonly></td>
             <td><input type="text" class="ib-input col-lo" placeholder="Số lô"></td>
             <td><input type="date" class="ib-input col-nsx"></td>
             <td><input type="date" class="ib-input col-hsd"></td>
-            <td><select class="ib-input col-kho">${khoOptions}</select></td>
+            <td><input class="ib-input col-kho" value="Kho Nguyên Liệu"></td>
             <td style="text-align:center;">
                 <i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="removeRow(this)"></i>
             </td>
