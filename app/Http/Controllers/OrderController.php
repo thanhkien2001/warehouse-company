@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
 class OrderController extends Controller
 {
@@ -248,7 +251,6 @@ class OrderController extends Controller
 
     public function exportPdf(Order $order)
     {
-
         $order->load(['customer', 'items', 'meta']);
         $customer = $order->customer;
 
@@ -256,34 +258,63 @@ class OrderController extends Controller
         foreach ($order->items as $item) {
             $subtotal += $item->so_luong * $item->don_gia;
         }
-        $vat_pct    = $order->meta?->vat_percent ?? 8;
-        $ty_gia     = $order->meta?->ty_gia ?? null;
-        $ngay_ty_gia = $order->meta?->ngay_ty_gia ?? null;
+        $vat_pct     = $order->meta?->vat_percent ?? 10;
+        $ty_gia      = $order->meta?->ty_gia;
+        $ngay_ty_gia = $order->meta?->ngay_ty_gia;
+        $vat_amount  = $subtotal * ($vat_pct / 100);
+        $total       = $subtotal + $vat_amount;
+        $total_text  = $this->numberToVietnamese((int)round($total)) . ' đồng';
 
-        $vat_amount = $subtotal * ($vat_pct / 100);
-        $total      = $subtotal + $vat_amount;
-        $total_text = $this->numberToVietnamese((int)round($total)) . ' đồng';
-
-        // Lấy thêm thông tin cấu hình cho Footer
         $seller_info = [
-            'ten' => SystemSetting::get('ten_cong_ty', 'CÔNG TY TNHH GAMBERTE VIỆT NAM'),
-            'stk' => SystemSetting::get('stk_ngan_hang', '317574324'),
-            'bank'=> SystemSetting::get('ten_ngan_hang', 'NGÂN HÀNG TMCP QUÂN ĐỘI (MB BANK)'),
-            'branch'=> SystemSetting::get('chi_nhanh', 'CN PGD ĐỘC LẬP - QUẬN 1'),
-            'mst' => SystemSetting::get('ma_so_thue', '0317574324'),
-            'sdt' => SystemSetting::get('sdt_cong_ty', '0368 301 305'),
-            'dia_chi' => SystemSetting::get('dia_chi_cong_ty', 'Tòa nhà Gamberte, Quận 1, TP.HCM'),
+            'ten'    => \App\Models\SystemSetting::get('ten_cong_ty', 'CÔNG TY TNHH GAMBERTE VIỆT NAM'),
+            'stk'    => \App\Models\SystemSetting::get('stk_ngan_hang', '317574324'),
+            'bank'   => \App\Models\SystemSetting::get('ten_ngan_hang', 'NGÂN HÀNG TMCP QUÂN ĐỘI (MB BANK)'),
+            'branch' => \App\Models\SystemSetting::get('chi_nhanh', 'CN PGD ĐỘC LẬP - QUẬN 1'),
+            'mst'    => \App\Models\SystemSetting::get('ma_so_thue', '0317574324'),
+            'sdt'    => \App\Models\SystemSetting::get('sdt_cong_ty', '0368 301 305'),
+            'dia_chi'=> \App\Models\SystemSetting::get('dia_chi_cong_ty', 'Tòa nhà Gamberte, Quận 1, TP.HCM'),
         ];
 
-        $pdf = Pdf::loadView('orders.pdf', compact('order', 'customer', 'subtotal', 'vat_pct', 'vat_amount', 'total', 'total_text', 'ty_gia', 'ngay_ty_gia', 'seller_info'))
-            ->setPaper('a4', 'portrait')
-            ->setOption('isHtml5ParserEnabled', true)
-            ->setOption('isRemoteEnabled', false)
-            ->setOption('defaultFont', 'DejaVu Sans');
+        if ($ty_gia && $ngay_ty_gia) {
+            try {
+                $ngay_ty_gia = preg_match('/^\d{4}-\d{2}-\d{2}/', $ngay_ty_gia)
+                    ? \Carbon\Carbon::parse($ngay_ty_gia)->format('d/m/Y')
+                    : \Carbon\Carbon::createFromFormat('d/m/Y', $ngay_ty_gia)->format('d/m/Y');
+            } catch (\Exception $e) {
+                // Giữ nguyên
+            }
+        }
 
-        $filename = 'BAO_GIA_' . $order->cto_code . '_' . date('YmdHi') . '.pdf';
-        return $pdf->stream($filename);
+        // Render HTML từ Blade template cực nhẹ giống hệt template Excel
+        $html = view('orders.cto_excel_pdf', compact(
+            'order', 'customer', 'subtotal', 'vat_pct',
+            'vat_amount', 'total', 'total_text',
+            'ty_gia', 'ngay_ty_gia', 'seller_info'
+        ))->render();
+
+        // Xuất PDF qua mPDF
+        $mpdf = new \Mpdf\Mpdf([
+            'mode'          => 'utf-8',
+            'format'        => 'A4',
+            'orientation'   => 'P', // Portrait (vì mẫu CTO-FORM là Portrait)
+            'margin_top'    => 10,
+            'margin_bottom' => 10,
+            'margin_left'   => 12,
+            'margin_right'  => 12,
+            'default_font'  => 'dejavusans',
+        ]);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->SetTitle(strtoupper($order->cto_code));
+
+        $filename = 'CTO_' . $order->cto_code . '_' . date('YmdHi') . '.pdf';
+        
+        return response()->make($mpdf->Output('', 'S'), 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
     }
+
 
     private function numberToVietnamese(int $n): string
     {
