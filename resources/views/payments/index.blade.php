@@ -30,16 +30,27 @@
     </div>
 
     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; align-items: center;">
-        <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px;">
-            <a href="{{ route('payments.index', ['filter'=>'all']) }}" class="don-filter-btn {{ $filter=='all'?'active':'' }}">Tất cả</a>
-            <a href="{{ route('payments.index', ['filter'=>'month']) }}" class="don-filter-btn {{ $filter=='month'?'active':'' }}">Tháng này</a>
-            <a href="{{ route('payments.index', ['filter'=>'year']) }}" class="don-filter-btn {{ $filter=='year'?'active':'' }}">Năm nay</a>
+        <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-sizing: border-box;">
+            <a href="{{ route('payments.index', ['filter'=>'all']) }}" class="don-filter-btn {{ $filter=='all'?'active':'' }}" style="border-radius: 50px;">Tất cả</a>
+            <a href="{{ route('payments.index', ['filter'=>'month']) }}" class="don-filter-btn {{ $filter=='month'?'active':'' }}" style="border-radius: 50px;">Tháng này</a>
+            <a href="{{ route('payments.index', ['filter'=>'year']) }}" class="don-filter-btn {{ $filter=='year'?'active':'' }}" style="border-radius: 50px;">Năm nay</a>
+            <button onclick="toggleCustomDate()" class="don-filter-btn {{ $filter=='custom'?'active':'' }}" style="border-radius: 50px; border:none; background:transparent;">Tùy chỉnh</button>
+        </div>
+
+        <div id="custom-date-box" style="display: {{ $filter=='custom'?'flex':'none' }}; height: 44px; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box;">
+            <form action="{{ route('payments.index') }}" method="GET" style="display: flex; align-items: center; gap: 8px;">
+                <input type="hidden" name="filter" value="custom">
+                <input type="date" name="date_start" value="{{ request('date_start') }}" style="border:none; outline:none; color:#475569; font-size:13.5px; cursor: pointer;">
+                <span style="color:#94a3b8; font-weight: bold;">-</span>
+                <input type="date" name="date_end" value="{{ request('date_end') }}" style="border:none; outline:none; color:#475569; font-size:13.5px; cursor: pointer;">
+                <button type="submit" style="height: 34px; background: #10b981; color: white; border: none; border-radius: 50px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer;">Áp dụng</button>
+            </form>
         </div>
 
         <div style="height: 44px; position: relative; flex: 1; min-width: 250px;">
             <form method="GET">
                 <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập Mã TT, CTO, Tên KH..." style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 20px 0 42px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; outline: none;">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập Mã TT, CTO, Tên KH..." style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 20px 0 42px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13.5px; outline: none;">
             </form>
         </div>
     </div>
@@ -134,6 +145,11 @@
 @push('scripts')
 <script>
     const unpaidOrders = @json($unpaidOrders ?? []);
+
+    function toggleCustomDate() {
+        const box = document.getElementById('custom-date-box');
+        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+    }
 
     function openModalPayment() {
         document.getElementById('tt_cto_code').value = '';

@@ -71,10 +71,12 @@ class PaymentController extends Controller
         // Thêm tổng đơn và còn lại cho mỗi payment
         $paymentsData = $payments->map(function($p) use ($customers) {
             $kh       = $customers->get($p->ma_kh);
-            $tongDon  = OrderItem::where('cto_code', $p->cto_code)->sum('thanh_tien');
-            $order    = Order::where('cto_code', $p->cto_code)->with('meta')->first();
-            $vat      = $order?->meta?->vat_percent ?? 8;
-            $tongDon  = $tongDon * (1 + $vat / 100);
+            $order    = Order::where('cto_code', $p->cto_code)->with(['items', 'meta'])->first();
+            
+            $tongItems = $order ? $order->items->sum('thanh_tien') : 0;
+            $vat       = $order?->meta?->vat_percent ?? 8;
+            $tongDon   = $tongItems * (1 + $vat / 100);
+            
             $daTra    = Payment::where('cto_code', $p->cto_code)->sum('so_tien');
             $conLai   = max(0, $tongDon - $daTra);
 
@@ -89,11 +91,30 @@ class PaymentController extends Controller
             ]);
         });
 
-        $orders = Order::whereNotIn('trang_thai', ['Đã hủy'])
-            ->orderByDesc('order_date')
-            ->get(['id','cto_code','ma_kh','ten_kh']);
+        // Lấy danh sách đơn hàng chưa thanh toán xong để phục vụ Modal tạo mới
+        $allOrders = Order::whereNotIn('trang_thai', ['Đã hủy'])
+            ->with(['items', 'meta', 'customer'])
+            ->get();
 
-        return view('payments.index', compact('payments', 'paymentsData', 'orders', 'filter'));
+        $unpaidOrders = [];
+        foreach ($allOrders as $o) {
+            $tongItems = $o->items->sum('thanh_tien');
+            $vat       = $o->meta->vat_percent ?? 8;
+            $tongDon   = $tongItems * (1 + $vat / 100);
+            $daTra     = Payment::where('cto_code', $o->cto_code)->sum('so_tien');
+            $conLai    = $tongDon - $daTra;
+
+            if ($conLai > 0) {
+                $unpaidOrders[] = [
+                    'ma_don'  => $o->cto_code,
+                    'ten_kh'  => $o->customer->ten_cty ?? $o->ma_kh,
+                    'con_lai' => round($conLai),
+                    'customer'=> $o->customer
+                ];
+            }
+        }
+
+        return view('payments.index', compact('payments', 'paymentsData', 'unpaidOrders', 'filter'));
     }
 
     public function store(Request $request)
