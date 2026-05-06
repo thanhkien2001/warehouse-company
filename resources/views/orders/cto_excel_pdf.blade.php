@@ -17,10 +17,10 @@ body {
     border-collapse: collapse;
     margin-bottom: 4mm;
 }
-.logo-cell { width: 20%; vertical-align: middle; padding: 0; }
+.logo-cell { width: 15%; vertical-align: middle; padding: 0; }
 .logo-cell img { height: 25px; width: auto; margin-top: 5px; }
-.company-cell { width: 55%; vertical-align: top; padding-left: 4mm; font-size: 8.5pt; line-height: 1.5; text-transform: uppercase; }
-.meta-cell { width: 25%; vertical-align: top; font-size: 8.5pt; line-height: 1.5; }
+.company-cell { width: 55%; vertical-align: top; padding-left: 2mm; font-size: 8.5pt; line-height: 1.5; text-transform: uppercase; }
+.meta-cell { width: 30%; vertical-align: top; font-size: 8.5pt; line-height: 1.2; }
 
 /* ── TITLE ───────────────────────────────── */
 .title {
@@ -100,7 +100,7 @@ table.items td {
     border-right: none;
     border-top: none;
     padding: 6px 5px;
-    vertical-align: top;
+    vertical-align: middle;
 }
 table.items .c { text-align: center; }
 table.items .r { text-align: right; }
@@ -125,8 +125,8 @@ table.totals td {
 table.totals tr:first-child td {
     border-top: 1px solid #000;
 }
-table.totals .lbl { text-align: left; font-weight: normal; width: 60%; }
-table.totals .val { text-align: right; font-weight: normal; width: 40%; }
+table.totals .lbl { text-align: left; font-weight: normal; width: 70%; }
+table.totals .val { text-align: right; font-weight: normal; width: 30%; }
 table.totals tr.total-row td { font-weight: bold; background: #E7E6E6; }
 
 /* ── PAYMENT + DELIVERY ──────────────────── */
@@ -177,11 +177,24 @@ table.footer-info td {
       QUẬN 1, TP. HỒ CHÍ MINH
     </td>
     <td class="meta-cell">
-      <div style="text-align: right; font-size: 11pt; margin-bottom: 12px;">({{ strtoupper($order->cto_code) }})</div>
-      <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-left: auto;">
+      <div style="width: 100%; margin-bottom: 0.5mm;">
+        <table style="margin-left: auto; border-collapse: collapse;">
+          <tr>
+            <td style="text-align: center; padding: 0;">
+              <barcode code="{{ $order->cto_code }}" type="C128B" height="0.9" text="0" />
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center; padding: 0; font-size: 7.5pt; letter-spacing: 2px; font-weight: normal;">
+              {{ strtoupper(implode(' ', str_split($order->cto_code))) }}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 8pt; margin-left: auto; margin-top: 3.5mm;">
         <tr>
-          <td style="text-align: left; width: 55%; padding: 0;">SERI NO.:</td>
-          <td style="text-align: left; width: 45%; padding: 0;">: {{ $order->meta?->seri_no ?? date('Ymd') }}</td>
+          <td style="text-align: left; width: 60%; padding: 0;">SERI NO.:</td>
+          <td style="text-align: left; width: 40%; padding: 0;">: {{ $order->meta?->seri_no ?? date('Ymd') }}</td>
         </tr>
         <tr>
           <td style="text-align: left; padding: 0;">DOCUMENT DATE</td>
@@ -203,21 +216,21 @@ table.footer-info td {
 <table class="band">
   <thead>
     <tr>
-      <th style="width:20%">MÃ KHÁCH HÀNG</th>
+      <th style="width:16%">MÃ KHÁCH HÀNG</th>
       <th style="width:16%">P.O NUMBER</th>
-      <th style="width:21%">NGƯỜI BÁN HÀNG</th>
-      <th style="width:12%">DIST.CH.</th>
-      <th style="width:17%">TÌNH TRẠNG</th>
-      <th style="width:14%">NGÀY IN</th>
+      <th style="width:18%">NGƯỜI BÁN HÀNG</th>
+      <th style="width:10%">DIST.CH.</th>
+      <th style="width:22%">TÌNH TRẠNG</th>
+      <th style="width:18%">NGÀY IN</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>{{ $customer?->ma_kh ?? '' }}</td>
       <td><b>{{ strtoupper($order->cto_code) }}</b></td>
-      <td>{{ strtoupper($order->nguoi_ban ?? auth()->user()->display_name ?? '') }}</td>
+      <td>{{ mb_strtoupper($order->nguoi_ban ?? auth()->user()->display_name ?? '', 'UTF-8') }}</td>
       <td>VC</td>
-      <td>{{ strtoupper($order->trang_thai ?? 'CHỜ XÁC NHẬN') }}</td>
+      <td>{{ mb_strtoupper($order->trang_thai ?? 'CHỜ XÁC NHẬN', 'UTF-8') }}</td>
       <td>{{ now()->format('d/m/Y') }}</td>
     </tr>
   </tbody>
@@ -238,21 +251,21 @@ table.footer-info td {
       &nbsp;&nbsp;PHƯỜNG TÂN ĐỊNH<br>
       &nbsp;&nbsp;TP HỒ CHÍ MINH<br>
       <br>
-      CONTACT PERSON: {{ strtoupper($order->nguoi_ban ?? 'MR. PHƯỚC') }}<br>
+      CONTACT PERSON: {{ mb_strtoupper($order->nguoi_ban ?? 'MR. PHƯỚC', 'UTF-8') }}<br>
       TELEPHONE: 0818 518 519
     </td>
     <td class="data-cell">
-      <b>{{ strtoupper($customer?->ten_cty ?? '') }}</b><br>
+      <b>{{ mb_strtoupper($customer?->ten_cty ?? '', 'UTF-8') }}</b><br>
       MST: {{ $customer?->ma_so_thue ?? '' }}<br>
       ĐỊA CHỈ:<br>
       @php
         $addrParts = explode(',', $customer?->dia_chi ?? '');
       @endphp
       @foreach($addrParts as $p)
-        &nbsp;&nbsp;{{ strtoupper(trim($p)) }}<br>
+        &nbsp;&nbsp;{{ mb_strtoupper(trim($p), 'UTF-8') }}<br>
       @endforeach
       <br>
-      CONTACT PERSON: {{ strtoupper($customer?->nguoi_lien_he ?? '') }}<br>
+      CONTACT PERSON: {{ mb_strtoupper($customer?->nguoi_lien_he ?? '', 'UTF-8') }}<br>
       TELEPHONE: {{ $customer?->sdt ?? '' }}
     </td>
   </tr>
@@ -262,8 +275,8 @@ table.footer-info td {
 <table class="items">
   <thead>
     <tr>
-      <th style="width:10%">MÃ HÀNG</th>
-      <th style="width:36%">MÔ TẢ HÀNG HOÁ</th>
+      <th style="width:15%">MÃ HÀNG</th>
+      <th style="width:35%">MÔ TẢ HÀNG HOÁ</th>
       <th style="width:12%">SỐ LƯỢNG</th>
       <th style="width:8%">ĐVT</th>
       <th style="width:16%">ĐƠN GIÁ (VNĐ)</th>
@@ -276,6 +289,7 @@ table.footer-info td {
       <td class="c">{{ $item->ma_hang }}</td>
       <td>
         <b>{{ $item->ten_hang }}</b>
+        @if($item->mo_ta_phu)<br><span style="font-size:8pt; color:#444;">{{ $item->mo_ta_phu }}</span>@endif
         @if($item->ghi_chu)<br><span style="font-size:8pt;color:#444;">{{ $item->ghi_chu }}</span>@endif
       </td>
       <td class="c">{{ number_format($item->so_luong, 2) }}</td>
@@ -291,9 +305,9 @@ table.footer-info td {
 <table style="width: 100%; border-collapse: collapse; margin-top: 3mm; font-size: 8.5pt;">
   <tr>
     <td style="width: 60%; vertical-align: top; padding-right: 4mm; padding-top: 65px; line-height: 1.7;">
-      *** GHI CHÚ:<br>
+      <b>*** GHI CHÚ:</b><br>
       @if($ty_gia)
-      &nbsp;- TỶ GIÁ: {{ number_format($ty_gia, 0, ',', '.') }} VND – NGÂN HÀNG VIETCOMBANK NGÀY {{ $ngay_ty_gia ?? now()->format('d/m/Y') }}<br>
+      &nbsp;- TỶ GIÁ: <b>{{ number_format($ty_gia, 0, ',', '.') }} VND</b> – NGÂN HÀNG VIETCOMBANK NGÀY <b>{{ $ngay_ty_gia ?? now()->format('d/m/Y') }}</b><br>
       @endif
       &nbsp;- THANH TOÁN 100% GIÁ TRỊ ĐƠN HÀNG TRƯỚC KHI GIAO HÀNG<br>
       &nbsp;- ĐỊA CHỈ GIAO HÀNG: THEO YÊU CẦU
@@ -309,8 +323,8 @@ table.footer-info td {
           <td class="val">{{ number_format($vat_amount, 0, ',', '.') }}</td>
         </tr>
         <tr class="total-row">
-          <td class="lbl">TỔNG THANH TOÁN (VNĐ)</td>
-          <td class="val">{{ number_format($total, 0, ',', '.') }}</td>
+          <td class="lbl" style="font-weight: bold;"><b>TỔNG THANH TOÁN (VNĐ)</b></td>
+          <td class="val" style="font-weight: bold;"><b>{{ number_format($total, 0, ',', '.') }}</b></td>
         </tr>
       </table>
     </td>
@@ -328,7 +342,7 @@ table.footer-info td {
     <td>
       CÔNG TY TNHH GAMBERTE VIỆT NAM<br>
       STK: {{ $seller_info['stk'] }}<br>
-      {{ strtoupper($seller_info['bank']) }} – {{ strtoupper($seller_info['branch']) }}
+      {{ mb_strtoupper($seller_info['bank'], 'UTF-8') }} – {{ mb_strtoupper($seller_info['branch'], 'UTF-8') }}
     </td>
     <td style="text-align: center; vertical-align: middle; padding: 5px;">
       @php $qrPath = base_path('qr.png'); @endphp
@@ -337,8 +351,8 @@ table.footer-info td {
       @endif
     </td>
     <td>
-      {{ strtoupper($customer?->ten_cty ?? '') }}<br>
-      {{ strtoupper($customer?->dia_chi ?? '') }}<br>
+      {{ mb_strtoupper($customer?->ten_cty ?? '', 'UTF-8') }}<br>
+      {{ mb_strtoupper($customer?->dia_chi ?? '', 'UTF-8') }}<br>
       {{ $customer?->nguoi_lien_he ?? '' }} – {{ $customer?->sdt ?? '' }}
     </td>
   </tr>

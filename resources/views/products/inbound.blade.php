@@ -402,9 +402,9 @@
                             <td><input type="text" class="ib-input col-dvt" placeholder="Kg" value="{{ $item->don_vi_tinh }}" readonly></td>
                             <td><input type="text" class="ib-input col-qc" placeholder="Quy cách" value="{{ $item->quy_cach }}" readonly></td>
                             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:center;" value="{{ (float)$item->so_luong }}" oninput="calc(this)"></td>
-                            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="{{ (float)$item->don_gia }}" readonly></td>
+                            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="{{ number_format($item->don_gia, 0, ',', '.') }}" oninput="calc(this)"></td>
                             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="{{ number_format($item->thanh_tien, 0, ',', '.') }}" readonly></td>
-                            <td><input type="text" class="ib-input col-lo" style="text-align:center;" placeholder="Số lô" value="{{ $item->so_lo }}" readonly></td>
+                            <td><input type="text" class="ib-input col-lo" style="text-align:center;" placeholder="Số lô" value="{{ $item->so_lo }}"></td>
                             <td><input type="date" class="ib-input col-nsx" value="{{ $item->ngay_san_xuat ? $item->ngay_san_xuat->format('Y-m-d') : '' }}"></td>
                             <td><input type="date" class="ib-input col-hsd" value="{{ $item->han_su_dung ? $item->han_su_dung->format('Y-m-d') : '' }}"></td>
                             <td>
@@ -491,7 +491,7 @@
             <td><input type="text" class="ib-input col-dvt" placeholder="Kg" readonly></td>
             <td><input type="text" class="ib-input col-qc" placeholder="Quy cách" readonly></td>
             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:right;" value="0" oninput="calc(this)"></td>
-            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0"></td>
+            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0" oninput="calc(this)"></td>
             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="0" readonly></td>
             <td><input type="text" class="ib-input col-lo" placeholder="Số lô"></td>
             <td><input type="date" class="ib-input col-nsx"></td>
@@ -609,8 +609,22 @@
     /* ========== CALC ========== */
     function calc(input) {
         const tr = input.closest('tr');
-        const qty   = parseFloat(tr.querySelector('.val-qty').value.replace(/[^0-9.]/g,'')) || 0;
-        const price = parseFloat(tr.querySelector('.val-price').value.replace(/[^0-9.]/g,'')) || 0;
+
+        // Định dạng tiền cho cột đơn giá ngay khi nhập
+        if (input.classList.contains('val-price')) {
+            let val = input.value.replace(/\D/g, "");
+            if (val !== "") {
+                input.value = Number(val).toLocaleString('vi-VN');
+            }
+        }
+
+        // Lấy giá trị để tính toán (loại bỏ dấu chấm phân cách hàng nghìn)
+        const qtyStr = tr.querySelector('.val-qty').value.replace(/\./g, '').replace(',', '.');
+        const priceStr = tr.querySelector('.val-price').value.replace(/\./g, '').replace(',', '.');
+        
+        const qty   = parseFloat(qtyStr) || 0;
+        const price = parseFloat(priceStr) || 0;
+        
         tr.querySelector('.val-total').value = (qty * price).toLocaleString('vi-VN');
     }
 
@@ -645,7 +659,7 @@
         tr.querySelector('.col-ten').value   = item.dataset.ten;
         tr.querySelector('.col-dvt').value   = item.dataset.dvt;
         tr.querySelector('.col-qc').value    = item.dataset.qc;
-        tr.querySelector('.col-gia').value   = item.dataset.gia;
+        tr.querySelector('.col-gia').value   = Number(item.dataset.gia || 0).toLocaleString('vi-VN');
         tr.dataset.productId = item.dataset.id;
 
         // Set nhóm
@@ -712,9 +726,14 @@
 
             const ma  = tr.querySelector('.col-ma').value.trim();
             const ten = tr.querySelector('.col-ten').value.trim();
-            const sl  = parseFloat(tr.querySelector('.val-qty').value.replace(/[^0-9.]/g,'')) || 0;
+            const slStr = tr.querySelector('.val-qty').value.replace(/\./g, '').replace(',', '.');
+            const sl = parseFloat(slStr) || 0;
+
             if (!ma || !ten) { alert('Vui lòng nhập đầy đủ Mã hàng và Tên hàng!'); valid = false; return; }
             if (sl <= 0) { alert(`Số lượng dòng "${ten}" phải lớn hơn 0!`); valid = false; return; }
+
+            const giaStr = tr.querySelector('.val-price').value.replace(/\./g, '').replace(',', '.');
+
             items.push({
                 product_catalog_id: tr.dataset.productId || null,
                 ma_hang:    ma,
@@ -723,7 +742,7 @@
                 don_vi_tinh: tr.querySelector('.col-dvt').value,
                 quy_cach:   tr.querySelector('.col-qc').value,
                 so_luong:   sl,
-                don_gia:    parseFloat(tr.querySelector('.val-price').value.replace(/[^0-9.]/g,'')) || 0,
+                don_gia:    parseFloat(giaStr) || 0,
                 so_lo:      tr.querySelector('.col-lo').value,
                 ngay_san_xuat: tr.querySelector('.col-nsx').value || null,
                 han_su_dung:   tr.querySelector('.col-hsd').value || null,

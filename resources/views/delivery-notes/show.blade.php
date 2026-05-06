@@ -161,7 +161,7 @@
     }
 
     function exportDNToPDF() {
-        alert('Chức năng xuất PDF đang được phát triển!');
+        window.open('{{ route("deliveries.pdf", $delivery->id) }}', '_blank');
     }
 </script>
 @endpush

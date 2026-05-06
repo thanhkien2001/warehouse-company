@@ -107,6 +107,8 @@ Route::middleware('auth')->group(function () {
             ->middleware('permission:phieugiao,view');
         Route::get('/phieu-giao/{deliveryNote}', [DeliveryNoteController::class, 'show'])->name('deliveries.show')
             ->middleware('permission:phieugiao,view');
+        Route::get('/phieu-giao/{deliveryNote}/pdf', [DeliveryNoteController::class, 'exportPdf'])->name('deliveries.pdf')
+            ->middleware('permission:phieugiao,view');
         Route::post('/phieu-giao', [DeliveryNoteController::class, 'store'])->name('deliveries.store')
             ->middleware('permission:phieugiao,edit');
         Route::patch('/phieu-giao/{deliveryNote}/trang-thai', [DeliveryNoteController::class, 'updateStatus'])->name('deliveries.update-status')

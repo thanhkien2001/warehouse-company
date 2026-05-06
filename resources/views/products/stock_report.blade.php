@@ -205,6 +205,8 @@
         border: 1px solid #e2e8f0;
         color: #1e293b;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .td-center { text-align: center; }
@@ -484,8 +486,8 @@
                             <th width="100">Tồn sử dụng (Kg)</th>
                             <th width="110">Đơn giá vốn (VNĐ)</th>
                             <th width="120">Giá trị tồn (VNĐ)</th>
-                            <th width="85">Trạng thái</th>
-                            <th width="60">Thao tác</th>
+                            <th width="105">Trạng thái</th>
+                            <th width="80">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
