@@ -85,8 +85,8 @@ table.items {
 }
 table.items th {
     background: #E7E6E6;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     border-left: none;
     border-right: none;
     padding: 6px 5px;
@@ -95,7 +95,7 @@ table.items th {
     text-transform: uppercase;
 }
 table.items td {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #aaa;
     border-left: none;
     border-right: none;
     border-top: none;
@@ -116,14 +116,14 @@ table.bottom {
 .notes {padding-right: 4mm; line-height: 1.7; }
 table.totals { border-collapse: collapse; width: 100%; border: none; }
 table.totals td {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #aaa;
     border-left: none;
     border-right: none;
     border-top: none;
     padding: 6px 8px;
 }
 table.totals tr:first-child td {
-    border-top: 1px solid #000;
+    border-top: 1px solid #aaa;
 }
 table.totals .lbl { text-align: left; font-weight: normal; width: 70%; }
 table.totals .val { text-align: right; font-weight: normal; width: 30%; }

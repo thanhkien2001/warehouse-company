@@ -183,4 +183,32 @@ class DeliveryNoteController extends Controller
         $deliveryNote->delete();
         return response()->json(['success' => true, 'message' => 'Đã xóa phiếu giao hàng!']);
     }
+
+    public function exportPdf(DeliveryNote $deliveryNote)
+    {
+        $deliveryNote->load(['order.items', 'customer']);
+        
+        $html = view('delivery-notes.dn_pdf', ['delivery' => $deliveryNote])->render();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode'          => 'utf-8',
+            'format'        => 'A4',
+            'orientation'   => 'P',
+            'margin_top'    => 5,
+            'margin_bottom' => 5,
+            'margin_left'   => 8,
+            'margin_right'  => 8,
+            'default_font'  => 'dejavusans',
+        ]);
+
+        $mpdf->WriteHTML($html);
+        $mpdf->SetTitle($deliveryNote->dn_code);
+
+        $filename = 'DN_' . $deliveryNote->dn_code . '_' . date('YmdHi') . '.pdf';
+        
+        return response()->make($mpdf->Output('', 'S'), 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
+    }
 }
