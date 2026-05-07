@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\InboundController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================================
@@ -154,6 +155,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/thanh-toan', [PaymentController::class, 'index'])->name('payments.index');
         Route::post('/thanh-toan', [PaymentController::class, 'store'])->name('payments.store');
         Route::get('/thanh-toan/api/debt/{ctoCode}', [PaymentController::class, 'getDebtInfo'])->name('payments.debt-info');
+        Route::get('/bao-cao-tai-chinh', [ReportController::class, 'finance'])->name('reports.finance');
 
         // ==========================================================
         // ADMIN (chỉ Admin)

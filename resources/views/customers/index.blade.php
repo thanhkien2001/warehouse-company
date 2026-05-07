@@ -74,7 +74,7 @@
     </form>
     <input type="file" id="kh-import-input" style="display:none" onchange="importKHExcel(this)">
 
-    <div class="legacy-table-container">
+    <div class="legacy-table-container" style="border-left: none; border-right: none; box-shadow: none;">
         <table class="legacy-table">
             <thead>
                 <tr>
@@ -98,10 +98,10 @@
                     <td style="text-align: center;">{{ $kh->created_date ? \Carbon\Carbon::parse($kh->created_date)->format('d/m/Y') : $kh->created_at->format('d/m/Y') }}</td>
                     <td style="text-align: center;"><b style="color:#0070D2">{{ $kh->ma_kh }}</b></td>
                     <td class="col-left">
-                        <div style="font-weight: 800; color: #0f172a; margin-bottom: 5px; font-size: 14.5px;">{{ $kh->ten_cty }}</div>
-                        <div style="font-size: 12px; color: #64748b; line-height: 1.6;">
-                            <div><i class="fas fa-phone-alt" style="margin-right: 6px; width: 12px; transform: scaleX(-1); display: inline-block;"></i>{{ $kh->sdt }}</div>
-                            <div title="{{ $kh->dia_chi }}"><i class="fas fa-map-marker-alt" style="margin-right: 6px; width: 12px;"></i>{{ Str::limit($kh->dia_chi, 50) }}</div>
+                        <div style="font-weight: 600; color: #0f172a; margin-bottom: 2px; font-size: 14px;">{{ $kh->ten_cty }}</div>
+                        <div style="font-size: 11.5px; color: #64748b; line-height: 1.5;">
+                            <i class="fas fa-phone-alt" style="margin-right: 4px; font-size: 10px;"></i>{{ $kh->sdt }} | 
+                            <i class="fas fa-map-marker-alt" style="margin-right: 4px; font-size: 10px;"></i>{{ Str::limit($kh->dia_chi, 60) }}
                         </div>
                     </td>
                     <td style="text-align: center;">{{ $kh->ma_so_thue }}</td>
@@ -249,6 +249,8 @@
     .badge-status-kh { padding: 4px 12px; border-radius: 20px; color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; border: none; }
     .badge-status-kh.active { background: #27AE60; }
     .badge-status-kh.unactive { background: #ef4444; }
+    
+    .legacy-table th, .legacy-table td { border: 1px solid #edf2f7 !important; }
 
     /* Checkbox styling */
     .check-kh, #check-all-kh { width: 15px; height: 15px; cursor: pointer; vertical-align: middle; }

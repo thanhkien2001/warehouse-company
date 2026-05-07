@@ -502,6 +502,12 @@
                             </ul>
                         </li>
 
+                        <li>
+                            <a href="{{ route('reports.finance') }}" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                                <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
+                            </a>
+                        </li>
+
                         @if(auth()->user()->isAdmin())
                         <li>
                             <a href="{{ route('admin.index') }}" class="menu-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
