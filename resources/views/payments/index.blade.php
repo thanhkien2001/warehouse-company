@@ -29,31 +29,34 @@
         <a href="{{ route('payments.index') }}" class="prem-tab active">Lịch Sử Thanh Toán</a>
     </div>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; align-items: center;">
-        <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-sizing: border-box;">
-            <a href="{{ route('payments.index', ['filter'=>'all']) }}" class="don-filter-btn {{ $filter=='all'?'active':'' }}" style="border-radius: 50px;">Tất cả</a>
-            <a href="{{ route('payments.index', ['filter'=>'month']) }}" class="don-filter-btn {{ $filter=='month'?'active':'' }}" style="border-radius: 50px;">Tháng này</a>
-            <a href="{{ route('payments.index', ['filter'=>'year']) }}" class="don-filter-btn {{ $filter=='year'?'active':'' }}" style="border-radius: 50px;">Năm nay</a>
-            <button onclick="toggleCustomDate()" class="don-filter-btn {{ $filter=='custom'?'active':'' }}" style="border-radius: 50px; border:none; background:transparent;">Tùy chỉnh</button>
+    <form method="GET" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <div class="date-range-group" style="display: flex; gap: 0;">
+                <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px 0 0 6px; padding: 0 12px; border-right: none;">
+                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
+                </div>
+                <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Từ ngày">
+                <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; padding: 0 12px; border-left: none; border-right: none;">
+                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
+                </div>
+                <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; border-radius: 0 6px 6px 0; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Đến ngày">
+            </div>
+
+            <div style="position: relative; width: 350px;">
+                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 14px;"></i>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm mã TT, mã đơn, tên khách..." style="width: 100%; padding: 8px 15px 8px 40px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" style="background: #0070D2; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-search"></i> Tìm kiếm
+            </button>
+
+            <a href="{{ route('payments.index') }}" style="background: #ef4444; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">
+                Xóa lọc
+            </a>
         </div>
 
-        <div id="custom-date-box" style="display: {{ $filter=='custom'?'flex':'none' }}; height: 44px; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box;">
-            <form action="{{ route('payments.index') }}" method="GET" style="display: flex; align-items: center; gap: 8px;">
-                <input type="hidden" name="filter" value="custom">
-                <input type="date" name="date_start" value="{{ request('date_start') }}" style="border:none; outline:none; color:#475569; font-size:13.5px; cursor: pointer;">
-                <span style="color:#94a3b8; font-weight: bold;">-</span>
-                <input type="date" name="date_end" value="{{ request('date_end') }}" style="border:none; outline:none; color:#475569; font-size:13.5px; cursor: pointer;">
-                <button type="submit" style="height: 34px; background: #10b981; color: white; border: none; border-radius: 50px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer;">Áp dụng</button>
-            </form>
-        </div>
-
-        <div style="height: 44px; position: relative; flex: 1; min-width: 250px;">
-            <form method="GET">
-                <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nhập Mã TT, CTO, Tên KH..." style="width: 100%; height: 44px; box-sizing: border-box; padding: 0 20px 0 42px; border: 1px solid #cbd5e1; border-radius: 50px; font-size: 13.5px; outline: none;">
-            </form>
-        </div>
-    </div>
+    </form>
 
     <div class="legacy-table-container">
         <table class="legacy-table">
@@ -78,11 +81,17 @@
                     <td style="text-align: center;">{{ $p->payment_date->format('d/m/Y') }}</td>
                     <td style="text-align: center; font-weight: 700; color: #10b981;">{{ $p->ma_tt }}</td>
                     <td style="text-align: center; font-weight: 700; color: #2563eb;">{{ $p->cto_code }}</td>
-                    <td>
+                    <td style="text-align: left;">
                         <div style="font-weight: 600;">{{ $p->order->customer->ten_cty ?? '---' }}</div>
                         <div style="font-size: 11px; color: #94a3b8;">Mã KH: {{ $p->ma_kh }}</div>
                     </td>
-                    <td style="text-align: center;">{{ $p->order->customer->khu_vuc ?? '---' }}</td>
+                    <td style="text-align: center; white-space: nowrap;">
+                        @if($p->order && $p->order->customer && $p->order->customer->khu_vuc)
+                            <span class="badge-region {{ Str::slug($p->order->customer->khu_vuc) }}">{{ $p->order->customer->khu_vuc }}</span>
+                        @else
+                            ---
+                        @endif
+                    </td>
                     <td style="text-align: right;">{{ number_format($p->tong_don) }}</td>
                     <td style="text-align: right; color: #10b981; font-weight: 800;">+{{ number_format($p->so_tien) }}</td>
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($p->con_lai) }}</td>
@@ -103,7 +112,7 @@
 
 {{-- MODAL PAYMENT --}}
 <div id="modal-payment" class="modal-overlay">
-    <div class="modal-box" style="max-width: 450px; padding: 0;">
+    <div class="modal-box" style="max-width: 500px; padding: 0;">
         <div style="background: #f8fafc; padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
             <h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 18px;"><i class="fas fa-hand-holding-usd" style="color: #10b981;"></i> Nhập Thanh Toán Mới</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #94a3b8; font-size: 20px;" onclick="closeModal('modal-payment')"></i>
@@ -120,6 +129,9 @@
                 <p style="margin: 0 0 5px 0; color: #3b82f6; font-size: 13px;">Khách hàng: <b id="tt_view_kh" style="color: #1e3a8a;">---</b></p>
                 <p style="margin: 0; color: #ef4444; font-size: 14px; font-weight: bold;">Cần thu của đơn này: <span id="tt_view_debt">0 VNĐ</span></p>
             </div>
+
+            <label class="modal-pro-label" style="margin-top: 15px;">Ngày thanh toán *</label>
+            <input type="date" id="tt_date" class="modal-pro-input" value="{{ date('Y-m-d') }}">
 
             <label class="modal-pro-label" style="margin-top: 15px;">Số tiền khách trả đợt này (VNĐ) *</label>
             <input type="text" id="tt_amount" class="modal-pro-input" style="font-size: 18px; font-weight: bold; color: #10b981;" oninput="this.value = this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g, '.')">
@@ -139,6 +151,12 @@
     .don-filter-btn.active { background: #0070D2; color: white; }
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; }
+
+    /* Region Badges */
+    .badge-region { padding: 4px 12px !important; border-radius: 20px !important; color: #fff !important; border: none !important; font-size: 11px !important; white-space: nowrap !important; min-width: 85px !important; display: inline-block !important; text-align: center !important; font-weight: 700 !important; }
+    .badge-region.mien-bac { background: #3498DB !important; }
+    .badge-region.mien-trung { background: #E67E22 !important; }
+    .badge-region.mien-nam { background: #27AE60 !important; }
 </style>
 @endsection
 
@@ -171,10 +189,11 @@
         if (filtered.length > 0) {
             filtered.slice(0, 10).forEach(o => {
                 const item = document.createElement('div');
-                item.style.padding = '10px 15px';
+                item.style.padding = '8px 12px';
                 item.style.cursor = 'pointer';
+                item.style.fontSize = '12px';
                 item.style.borderBottom = '1px solid #f1f5f9';
-                item.innerHTML = `<b style="color:#2563eb">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
+                item.innerHTML = `<b style="color:#2563eb; font-size:13px;">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
                 item.onclick = () => selectOrder(o);
                 dd.appendChild(item);
             });
@@ -197,11 +216,13 @@
     async function submitNewPayment() {
         const cto = document.getElementById('tt_cto_code').value;
         const amount = document.getElementById('tt_amount').value.replace(/\./g, '');
-        if (!cto || !amount) return alert('Vui lòng chọn đơn hàng và nhập số tiền!');
+        const date = document.getElementById('tt_date').value;
+        if (!cto || !amount || !date) return alert('Vui lòng chọn đơn hàng, ngày và nhập số tiền!');
 
         const res = await apiPost('{{ route("payments.store") }}', {
             cto_code: cto,
             so_tien: amount,
+            payment_date: date,
             ghi_chu: document.getElementById('tt_note').value
         });
         if (res.success) { 
@@ -210,5 +231,14 @@
         }
         else { alert(res.message); }
     }
+
+    // Đóng dropdown khi click ngoài
+    document.addEventListener('click', function(e) {
+        const dd = document.getElementById('order-list-dropdown');
+        const input = document.getElementById('tt_search_cto');
+        if (dd && !dd.contains(e.target) && e.target !== input) {
+            dd.style.display = 'none';
+        }
+    });
 </script>
 @endpush

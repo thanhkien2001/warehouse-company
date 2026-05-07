@@ -25,78 +25,91 @@
     </div>
 
     <!-- QUÁ HẠN -->
-    <h3 style="color: #ef4444; font-weight: 800; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+    <h3 style="color: #ef4444; font-weight: 800; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
         <i class="fas fa-exclamation-circle"></i> CÁC KHOẢN NỢ QUÁ HẠN CHƯA THU
     </h3>
     <div class="legacy-table-container" style="border-left: none; border-right: none; box-shadow: none; margin-bottom: 35px;">
         <table class="legacy-table">
             <thead>
                 <tr>
-                    <th style="width: 12%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">MÃ CTO</th>
-                    <th style="width: 25%; text-align: left; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
-                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
-                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
-                    <th style="width: 12%; text-align: right; color: #991b1b; border-bottom-color: #fca5a5;">CÒN LẠI</th>
+                    <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">MÃ CTO</th>
+                    <th style="width: 20%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
+                    <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
+                    <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
+                    <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">CÒN LẠI</th>
                     <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">NGÀY GIAO</th>
-                    <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
-                    <th style="width: 9%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">THAO TÁC</th>
+                    <th style="width: 7%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">HẠN (NGÀY)</th>
+                    <th style="width: 12%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
+                    <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($overdueDebts as $od)
                 <tr style="background: #fffcfc;">
                     <td style="text-align: center; font-weight: 800; color: #dc2626; border-bottom-color: #fecaca;">{{ $od['cto_code'] }}</td>
-                    <td style="font-weight: 700; color: #0f172a; text-transform: uppercase; border-bottom-color: #fecaca;">{{ $od['ten_kh'] }}</td>
+                    <td style="font-weight: 700;text-align: left; color: #0f172a; text-transform: uppercase; border-bottom-color: #fecaca;">{{ $od['ten_kh'] }}</td>
                     <td style="text-align: right; border-bottom-color: #fecaca;">{{ number_format($od['tong_don']) }}</td>
                     <td style="text-align: right; color: #059669; border-bottom-color: #fecaca;">{{ number_format($od['tong_don'] - $od['con_lai']) }}</td>
                     <td style="text-align: right; color: #dc2626; font-weight: 800; border-bottom-color: #fecaca;">{{ number_format($od['con_lai']) }}</td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">{{ $od['ngay_giao'] ?? '---' }}</td>
-                    <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700;">{{ $od['tinh_trang'] }}</span></td>
+                    <td style="text-align: center; border-bottom-color: #fecaca;"><span style="color:#64748b; font-size:12px;">{{ $od['so_ngay_han'] ?? '0' }} ngày</span></td>
+                    <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; white-space: nowrap; display: inline-block;">{{ $od['tinh_trang'] }}</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">
-                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px; background: #ef4444;"><i class="fas fa-wallet"></i> Thu tiền</button>
+                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px; background: #ef4444;"><i class="fas fa-wallet btn-icon"></i> Thu tiền</button>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" style="padding: 30px; text-align: center; color: #94a3b8; font-style: italic;">Không có nợ quá hạn.</td></tr>
+                <tr><td colspan="9" style="padding: 30px; text-align: center; color: #94a3b8; font-style: italic;">Không có nợ quá hạn.</td></tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
     <!-- TẤT CẢ -->
-    <h3 style="color: #1e293b; font-weight: 800; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+    <h3 style="color: #1e293b; font-weight: 800; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
         <i class="fas fa-list-ul" style="color: #3b82f6;"></i> TẤT CẢ CÔNG NỢ ĐANG CHỜ THU
     </h3>
     <div class="legacy-table-container" style="border-left: none; border-right: none; box-shadow: none;">
         <table class="legacy-table">
             <thead>
                 <tr>
-                    <th style="width: 12%; text-align: center;">MÃ ĐƠN</th>
-                    <th style="width: 25%; text-align: left;">KHÁCH HÀNG</th>
-                    <th style="width: 12%; text-align: right;">TỔNG ĐƠN</th>
-                    <th style="width: 12%; text-align: right;">ĐÃ TRẢ</th>
-                    <th style="width: 12%; text-align: right;">CÒN LẠI</th>
+                    <th style="width: 10%; text-align: center;">MÃ ĐƠN</th>
+                    <th style="width: 20%; text-align: center;">KHÁCH HÀNG</th>
+                    <th style="width: 11%; text-align: center;">TỔNG ĐƠN</th>
+                    <th style="width: 11%; text-align: center;">ĐÃ TRẢ</th>
+                    <th style="width: 11%; text-align: center;">CÒN LẠI</th>
                     <th style="width: 10%; text-align: center;">NGÀY GIAO</th>
-                    <th style="width: 8%; text-align: center;">HẠN (NGÀY)</th>
-                    <th style="width: 7%; text-align: center;">THAO TÁC</th>
+                    <th style="width: 7%; text-align: center;">HẠN (NGÀY)</th>
+                    <th style="width: 12%; text-align: center;">TÌNH TRẠNG</th>
+                    <th style="width: 8%; text-align: center;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($allDebts as $d)
                 <tr>
                     <td style="text-align: center; font-weight: 700; color: #0070D2;">{{ $d['cto_code'] }}</td>
-                    <td style="font-weight: 700; color: #0f172a; text-transform: uppercase;">{{ $d['ten_kh'] }}</td>
+                    <td style="font-weight: 700; text-align: left; color: #0f172a; text-transform: uppercase;">{{ $d['ten_kh'] }}</td>
                     <td style="text-align: right; color: #475569;">{{ number_format($d['tong_don']) }}</td>
                     <td style="text-align: right; color: #059669; font-weight: 800;">{{ number_format($d['tong_don'] - $d['con_lai']) }}</td>
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($d['con_lai']) }}</td>
                     <td style="text-align: center;">{{ $d['ngay_giao'] ?? '---' }}</td>
                     <td style="text-align: center;"><span style="color:#64748b; font-size:12px;">{{ $d['so_ngay_han'] ?? '0' }} ngày</span></td>
                     <td style="text-align: center;">
-                        <button onclick="openDebtModal({{ json_encode($d['cto_code']) }}, {{ json_encode($d['ten_kh']) }}, {{ $d['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px; background: #059669;"><i class="fas fa-hand-holding-usd"></i> Thu tiền</button>
+                        @php
+                            $statusColor = '#64748b';
+                            $statusBg = '#f1f5f9';
+                            if (str_contains($d['tinh_trang'], 'Quá hạn')) { $statusColor = '#dc2626'; $statusBg = '#fee2e2'; }
+                            elseif (str_contains($d['tinh_trang'], 'Đến hạn')) { $statusColor = '#d97706'; $statusBg = '#fef3c7'; }
+                            elseif (str_contains($d['tinh_trang'], 'Còn')) { $statusColor = '#059669'; $statusBg = '#d1fae5'; }
+                        @endphp
+                        <span style="background:{{ $statusBg }}; color:{{ $statusColor }}; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; white-space: nowrap; display: inline-block;">{{ $d['tinh_trang'] }}</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <button onclick="openDebtModal({{ json_encode($d['cto_code']) }}, {{ json_encode($d['ten_kh']) }}, {{ $d['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px; background: #059669;"><i class="fas fa-hand-holding-usd btn-icon"></i> Thu tiền</button>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" style="padding: 30px; text-align: center; color: #94a3b8;">Không có công nợ chờ xử lý.</td></tr>
+                <tr><td colspan="9" style="padding: 30px; text-align: center; color: #94a3b8;">Không có công nợ chờ xử lý.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -149,14 +162,17 @@
     /* Responsive adjustments */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
     
-    @media (max-width: 1400px) {
+    @media (max-width: 1420px) {
         .legacy-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .legacy-table { min-width: 1000px; }
+        .legacy-table { min-width: 1200px; }
     }
 
     @media (max-width: 768px) {
         .card { padding: 15px !important; }
         .page-header-row { flex-direction: column; align-items: flex-start !important; gap: 15px; }
+    }
+    @media (max-width: 1919px) {
+        .btn-icon { display: none; }
     }
 </style>
 @endsection

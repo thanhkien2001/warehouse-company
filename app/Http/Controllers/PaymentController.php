@@ -42,24 +42,25 @@ class PaymentController extends Controller
     {
         $query = Payment::query();
 
-        $filter = $request->get('filter', 'all');
-        if ($filter === 'month') {
-            $query->whereMonth('payment_date', now()->month)->whereYear('payment_date', now()->year);
-        } elseif ($filter === 'year') {
-            $query->whereYear('payment_date', now()->year);
-        } elseif ($filter === 'custom' && $request->date_start && $request->date_end) {
-            $query->whereBetween('payment_date', [$request->date_start, $request->date_end]);
+        if ($request->date_start) {
+            $query->whereDate('payment_date', '>=', $request->date_start);
+        }
+        if ($request->date_end) {
+            $query->whereDate('payment_date', '<=', $request->date_end);
         }
 
         if ($kw = $request->get('search')) {
             $query->where(function($q) use ($kw) {
                 $q->where('ma_tt', 'like', "%{$kw}%")
                   ->orWhere('cto_code', 'like', "%{$kw}%")
-                  ->orWhere('ma_kh', 'like', "%{$kw}%");
+                  ->orWhere('ma_kh', 'like', "%{$kw}%")
+                  ->orWhereHas('customer', function($cq) use ($kw) {
+                      $cq->where('ten_cty', 'like', "%{$kw}%");
+                  });
             });
         }
 
-        $payments = $query->orderByDesc('payment_date')->orderByDesc('id')
+        $payments = $query->orderByDesc('id')
             ->paginate(20)->withQueryString();
 
         // Thêm thông tin KH
@@ -114,7 +115,7 @@ class PaymentController extends Controller
             }
         }
 
-        return view('payments.index', compact('payments', 'paymentsData', 'unpaidOrders', 'filter'));
+        return view('payments.index', compact('payments', 'paymentsData', 'unpaidOrders'));
     }
 
     public function store(Request $request)
@@ -136,6 +137,7 @@ class PaymentController extends Controller
             'customer_id'=> $order->customer_id,
             'ma_kh'      => $order->ma_kh,
             'so_tien'    => $data['so_tien'],
+            'payment_date' => $request->payment_date ? \Carbon\Carbon::parse($request->payment_date) : now(),
             'nguoi_thu'  => $user->display_name ?? $user->username,
             'ghi_chu'    => $data['ghi_chu'] ?? null,
         ]);
