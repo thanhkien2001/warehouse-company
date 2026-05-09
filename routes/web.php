@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
         // ==========================================================
         Route::get('/don-hang', [OrderController::class, 'index'])->name('orders.index')
             ->middleware('permission:donhang,view');
+        Route::get('/don-hang/next-code', [OrderController::class, 'nextCode'])->name('orders.next-code');
         Route::get('/don-hang/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit')
             ->middleware('permission:donhang,edit');
         Route::get('/don-hang/{order}/pdf', [OrderController::class, 'exportPdf'])->name('orders.pdf')
@@ -106,6 +107,7 @@ Route::middleware('auth')->group(function () {
         // ==========================================================
         Route::get('/phieu-giao', [DeliveryNoteController::class, 'index'])->name('deliveries.index')
             ->middleware('permission:phieugiao,view');
+        Route::get('/phieu-giao/next-code', [DeliveryNoteController::class, 'nextCode'])->name('deliveries.next-code');
         Route::get('/phieu-giao/{deliveryNote}', [DeliveryNoteController::class, 'show'])->name('deliveries.show')
             ->middleware('permission:phieugiao,view');
         Route::get('/phieu-giao/{deliveryNote}/pdf', [DeliveryNoteController::class, 'exportPdf'])->name('deliveries.pdf')

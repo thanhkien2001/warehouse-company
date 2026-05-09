@@ -36,11 +36,12 @@ class CodeGeneratorService
     }
 
     /**
-     * Sinh mã đơn hàng CTO: CTO-{10 ký tự MaKH}{Seq3}
+     * Sinh mã đơn hàng CTO: CTO-{6 ký tự MaKH}-{Seq4}
      */
     public static function generateCtoCo(string $maKH): string
     {
-        $prefix = 'CTO-' . $maKH;
+        $prefix6 = substr($maKH, 0, 6);
+        $prefix  = 'CTO-' . $prefix6;
 
         $latest = Order::where('cto_code', 'like', $prefix . '%')
             ->orderBy('cto_code', 'desc')
@@ -48,19 +49,21 @@ class CodeGeneratorService
 
         $seq = 1;
         if ($latest) {
-            $seq = (int) substr($latest, -3) + 1;
+            // Lấy 4 số cuối
+            $lastPart = substr($latest, -4);
+            $seq = (int) $lastPart + 1;
         }
 
-        return $prefix . str_pad($seq, 3, '0', STR_PAD_LEFT);
+        return $prefix . str_pad($seq, 4, '0', STR_PAD_LEFT);
     }
 
     /**
-     * Sinh mã phiếu giao DN: DN-{7 ký tự MaKH}-{Seq3}
+     * Sinh mã phiếu giao DN: DN-{6 ký tự MaKH}-{Seq4}
      */
     public static function generateDnCode(string $maKH): string
     {
-        $prefix7 = substr($maKH, 0, 7);
-        $prefix  = 'DN-' . $prefix7 . '-';
+        $prefix6 = substr($maKH, 0, 6);
+        $prefix  = 'DN-' . $prefix6;
 
         $latest = DeliveryNote::where('dn_code', 'like', $prefix . '%')
             ->orderBy('dn_code', 'desc')
@@ -68,10 +71,12 @@ class CodeGeneratorService
 
         $seq = 1;
         if ($latest) {
-            $seq = (int) substr($latest, -3) + 1;
+            // Lấy 4 số cuối
+            $lastPart = substr($latest, -4);
+            $seq = (int) $lastPart + 1;
         }
 
-        return $prefix . str_pad($seq, 3, '0', STR_PAD_LEFT);
+        return $prefix . str_pad($seq, 4, '0', STR_PAD_LEFT);
     }
 
     /**

@@ -81,58 +81,63 @@
 
     /* Table Styling to match legacy */
     .legacy-table-wrapper {
-        border: 1px solid #cbd5e1;
-        border-radius: 12px;
+        border: none;
+        border-radius: 0;
         background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         margin-bottom: 15px;
     }
 
     .legacy-table {
         width: 100%;
         border-collapse: collapse;
-        border: none;
-        background: transparent;
+        background: #ffffff;
         margin: 0;
-        font-size: 13.5px;
+        font-size: 13px;
+        border: 1px solid #e2e8f0;
     }
 
     .legacy-table thead {
-        background: #f8fafc;
-        border-bottom: 1px solid #cbd5e1;
+        background: #eff6ff;
     }
 
     .legacy-table th {
         padding: 12px 8px;
         text-align: center;
-        color: #475569;
-        font-size: 12px;
-        font-weight: 700;
-        border: none;
+        color: #000;
+        font-size: 13px;
+        font-weight: 800;
+        border: 1px solid #e2e8f0;
         text-transform: uppercase;
     }
 
     .legacy-table td {
         padding: 8px;
-        border-bottom: 1px solid #f1f5f9;
+        border: 1px solid #e2e8f0;
         vertical-align: middle;
+        font-size: 13px;
+        text-align: center;
+        color: #1e293b;
+    }
+
+    .legacy-table tr:hover {
+        background-color: #f8fafc;
     }
 
     .legacy-table input, .legacy-table textarea {
         width: 100%;
         border: 1px solid transparent;
         background: transparent;
-        padding: 6px;
+        padding: 5px;
         border-radius: 4px;
         outline: none;
         font-family: inherit;
-        font-size: 13.5px;
+        font-size: 13px;
         transition: 0.2s;
     }
 
     .legacy-table input:focus, .legacy-table textarea:focus {
-        border-color: #cbd5e1;
         background: #fff;
+        border-color: #0070D2;
     }
 
     .legacy-table .col-action {
@@ -552,7 +557,7 @@ function createRowHtml(stt, data = {}) {
         <td>
             <div style="display: flex; flex-direction: column; gap: 4px;">
                 <input type="text" class="in-ten" value="${ten}" placeholder="Tên sản phẩm..." style="font-weight: 700; height: 30px;" ${!canEdit?'readonly':''}>
-                <input type="text" class="in-phu" value="${phu}" placeholder="Mô tả phụ (quy cách, chất liệu...)" style="font-size: 12px; color: #64748b; height: 26px;" ${!canEdit?'readonly':''}>
+                <input type="text" class="in-phu" value="${phu}" placeholder="Mô tả phụ (quy cách, chất liệu...)" style="font-size: 12px; color: #252a31ff; height: 26px;" ${!canEdit?'readonly':''}>
             </div>
         </td>
         <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" style="text-align:right" ${!canEdit?'readonly':''}></td>
@@ -595,7 +600,9 @@ function searchProduct(input) {
             data-ma="${p.ma_hang}"
             data-ten="${p.ten_hang}"
             data-dvt="${p.don_vi_tinh ?? ''}"
-            data-gia="${p.gia_ban ?? 0}">
+            data-gia="${p.gia_ban ?? 0}"
+            data-nsx="${p.nha_cung_cap ?? ''}"
+            data-quycach="${p.quy_cach ?? ''}">
             <span class="ac-code">[${p.ma_hang}]</span> ${p.ten_hang}
         </div>`).join('');
     dd.style.display = 'block';
@@ -607,6 +614,11 @@ function fillProduct(item) {
     tr.querySelector('.in-ten').value   = item.dataset.ten;
     tr.querySelector('.in-dvt').value   = item.dataset.dvt;
     tr.querySelector('.in-gia').value   = formatMoney(item.dataset.gia || 0);
+
+    // Tự động nhập Mô tả phụ
+    const nsx = item.dataset.nsx || '';
+    const qcc = item.dataset.quycach || '';
+    tr.querySelector('.in-phu').value = `NSX: ${nsx} | Quy cách: ${qcc}`;
 
     // Stock Warning Logic
     const ma = item.dataset.ma;

@@ -272,7 +272,7 @@
 
         /* Submenu */
         .has-submenu { position: relative; }
-        .submenu { list-style: none; padding-left: 14px; display: none; margin: 2px 0 4px; }
+        .submenu { list-style: none; padding-left: 14px; display: block; margin: 2px 0 4px; }
         .submenu.show { display: block; }
         .submenu-item {
             display: flex; align-items: center; gap: 10px;
@@ -286,7 +286,7 @@
         .submenu-item.active { color: var(--primary); font-weight: 700; background: #e8f2fd; }
         .submenu-item.active i { color: var(--primary); }
 
-        .arrow { margin-left: auto; font-size: 10px; color: #94a3b8; transition: 0.3s; }
+        .arrow { margin-left: auto; font-size: 10px; color: #94a3b8; transition: 0.3s; transform: rotate(180deg); }
         .has-submenu.open .arrow { transform: rotate(180deg); }
 
         /* Sidebar bottom copyright */
@@ -315,7 +315,7 @@
         .card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 24px; border: 1px solid #f1f5f9; }
         
         /* TABLE STYLE */
-        .legacy-table-container { border-left: none !important; border-right: none !important; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .legacy-table-container {overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
         .legacy-table { width: 100%; border-collapse: collapse; border-left: none !important; border-right: none !important; }
         .legacy-table thead th { background: #f8fafc; padding: 14px 12px; color: #475569 !important; font-size: 12px !important; font-weight: 700 !important; text-transform: uppercase; border-bottom: 2px solid #edf2f7; text-align: center; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; white-space: nowrap; }
         .legacy-table tbody td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #1e293b; border-left: none !important; border-right: none !important; text-align: center; }
@@ -328,19 +328,19 @@
         .col-right { text-align: right !important; }
         
         /* STATUS BADGES */
-        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 50px; font-size: 11px; font-weight: 700; background: #fff; white-space: nowrap; }
-        .badge-status.cho-xac-nhan { color: white; background: #E67E22; border: 1px solid #E67E22; }
-        .badge-status.dang-xu-ly { color: white; background: #3498DB; border: 1px solid #3498DB; }
-        .badge-status.da-huy { color: white; background: #E74C3C; border: 1px solid #E74C3C; }
-        .badge-status.hoan-thanh, .badge-status.da-giao-xong { color: white; background: #27AE60; border: 1px solid #27AE60; }
-        .badge-status.dang-van-chuyen, .badge-status.dang-giao { color: white; background: #8E44AD; border: 1px solid #8E44AD; }
-        .badge-status.cho-giao-hang { color: white; background: #F39C12; border: 1px solid #F39C12; }
+        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 50px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+        .badge-status.cho-xac-nhan { color: #E67E22; }
+        .badge-status.dang-xu-ly { color: #3498DB; }
+        .badge-status.da-huy { color: #E74C3C; }
+        .badge-status.hoan-thanh, .badge-status.da-giao-xong { color: #27AE60;}
+        .badge-status.dang-van-chuyen, .badge-status.dang-giao { color: #8E44AD;}
+        .badge-status.cho-giao-hang { color: #F39C12; }
 
         /* REGION BADGES */
         .badge-region { padding: 4px 12px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; min-width: 80px; text-align: center; }
-        .badge-region.mien-bac { color: white; border: 1px solid #3498DB; border-radius: 20px; background: #3498DB }
-        .badge-region.mien-trung { color: white; border: 1px solid #E67E22; border-radius: 20px; background: #E67E22 }
-        .badge-region.mien-nam { color: white; border: 1px solid #27AE60; border-radius: 20px; background: #27AE60 }
+        .badge-region.mien-bac { color: #3b82f6; border-radius: 20px; background: #eff6ff; }
+        .badge-region.mien-trung { color: #f97316; border-radius: 20px; background: #fff7ed; }
+        .badge-region.mien-nam { color: #10b981; border-radius: 20px; background: #ecfdf5; }
 
         /* MODAL (Clean Modern) */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; }

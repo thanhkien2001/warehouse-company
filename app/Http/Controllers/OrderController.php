@@ -66,7 +66,7 @@ class OrderController extends Controller
         $limit = $request->get('limit', 20);
         $orders = $query->with(['customer', 'meta'])->paginate($limit)->withQueryString();
 
-        $customers = Customer::orderBy('ten_cty')->get(['id','ma_kh','ten_cty']);
+        $customers = Customer::orderBy('ten_cty')->get(['id','ma_kh','ten_cty','nguoi_lien_he','sdt']);
 
         $ty_gia = SystemSetting::get('ty_gia', 25450);
 
@@ -84,7 +84,7 @@ class OrderController extends Controller
         $stockMap = InventoryService::getAllStockMap();
         $products = \App\Models\ProductCatalog::where('trang_thai', 'Hoạt động')
             ->orderBy('ma_hang')
-            ->get(['id', 'ma_hang', 'ten_hang', 'don_vi_tinh', 'gia_ban']);
+            ->get(['id', 'ma_hang', 'ten_hang', 'don_vi_tinh', 'gia_ban', 'nha_cung_cap', 'quy_cach']);
 
         return view('orders.show', compact('order', 'stockMap', 'products'));
     }
@@ -128,6 +128,15 @@ class OrderController extends Controller
 
         LogService::log('Tạo đơn hàng', "Tạo mới đơn booking [{$ctoCode}] cho {$customer->ten_cty}");
         return response()->json(['success' => true, 'message' => 'Đã tạo đơn hàng thành công!', 'id' => $order->id]);
+    }
+
+    public function nextCode(Request $request)
+    {
+        $maKH = $request->get('ma_kh');
+        if (!$maKH) return response()->json(['success' => false, 'message' => 'Thiếu mã khách hàng']);
+        
+        $code = CodeGeneratorService::generateCtoCo($maKH);
+        return response()->json(['success' => true, 'code' => $code]);
     }
 
     public function edit(Order $order)

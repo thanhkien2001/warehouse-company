@@ -24,66 +24,70 @@
     </div>
 
     <style>
+        /* Order tabs */
+        .ord-tabs-row { padding-bottom: 12px; border-bottom: 1.5px solid #f1f5f9; }
         .order-tabs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .order-tab { padding: 8px 16px; border-radius: 50px; font-size: 13.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: #64748b; background: #f1f5f9; display: flex; align-items: center; gap: 6px; transition: 0.2s; border: 1px solid transparent; }
+        .order-tab { padding: 7px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; color: #64748b; background: #f1f5f9; display: flex; align-items: center; gap: 6px; transition: 0.2s; border: 1px solid transparent; }
         .order-tab:hover { background: #e2e8f0; color: #0f172a; }
         .order-tab.active { background: #0070D2; color: #fff; box-shadow: 0 4px 10px rgba(0,112,210,0.2); border-color: #0070D2; }
-        
         .order-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; border-radius: 50%; font-size: 10px; color: #fff; font-weight: 800; padding: 0 4px; }
-        .order-badge.all { background: #94a3b8; }
-        .order-badge.pending { background: #E67E22; }
-        .order-badge.processing { background: #3498DB; }
-        .order-badge.shipping { background: #8E44AD; }
-        .order-badge.canceled { background: #E74C3C; }
-        .order-badge.completed { background: #27AE60; }
-        .order-badge.default { background: #94a3b8; }
+        .order-badge.pending { background: #E67E22; } .order-badge.processing { background: #3498DB; }
+        .order-badge.shipping { background: #8E44AD; } .order-badge.canceled { background: #E74C3C; }
+        .order-badge.completed { background: #27AE60; } .order-badge.default { background: #94a3b8; }
 
-        .search-box-container { position: relative; width: 300px; }
-        .search-box-container i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 13px; z-index: 2; }
-        .search-input { width: 100%; padding: 8px 12px 8px 35px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; background: #fff; transition: 0.2s; }
-        .search-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+        /* Filter row 2 */
+        .ord-filter-card { padding: 14px 0 6px; border-bottom: 1.5px solid #f1f5f9; }
+        .ord-filter-grid { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+        .ord-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
+        .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
+        .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
+        .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+        .ord-search-wrapper { position: relative; }
+        .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
+        .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
+        .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .ord-btn-search:hover { background: #005bb5; }
+        .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
+        .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
 
-        .sort-select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 150px; outline: none; }
+        /* Table */
+        .ord-table-card { border-top: 1.5px solid #f1f5f9; overflow: hidden; }
+        .ord-table { width: 100%; border-collapse: collapse; margin-top: 15px;}
+        .ord-table thead th { background: #EFF6FF; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #000; text-align: center; border: 1px solid #e2e8f0; white-space: nowrap; text-transform: uppercase; }
+        .ord-table tbody td { padding: 9px 8px; font-size: 13px; color: #1e293b; text-align: center; border: 1px solid #e2e8f0; vertical-align: middle; }
+        .ord-table tbody tr:hover { background: #f0f7ff; }
+        .ord-text-bold { font-weight: 700; color: #0070D2; }
+        .ord-text-left { text-align: left !important; }
 
-        /* Responsive adjustments */
-        .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .filter-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        
-        @media (max-width: 1400px) {
-            .legacy-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .legacy-table { min-width: 1200px; }
-        }
+        /* Action buttons */
+        .ord-action-buttons { display: flex; justify-content: center; gap: 6px; }
+        .ord-action-buttons .btn-edit, .ord-action-buttons .btn-delete { width: 28px; height: 28px; border-radius: 4px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; }
+        .ord-action-buttons .btn-edit { color: #3b82f6; }
+        .ord-action-buttons .btn-edit:hover { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+        .ord-action-buttons .btn-delete { color: #ef4444; }
+        .ord-action-buttons .btn-delete:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
 
         @media (max-width: 1200px) {
-            .filter-row { flex-direction: column; align-items: stretch; }
-            .filter-group { justify-content: flex-start; }
-            .search-box-container { width: 100%; }
+            .ord-filter-grid { flex-wrap: wrap; }
+            .ord-table-card { overflow-x: auto; }
+            .ord-table { min-width: 1100px; }
         }
-
         @media (max-width: 768px) {
             .card { padding: 15px !important; }
             .page-header-row { flex-direction: column; align-items: flex-start !important; gap: 15px; }
-            .date-range-group { width: 100%; display: flex; }
-            .date-range-group input { flex: 1; min-width: 0; }
         }
     </style>
 
 
-    {{-- Row 1: Công cụ lọc trạng thái & thời gian --}}
-    <div class="filter-row" style="margin-bottom: 20px;">
+    {{-- Row 1: Tabs trạng thái --}}
+    <div class="ord-tabs-row">
         <div class="order-tabs">
             <a href="{{ request()->fullUrlWithQuery(['status' => 'all']) }}" class="order-tab {{ request('status', 'all') == 'all' ? 'active' : '' }}">
                 Tất cả <span style="opacity: 0.7; font-weight: normal;">({{ $counts['all'] ?? 0 }})</span>
             </a>
             @php
                 $orderStatusList = ['Chờ xác nhận', 'Đang xử lý', 'Đang vận chuyển', 'Hoàn thành', 'Đã hủy'];
-                $statusClasses = [
-                    'Chờ xác nhận'   => 'pending',
-                    'Đang xử lý'     => 'processing',
-                    'Đang vận chuyển' => 'shipping',
-                    'Hoàn thành'     => 'completed',
-                    'Đã hủy'        => 'canceled'
-                ];
+                $statusClasses = ['Chờ xác nhận'=>'pending','Đang xử lý'=>'processing','Đang vận chuyển'=>'shipping','Hoàn thành'=>'completed','Đã hủy'=>'canceled'];
             @endphp
             @foreach($orderStatusList as $st)
                 <a href="{{ request()->fullUrlWithQuery(['status' => $st]) }}" class="order-tab {{ request('status') == $st ? 'active' : '' }}">
@@ -91,112 +95,104 @@
                 </a>
             @endforeach
         </div>
+    </div>
 
-        <form method="GET" class="filter-group">
+    {{-- Row 2: Ngày + Search + Sort + Lọc/Xóa --}}
+    <div class="ord-filter-card">
+        <form method="GET" id="ord-filter-form">
             <input type="hidden" name="status" value="{{ request('status', 'all') }}">
-            <input type="hidden" name="search" value="{{ request('search') }}">
-            <input type="hidden" name="sort" value="{{ request('sort', 'newest') }}">
-            
-            <div class="date-range-group" style="display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: #fff;">
-                <div style="display: flex; align-items: center; padding: 0 10px; border-right: 1px solid #cbd5e1; background: #f8fafc;">
-                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
+            <div class="ord-filter-grid">
+                <div class="ord-filter-item">
+                    <label>Từ ngày</label>
+                    <input type="date" name="date_start" class="ord-filter-input" value="{{ request('date_start') }}">
                 </div>
-                <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px; border: none; font-size: 13px; color: #475569; outline: none; width: 130px;">
-                <div style="display: flex; align-items: center; padding: 0 10px; border-left: 1px solid #cbd5e1; border-right: 1px solid #cbd5e1; background: #f8fafc;">
-                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
+                <div class="ord-filter-item">
+                    <label>Đến ngày</label>
+                    <input type="date" name="date_end" class="ord-filter-input" value="{{ request('date_end') }}">
                 </div>
-                <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px; border: none; font-size: 13px; color: #475569; outline: none; width: 130px;">
+                <div class="ord-filter-item" style="flex: 2;">
+                    <label>Tìm kiếm</label>
+                    <div class="ord-search-wrapper">
+                        <input type="text" name="search" class="ord-filter-input" placeholder="Tìm mã đơn (CTO), khách hàng..." value="{{ request('search') }}">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                <div class="ord-filter-item">
+                    <label>Sắp xếp</label>
+                    <select name="sort" class="ord-filter-input">
+                        <option value="newest" {{ request('sort','newest')=='newest'?'selected':'' }}>Mới nhất</option>
+                        <option value="oldest" {{ request('sort')=='oldest'?'selected':'' }}>Cũ nhất</option>
+                        <option value="az" {{ request('sort')=='az'?'selected':'' }}>Tên KH (A-Z)</option>
+                        <option value="za" {{ request('sort')=='za'?'selected':'' }}>Tên KH (Z-A)</option>
+                    </select>
+                </div>
+                <div class="ord-filter-item" style="flex: none;">
+                    <label>&nbsp;</label>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="submit" class="ord-btn-search"><i class="fas fa-search"></i> Lọc</button>
+                        <a href="{{ route('orders.index') }}" class="ord-btn-clear"><i class="fas fa-times"></i> Xóa lọc</a>
+                    </div>
+                </div>
             </div>
-            
-            <button type="submit" style="background: #0070D2; color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                <i class="fas fa-search"></i> Lọc
-            </button>
-            <a href="{{ route('orders.index') }}" style="background: #E74C3C; color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; display: flex; align-items: center;">Xóa lọc</a>
         </form>
     </div>
 
 
-    {{-- Row 2: Tìm kiếm & Sắp xếp --}}
-    <div class="filter-row" style="margin-bottom: 25px;">
-        <div class="filter-group" style="flex: 1;">
-            <div class="search-box-container">
-                <form method="GET" style="margin:0;">
-                    <input type="hidden" name="status" value="{{ request('status', 'all') }}">
-                    <input type="hidden" name="date_start" value="{{ request('date_start') }}">
-                    <input type="hidden" name="date_end" value="{{ request('date_end') }}">
-                    <input type="hidden" name="sort" value="{{ request('sort', 'newest') }}">
-                    <i class="fas fa-search"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm theo mã đơn (CTO), khách hàng..." class="search-input">
-                </form>
-            </div>
-
-            <form method="GET" style="margin:0;">
-                <input type="hidden" name="status" value="{{ request('status', 'all') }}">
-                <input type="hidden" name="search" value="{{ request('search') }}">
-                <input type="hidden" name="date_start" value="{{ request('date_start') }}">
-                <input type="hidden" name="date_end" value="{{ request('date_end') }}">
-                <select name="sort" onchange="this.form.submit()" class="sort-select">
-                    <option value="newest" {{ request('sort')=='newest'?'selected':'' }}>Mới nhất</option>
-                    <option value="oldest" {{ request('sort')=='oldest'?'selected':'' }}>Cũ nhất</option>
-                    <option value="az" {{ request('sort')=='az'?'selected':'' }}>Tên KH (A-Z)</option>
-                    <option value="za" {{ request('sort')=='za'?'selected':'' }}>Tên KH (Z-A)</option>
-                </select>
-            </form>
+    {{-- TABLE --}}
+    <div class="ord-table-card">
+        <div class="table-responsive">
+            <table class="ord-table">
+                <thead>
+                    <tr>
+                        <th width="4%">STT</th>
+                        <th width="9%">Ngày tạo</th>
+                        <th width="10%">Mã Đơn</th>
+                        <th width="8%">Mã KH</th>
+                        <th width="22%">Tên Khách Hàng</th>
+                        <th width="10%">MST</th>
+                        <th width="10%">Khu Vực</th>
+                        <th width="12%">Trạng thái</th>
+                        <th width="9%">Ghi chú</th>
+                        <th width="6%">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($orders as $idx => $order)
+                    <tr onclick="window.location.href='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                        <td>{{ $orders->firstItem() + $idx }}</td>
+                        <td>{{ $order->order_date ? $order->order_date->format('d/m/Y') : '---' }}</td>
+                        <td class="ord-text-bold">{{ $order->cto_code }}</td>
+                        <td class="ord-text-bold">{{ $order->customer->ma_kh ?? '---' }}</td>
+                        <td class="ord-text-left" style="font-weight: 600; text-transform: uppercase;">{{ $order->customer->ten_cty ?? '---' }}</td>
+                        <td>{{ $order->customer->ma_so_thue ?? '---' }}</td>
+                        <td>
+                            @if($order->customer?->khu_vuc == 'Miền Bắc') <span class="badge-region mien-bac">Miền Bắc</span>
+                            @elseif($order->customer?->khu_vuc == 'Miền Trung') <span class="badge-region mien-trung">Miền Trung</span>
+                            @elseif($order->customer?->khu_vuc == 'Miền Nam') <span class="badge-region mien-nam">Miền Nam</span>
+                            @else ---
+                            @endif
+                        </td>
+                        <td><span class="badge-status {{ Str::slug($order->trang_thai) }}">{{ $order->trang_thai }}</span></td>
+                        <td class="ord-text-left" style="font-style: italic; color: #94a3b8; font-size: 12px;">{{ $order->ghi_chu ?: '---' }}</td>
+                        <td onclick="event.stopPropagation()">
+                            <div class="ord-action-buttons">
+                                <button onclick="editOrder({{ $order->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                @if(auth()->user()->isAdmin())
+                                <button onclick="deleteOrder({{ $order->id }})" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr><td colspan="10" style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-inbox fa-2x" style="margin-bottom:10px; display:block;"></i>Không có đơn hàng nào.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
 
-    <!-- Table -->
-    <div class="legacy-table-container" style="overflow-x: auto;">
-        <table class="legacy-table">
-            <thead>
-                <tr>
-                    <th style="width: 4%; text-align: center;">STT</th>
-                    <th style="width: 10%; text-align: center;">Ngày tạo</th>
-                    <th style="width: 12%; text-align: center;">Mã Đơn</th>
-                    <th style="width: 10%; text-align: center;">Mã KH</th>
-                    <th style="width: 20%; text-align: center;">Tên Khách Hàng</th>
-                    <th style="width: 10%; text-align: center;">MST</th>
-                    <th style="width: 12%; text-align: center; min-width: 110px;">Khu Vực</th>
-                    <th style="width: 10%; text-align: center;">Trạng thái</th>
-                    <th style="width: 10%; text-align: center;">Ghi chú</th>
-                    <th style="width: 6%; text-align: center;">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($orders as $idx => $order)
-                <tr onclick="window.location.href='{{ route('orders.show', $order->id) }}'" style="cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                    <td style="padding: 14px 15px; text-align: center;">{{ $orders->firstItem() + $idx }}</td>
-                    <td style="padding: 14px 15px; text-align: center;">{{ $order->order_date ? $order->order_date->format('d/m/Y') : '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center; font-weight: 700; color: var(--primary);"><span style="font-weight: 800; color: #0070D2;">{{ $order->cto_code }}</span></td>
-                    <td style="padding: 14px 15px; text-align: center; font-weight: 800; color: #0070D2;">{{ $order->customer->ma_kh ?? '---' }}</td>
-                    <td class="col-left" style="padding: 14px 15px; font-weight: 600;">{{ $order->customer->ten_cty ?? '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center;">{{ $order->customer->ma_so_thue ?? '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center; white-space: nowrap;">
-                        @if($order->customer?->khu_vuc == 'Miền Bắc') <span class="badge-region mien-bac">Miền Bắc</span>
-                        @elseif($order->customer?->khu_vuc == 'Miền Trung') <span class="badge-region mien-trung">Miền Trung</span>
-                        @elseif($order->customer?->khu_vuc == 'Miền Nam') <span class="badge-region mien-nam">Miền Nam</span>
-                        @endif
-                    </td>
-                    <td style="padding: 14px 15px; text-align: center;">
-                        <span class="badge-status {{ Str::slug($order->trang_thai) }}">
-                            {{ $order->trang_thai }}
-                        </span>
-                    </td>
-                    <td class="col-left" style="padding: 14px 15px; font-style: italic; color: #94a3b8; font-size: 12px;">{{ $order->ghi_chu ?: '---' }}</td>
-                    <td style="padding: 14px 15px; text-align: center; white-space: nowrap;" onclick="event.stopPropagation()">
-                        <button onclick="editOrder({{ $order->id }})" class="action-btn btn-edit-pro" title="Sửa thông tin"><i class="fas fa-edit"></i></button>
-                        @if(auth()->user()->isAdmin())
-                        <button onclick="deleteOrder({{ $order->id }})" class="action-btn btn-del-pro" title="Xóa đơn"><i class="fas fa-trash-alt"></i></button>
-                        @endif
-                    </td>
-                </tr>
-                @empty
-                <tr><td colspan="10" style="padding: 40px; text-align: center; color: #94a3b8;">Không có đơn hàng nào khớp điều kiện lọc.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+
 
     <!-- Pagination -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px;">
@@ -292,7 +288,7 @@
     .btn-del-pro { background: #fef2f2; color: #ef4444; }
     .btn-del-pro:hover { background: #ef4444; color: #fff; }
 
-    .modal-pro-label { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
+    .modal-pro-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
     .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; background: #f8fafc; box-sizing: border-box; height: 36px; transition: border-color 0.2s, box-shadow 0.2s; }
     .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
 
@@ -337,10 +333,10 @@
         document.getElementById('order_id').value = '';
         document.getElementById('order_kh_id').value = '';
         document.getElementById('inp-search-kh').value = '';
-        document.getElementById('order_ma_don').value = 'CTO-' + Date.now().toString().slice(-6);
+        document.getElementById('order_ma_don').value = 'CTO-XXXXXX-XXXX';
         document.getElementById('order_ghi_chu').value = '';
-        document.getElementById('order_nguoi_ban').value = '';
-        document.getElementById('order_sdt_ban').value = '';
+        document.getElementById('order_nguoi_ban').value = '{{ auth()->user()->display_name ?? auth()->user()->username }}';
+        document.getElementById('order_sdt_ban').value = '{{ \App\Models\SystemSetting::get("sdt_cong_ty", "0368 301 305") }}';
         document.getElementById('order_nguoi_mua').value = '';
         document.getElementById('order_sdt_mua').value = '';
         openModal('modal-taodon');
@@ -395,10 +391,26 @@
         }
     }
 
-    function selectKH(c) {
+    async function selectKH(c) {
         document.getElementById('order_kh_id').value = c.id;
         searchInp.value = c.ten_cty;
         dropdown.style.display = 'none';
+
+        // Tự động điền thông tin Người mua từ khách hàng
+        document.getElementById('order_nguoi_mua').value = c.nguoi_lien_he || '';
+        document.getElementById('order_sdt_mua').value = c.sdt || '';
+        
+        // Tự động điền thông tin Người bán (Mặc định user hiện tại)
+        document.getElementById('order_nguoi_ban').value = '{{ auth()->user()->display_name ?? auth()->user()->username }}';
+        document.getElementById('order_sdt_ban').value = '{{ \App\Models\SystemSetting::get("sdt_cong_ty", "0368 301 305") }}';
+
+        // Tự động lấy mã CTO mới cho khách hàng này
+        try {
+            const res = await fetch(`{{ route('orders.next-code') }}?ma_kh=${c.ma_kh}`).then(r => r.json());
+            if (res.success) {
+                document.getElementById('order_ma_don').value = res.code;
+            }
+        } catch (err) { console.error('Lỗi lấy mã CTO:', err); }
     }
 
     document.addEventListener('click', (e) => {

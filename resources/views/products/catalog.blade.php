@@ -16,6 +16,7 @@
                 <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
             </div>
         </div>
+        <button class="btn-add-product" onclick="openProductModal()"><i class="fas fa-plus"></i> Thêm sản phẩm</button>
     </div>
 
     {{-- BLOCK 1: ACTIONS --}}
@@ -23,9 +24,6 @@
         <div class="action-left">
             <button class="btn-action btn-import" onclick="openImportModal()"><i class="fas fa-file-import"></i> Import Excel</button>
             <a href="{{ route('catalog.export', request()->query()) }}" class="btn-action btn-export"><i class="fas fa-file-export"></i> Export Excel</a>
-        </div>
-        <div class="action-right">
-            <button class="btn-add-product" onclick="openProductModal()"><i class="fas fa-plus"></i> Thêm sản phẩm</button>
         </div>
     </div>
 
@@ -75,18 +73,18 @@
             <table class="catalog-table">
                 <thead>
                     <tr>
-                        <th width="40"><input type="checkbox" class="check-all"></th>
-                        <th width="50">STT</th>
-                        <th width="120">Mã hàng</th>
-                        <th>Tên hàng</th>
-                        <th width="140">Nhóm hàng</th>
-                        <th width="100">Quy cách</th>
-                        <th width="70">ĐVT</th>
-                        <th width="160">Giá bán mặc định (VNĐ)</th>
-                        <th width="80">VAT (%)</th>
-                        <th width="200">Nhà cung cấp</th>
-                        <th width="130">Trạng thái</th>
-                        <th width="100">Thao tác</th>
+                        <th width="3%"><input type="checkbox" class="check-all"></th>
+                        <th width="3%">STT</th>
+                        <th width="8%">Mã hàng</th>
+                        <th width="20%">Tên hàng</th>
+                        <th width="10%">Nhóm hàng</th>
+                        <th width="8%">Quy cách</th>
+                        <th width="5%">ĐVT</th>
+                        <th width="10%">Giá bán (VNĐ)</th>
+                        <th width="5%">VAT (%)</th>
+                        <th width="12%">Nhà cung cấp</th>
+                        <th width="8%">Trạng thái</th>
+                        <th width="6%">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -296,13 +294,18 @@
         font-size: 13px;
         font-weight: 600;
         border: 1px solid #e2e8f0;
-        background: #fff;
         color: #475569;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 8px;
         transition: all 0.2s;
+    }
+    .btn-import {
+        background: #ecfdf5;
+    }
+    .btn-export {
+        background: #F5F7FA;
     }
     .btn-action:hover {
         background: #f8fafc;
@@ -341,7 +344,7 @@
         align-items: end;
     }
     .filter-item { display: flex; flex-direction: column; gap: 6px; }
-    .filter-item label { font-size: 12px; font-weight: 700; color: #1e293b; }
+    .filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
     
     .filter-input {
         height: 36px;
@@ -389,7 +392,7 @@
         flex: 1;
         height: 36px;
         background: #fff;
-        color: #475569;
+        color: #ef4444;
         border: 1px solid #e2e8f0;
         border-radius: 6px;
         font-weight: 600;
@@ -411,18 +414,19 @@
         border-collapse: collapse;
     }
     .catalog-table thead th {
-        background: #f8fafc;
+        background: #EFF6FF;
         padding: 10px 8px;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
-        color: #475569;
+        color: black;
         text-align: center;
         border: 1px solid #e2e8f0;
         white-space: nowrap;
+        text-transform: uppercase;
     }
     .catalog-table tbody td {
         padding: 9px 8px;
-        font-size: 12px;
+        font-size: 13px;
         color: #1e293b;
         text-align: center;
         border: 1px solid #e2e8f0;
@@ -433,7 +437,7 @@
     .text-left { text-align: left !important; }
     .text-right { text-align: right !important; }
     .text-bold { font-weight: 700; color: #0070D2; }
-    .text-muted { color: #64748b; font-size: 12px; }
+    .text-muted { color: #64748b; font-size: 13px; }
 
     /* BADGE */
     .status-badge {
@@ -459,7 +463,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
+        font-size: 13px;
         transition: all 0.2s;
     }
     .btn-edit { color: #3b82f6; }
@@ -474,7 +478,7 @@
         justify-content: space-between;
         align-items: center;
         border-top: 1px solid #f1f5f9;
-        font-size: 12px;
+        font-size: 13px;
     }
     .pagination-info { font-size: 12px; color: #64748b; }
     .pagination-right { display: flex; gap: 12px; align-items: center; }

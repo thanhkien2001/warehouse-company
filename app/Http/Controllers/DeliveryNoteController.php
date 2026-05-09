@@ -112,6 +112,15 @@ class DeliveryNoteController extends Controller
         return response()->json(['success' => true, 'message' => "Tạo phiếu [{$dnCode}] thành công!", 'dn_code' => $dnCode]);
     }
 
+    public function nextCode(Request $request)
+    {
+        $maKH = $request->get('ma_kh');
+        if (!$maKH) return response()->json(['success' => false, 'message' => 'Thiếu mã khách hàng']);
+        
+        $code = CodeGeneratorService::generateDnCode($maKH);
+        return response()->json(['success' => true, 'code' => $code]);
+    }
+
     public function updateStatus(Request $request, DeliveryNote $deliveryNote)
     {
         $request->validate(['trang_thai' => 'required|string']);

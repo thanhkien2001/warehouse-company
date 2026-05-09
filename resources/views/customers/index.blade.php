@@ -4,9 +4,10 @@
 @section('page-subtitle', 'Theo dõi, tìm kiếm và quản lý danh bạ khách hàng của bạn.')
 
 @section('content')
-<div class="card" style="padding: 24px;">
-    
-    <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+
+    {{-- PAGE HEADER --}}
+    <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 0;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15); flex-shrink: 0;">
                 <i class="fas fa-address-book" style="font-size: 24px; color: #0070D2;"></i>
@@ -16,118 +17,129 @@
                 <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
+        <button type="button" onclick="openCreateKHModal()" class="btn-add-kh">
+            <i class="fas fa-plus"></i> Thêm khách hàng
+        </button>
     </div>
 
-    {{-- BỘ LỌC MỚI --}}
-    <form method="GET" id="search-form-new" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
-        {{-- Hàng 1: Từ ngày - Đến ngày + Nút lọc + Thêm khách hàng --}}
-        <div class="filter-row">
-            <div class="filter-group">
-                <div class="date-range-group" style="display: flex; gap: 0;">
-                    <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px 0 0 6px; padding: 0 12px; border-right: none;">
-                        <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
-                    </div>
-                    <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Từ ngày">
-                    <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; padding: 0 12px; border-left: none; border-right: none;">
-                        <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
-                    </div>
-                    <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; border-radius: 0 6px 6px 0; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Đến ngày">
+    {{-- BỘ LỌC --}}
+    <div class="kh-filter-card">
+        <form method="GET" id="search-form-new">
+            {{-- Row 1: Ngày + Search + Khu vực + Tình trạng + Nút --}}
+            <div class="kh-filter-grid">
+                <div class="kh-filter-item">
+                    <label>Từ ngày</label>
+                    <input type="date" name="date_start" class="kh-filter-input" value="{{ request('date_start') }}">
                 </div>
-                <button type="submit" style="background: #0070D2; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                    <i class="fas fa-search"></i> Lọc
-                </button>
-                <a href="{{ route('customers.index') }}" style="background: #E74C3C; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Xóa lọc</a>
+                <div class="kh-filter-item">
+                    <label>Đến ngày</label>
+                    <input type="date" name="date_end" class="kh-filter-input" value="{{ request('date_end') }}">
+                </div>
+                <div class="kh-filter-item" style="flex: 2;">
+                    <label>Tìm kiếm</label>
+                    <div class="kh-search-wrapper">
+                        <input type="text" name="search" class="kh-filter-input" placeholder="Nhập tên, SĐT, MST..." value="{{ request('search') }}">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                <div class="kh-filter-item">
+                    <label>Khu vực</label>
+                    <select name="khu_vuc" class="kh-filter-input">
+                        <option value="">Tất cả</option>
+                        <option value="Miền Bắc" {{ request('khu_vuc')=='Miền Bắc' ? 'selected' : '' }}>Miền Bắc</option>
+                        <option value="Miền Trung" {{ request('khu_vuc')=='Miền Trung' ? 'selected' : '' }}>Miền Trung</option>
+                        <option value="Miền Nam" {{ request('khu_vuc')=='Miền Nam' ? 'selected' : '' }}>Miền Nam</option>
+                    </select>
+                </div>
+                <div class="kh-filter-item">
+                    <label>Tình trạng</label>
+                    <select name="tinh_trang" class="kh-filter-input">
+                        <option value="">Tất cả</option>
+                        <option value="active" {{ request('tinh_trang')=='active' ? 'selected' : '' }}>Đang hoạt động</option>
+                        <option value="unactive" {{ request('tinh_trang')=='unactive' ? 'selected' : '' }}>Ngưng giao dịch</option>
+                    </select>
+                </div>
+                <div class="kh-filter-item kh-filter-btn-group">
+                    <label>&nbsp;</label>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="submit" class="kh-btn-search"><i class="fas fa-search"></i> Lọc</button>
+                        <a href="{{ route('customers.index') }}" class="kh-btn-clear"><i class="fas fa-times"></i> Xóa lọc</a>
+                    </div>
+                </div>
             </div>
 
-            <button type="button" onclick="openCreateKHModal()" style="background: #0070D2; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;">
-                <i class="fas fa-plus"></i> Thêm khách hàng
-            </button>
-        </div>
-
-        {{-- Hàng 2: Tìm kiếm + Các bộ lọc còn lại --}}
-        <div class="filter-row">
-            <div style="position: relative; flex: 1; min-width: 300px; max-width: 500px;">
-                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm theo tên, SĐT, MST..." style="width: 100%; padding: 8px 15px 8px 40px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;">
-            </div>
-
-            <div class="filter-group">
-                <select name="khu_vuc" onchange="this.form.submit()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
-                    <option value="">Khu vực</option>
-                    <option value="Miền Bắc" {{ request('khu_vuc')=='Miền Bắc'?'selected':'' }}>Miền Bắc</option>
-                    <option value="Miền Trung" {{ request('khu_vuc')=='Miền Trung'?'selected':'' }}>Miền Trung</option>
-                    <option value="Miền Nam" {{ request('khu_vuc')=='Miền Nam'?'selected':'' }}>Miền Nam</option>
-                </select>
-                <select name="tinh_trang" onchange="this.form.submit()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; color: #475569; background: #fff; cursor: pointer; min-width: 120px;">
-                    <option value="">Tình trạng</option>
-                    <option value="active" {{ request('tinh_trang')=='active'?'selected':'' }}>Đang hoạt động</option>
-                    <option value="unactive" {{ request('tinh_trang')=='unactive'?'selected':'' }}>Ngưng giao dịch</option>
-                </select>
-                <button type="button" onclick="document.getElementById('kh-import-input').click()" style="background: #D97706; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    <i class="fas fa-download"></i> Nhập Excel
+            {{-- Row 2: Import / Export Excel --}}
+            <div class="kh-action-row">
+                <button type="button" onclick="document.getElementById('kh-import-input').click()" class="kh-btn-excel import">
+                    <i class="fas fa-file-import"></i> Nhập Excel
                 </button>
-                <button type="button" onclick="exportKHExcel()" style="background: #059669; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                    <i class="fas fa-upload"></i> Xuất Excel
+                <button type="button" onclick="exportKHExcel()" class="kh-btn-excel export">
+                    <i class="fas fa-file-export"></i> Xuất Excel
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <input type="file" id="kh-import-input" style="display:none" onchange="importKHExcel(this)">
 
-    <div class="legacy-table-container" style="border-left: none; border-right: none; box-shadow: none;">
-        <table class="legacy-table">
-            <thead>
-                <tr>
-                    <th style="text-align: center; width: 3%;"><input type="checkbox" id="check-all-kh" onclick="toggleCheckAll(this)"></th>
-                    <th style="text-align: center; width: 5%;">STT</th>
-                    <th style="text-align: center; width: 10%;">Ngày tạo</th>
-                    <th style="text-align: center; width: 10%;">Mã Khách Hàng</th>
-                    <th style="text-align: center; width: 25%;">Thông tin khách hàng</th>
-                    <th style="text-align: center; width: 12%;">Mã Số Thuế</th>
-                    <th style="text-align: center; width: 12%; min-width: 110px;">Khu vực</th>
-                    <th style="text-align: center; width: 10%;">P.I.C</th>
-                    <th style="text-align: center; width: 8%;">Tình trạng</th>
-                    <th style="text-align: center; width: 7%;">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($customers as $idx => $kh)
-                <tr style="cursor: pointer;" onclick="if(!event.target.closest('button') && !event.target.closest('input') && !event.target.closest('a')) { window.location.href='{{ route('customers.show', $kh->id) }}'; }">
-                    <td style="text-align: center;"><input type="checkbox" class="check-kh" value="{{ $kh->id }}"></td>
-                    <td style="text-align: center;">{{ $customers->firstItem() + $idx }}</td>
-                    <td style="text-align: center;">{{ $kh->created_date ? \Carbon\Carbon::parse($kh->created_date)->format('d/m/Y') : $kh->created_at->format('d/m/Y') }}</td>
-                    <td style="text-align: center;"><b style="color:#0070D2">{{ $kh->ma_kh }}</b></td>
-                    <td class="col-left">
-                        <div style="font-weight: 600; color: #0f172a; margin-bottom: 2px; font-size: 14px;">{{ $kh->ten_cty }}</div>
-                        <div style="font-size: 11.5px; color: #64748b; line-height: 1.5;">
-                            <i class="fas fa-phone-alt" style="margin-right: 4px; font-size: 10px;"></i>{{ $kh->sdt }} | 
-                            <i class="fas fa-map-marker-alt" style="margin-right: 4px; font-size: 10px;"></i>{{ Str::limit($kh->dia_chi, 60) }}
-                        </div>
-                    </td>
-                    <td style="text-align: center;">{{ $kh->ma_so_thue }}</td>
-                    <td style="text-align: center; white-space: nowrap;">
-                        <span class="badge-region {{ Str::slug($kh->khu_vuc) }}">{{ $kh->khu_vuc }}</span>
-                    </td>
-                    <td style="text-align: center;">
-                        <span style="font-size: 12px; font-weight: 600; color: #475569;">{{ $kh->creator->display_name ?? 'System' }}</span>
-                    </td>
-                    <td style="text-align: center;">
-                        @if(($kh->tinh_trang ?? 'active') == 'active')
-                            <span class="badge-status-kh active">Đang hoạt động</span>
-                        @else
-                            <span class="badge-status-kh unactive">Ngưng giao dịch</span>
-                        @endif
-                    </td>
-                    <td style="text-align: center; white-space: nowrap;">
-                        <button onclick="editKH({{ $kh->id }})" class="action-btn btn-edit-pro" title="Sửa"><i class="fas fa-edit"></i></button>
-                        <button onclick="deleteKH({{ $kh->id }}, '{{ $kh->ten_cty }}')" class="action-btn btn-del-pro" title="Xóa" style="margin-left: 5px;"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                @empty
-                <tr><td colspan="8" style="padding: 40px; text-align: center; color: #94a3b8;">Chưa có khách hàng nào.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+
+    <div class="kh-table-card">
+        <div class="table-responsive">
+            <table class="kh-table">
+                <thead>
+                    <tr>
+                        <th width="3%"><input type="checkbox" id="check-all-kh" onclick="toggleCheckAll(this)"></th>
+                        <th width="5%">STT</th>
+                        <th width="8%">Ngày tạo</th>
+                        <th width="8%">Mã Khách Hàng</th>
+                        <th width="26%">Thông tin khách hàng</th>
+                        <th width="10%">Mã Số Thuế</th>
+                        <th width="10%">Khu vực</th>
+                        <th width="9%">P.I.C</th>
+                        <th width="11%">Tình trạng</th>
+                        <th width="8%">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($customers as $idx => $kh)
+                    <tr style="cursor: pointer;" onclick="if(!event.target.closest('button') && !event.target.closest('input') && !event.target.closest('a')) { window.location.href='{{ route('customers.show', $kh->id) }}'; }">
+                        <td><input type="checkbox" class="check-kh" value="{{ $kh->id }}"></td>
+                        <td>{{ $customers->firstItem() + $idx }}</td>
+                        <td>{{ $kh->created_date ? \Carbon\Carbon::parse($kh->created_date)->format('d/m/Y') : $kh->created_at->format('d/m/Y') }}</td>
+                        <td class="text-bold">{{ $kh->ma_kh }}</td>
+                        <td class="text-left">
+                            <div style="font-weight: 700; color: #0f172a; margin-bottom: 3px; font-size: 13px; text-transform: uppercase;">{{ $kh->ten_cty }}</div>
+                            <div style="font-size: 11px; color: #64748b; line-height: 1.6;">
+                                <div><i class="fas fa-phone-alt" style="margin-right: 5px; width: 11px; transform: scaleX(-1); display: inline-block;"></i>{{ $kh->sdt }}</div>
+                                <div title="{{ $kh->dia_chi }}"><i class="fas fa-map-marker-alt" style="margin-right: 5px; width: 11px;"></i>{{ Str::limit($kh->dia_chi, 500) }}</div>
+                            </div>
+                        </td>
+                        <td>{{ $kh->ma_so_thue }}</td>
+                        <td>
+                            <span class="badge-region {{ Str::slug($kh->khu_vuc) }}">{{ $kh->khu_vuc }}</span>
+                        </td>
+                        <td>
+                            <span style="font-size: 12px; font-weight: 600; color: #475569;">{{ $kh->creator->display_name ?? 'System' }}</span>
+                        </td>
+                        <td>
+                            @if(($kh->tinh_trang ?? 'active') == 'active')
+                                <span class="badge-status-kh active">Đang hoạt động</span>
+                            @else
+                                <span class="badge-status-kh unactive">Ngưng giao dịch</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="kh-action-buttons">
+                                <button onclick="editKH({{ $kh->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteKH({{ $kh->id }}, '{{ $kh->ten_cty }}')" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr><td colspan="10" style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-users fa-2x" style="margin-bottom:10px; display:block;"></i>Chưa có khách hàng nào</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px;">
@@ -227,47 +239,222 @@
 </div>
 
 <style>
-    .modal-pro-label { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
+    .modal-pro-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
     .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; height: 36px; }
     textarea.modal-pro-input { height: auto; }
     select.modal-pro-input { height: 36px; }
     input[type="file"].modal-pro-input { height: auto; padding: 6px 12px; }
     .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
-    .action-btn { width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
-    .btn-edit-pro { background: #eef2ff; color: #0070D2; }
-    .btn-edit-pro:hover { background: #0070D2; color: #fff; }
-    .btn-del-pro { background: #fef2f2; color: #ef4444; }
-    .btn-del-pro:hover { background: #ef4444; color: #fff; }
+    /* ===== BUTTON ADD ===== */
+    .btn-add-kh {
+        padding: 8px 18px;
+        background: #0070D2;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(0, 112, 210, 0.2);
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .btn-add-kh:hover { background: #005bb5; transform: translateY(-1px); }
 
-    /* Override Region Badges with Background Color */
-    .badge-region { padding: 4px 12px !important; border-radius: 20px !important; color: #fff !important; border: none !important; font-size: 11px !important; white-space: nowrap !important; min-width: 85px !important; display: inline-block !important; text-align: center !important; }
-    .badge-region.mien-bac { background: #3498DB !important; }
-    .badge-region.mien-trung { background: #E67E22 !important; }
-    .badge-region.mien-nam { background: #27AE60 !important; }
+    /* ===== KH FILTER (outbound_report style) ===== */
+    .kh-filter-card {
+        padding: 16px 0 4px;
+        border-top: 1.5px solid #f1f5f9;
+        border-bottom: 1.5px solid #f1f5f9;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .kh-filter-grid {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+    .kh-filter-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        flex: 1;
+        min-width: 120px;
+    }
+    .kh-filter-item label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+    .kh-filter-input {
+        height: 36px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 0 12px;
+        font-size: 13px;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+        color: #1e293b;
+        background: #fff;
+    }
+    .kh-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1); }
+    .kh-search-wrapper { position: relative; }
+    .kh-search-wrapper i {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 14px;
+    }
+    .kh-search-wrapper .kh-filter-input { padding-right: 36px; }
+    .kh-filter-btn-group { flex: none; min-width: unset; }
+    .kh-btn-search {
+        height: 36px;
+        padding: 0 16px;
+        background: #0070D2;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .kh-btn-search:hover { background: #005bb5; }
+    .kh-btn-clear {
+        height: 36px;
+        padding: 0 16px;
+        background: #fff;
+        color: #ef4444;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .kh-btn-clear:hover { background: #fef2f2; color: #ef4444; border-color: #ef4444; }
+    .kh-action-row {
+        display: flex;
+        gap: 10px;
+        padding-top: 15px;
+        float:right;
+    }
+    .kh-btn-excel {
+        padding: 7px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid #e2e8f0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        transition: all 0.2s;
+        color: #475569;
+    }
+    .kh-btn-excel.export {
+        background: #F5F7FA;
+    }
+    .kh-btn-excel.import {
+        background: #ecfdf5;
+    }
+    .kh-btn-excel i { font-size: 13px; }
+    .kh-btn-excel.import i { color: #10b981; }
+    .kh-btn-excel.export i { color: #3b82f6; }
+    .kh-btn-excel:hover { background: #f8fafc; border-color: #cbd5e1; }
 
-    .badge-status-kh { padding: 4px 12px; border-radius: 20px; color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; border: none; }
-    .badge-status-kh.active { background: #27AE60; }
-    .badge-status-kh.unactive { background: #ef4444; }
-    
-    .legacy-table th, .legacy-table td { border: 1px solid #edf2f7 !important; }
+    /* ===== KH TABLE (catalog style) ===== */
+    .kh-table-card {
+        border-top: 1.5px solid #f1f5f9;
+        overflow: hidden;
+    }
+    .kh-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .kh-table thead th {
+        background: #EFF6FF;
+        padding: 10px 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: black;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        white-space: nowrap;
+        text-transform: uppercase;
+    }
+    .kh-table tbody td {
+        padding: 9px 8px;
+        font-size: 13px;
+        color: #1e293b;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+    .kh-table tbody tr:hover { background: #f0f7ff; }
+    .kh-table .text-left { text-align: left !important; }
+    .kh-table .text-bold { font-weight: 700; color: #0070D2; }
 
-    /* Checkbox styling */
+    /* Action buttons (catalog style) */
+    .kh-action-buttons { display: flex; justify-content: center; gap: 6px; }
+    .kh-action-buttons .btn-edit,
+    .kh-action-buttons .btn-delete {
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+        background: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+    .kh-action-buttons .btn-edit { color: #3b82f6; }
+    .kh-action-buttons .btn-edit:hover { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+    .kh-action-buttons .btn-delete { color: #ef4444; }
+    .kh-action-buttons .btn-delete:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+    /* Badges */
+    .badge-region { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; text-align: center; min-width: 75px; }
+    .badge-region.mien-bac { color: #3b82f6; background: #eff6ff; }
+    .badge-region.mien-trung { color: #f97316; background: #fff7ed; }
+    .badge-region.mien-nam { color: #10b981; background: #ecfdf5; }
+
+    .badge-status-kh { padding: 4px 12px; border-radius: 4px; color: #fff; font-size: 11px; font-weight: 700; white-space: nowrap; display: inline-block; min-width: 100px; text-align: center; }
+    .badge-status-kh.active { background: #ecfdf5; color: #10b981; }
+    .badge-status-kh.unactive { background: #fef2f2; color: #ef4444; }
+
+    /* Checkbox */
     .check-kh, #check-all-kh { width: 15px; height: 15px; cursor: pointer; vertical-align: middle; }
 
-    /* Responsive adjustments */
+    /* Filter row */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
     .filter-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    
-    @media (max-width: 1400px) {
-        .legacy-table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .legacy-table { min-width: 1200px; }
-    }
 
     @media (max-width: 1200px) {
         .filter-row { flex-direction: column; align-items: stretch; }
         .filter-group { justify-content: flex-start; }
         #search-form-new { gap: 20px; }
+        .kh-table-card { overflow-x: auto; }
+        .kh-table { min-width: 1100px; }
     }
 
     @media (max-width: 768px) {
