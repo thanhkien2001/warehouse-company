@@ -9,7 +9,7 @@
         /* In ấn: Đặt lề trực tiếp tại đây để không bị cắt */
         @page {
             size: A4;
-            margin: 10mm 15mm;
+            margin: 10mm 15mm 45mm 15mm;
         }
         * { box-sizing: border-box; }
         body {

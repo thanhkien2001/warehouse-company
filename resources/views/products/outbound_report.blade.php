@@ -502,7 +502,7 @@
             <div class="stat-icon green"><i class="fas fa-boxes"></i></div>
             <div>
                 <div class="stat-label">Tổng số lượng xuất</div>
-                <div class="stat-value">{{ number_format($totalQty, 0, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($totalQty, 2, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -510,7 +510,7 @@
             <div class="stat-icon orange"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Tổng giá trị xuất (VNĐ)</div>
-                <div class="stat-value" style="font-size:16px;">{{ number_format($totalVal, 0, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($totalVal, 0, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>

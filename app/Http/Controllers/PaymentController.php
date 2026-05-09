@@ -142,11 +142,10 @@ class PaymentController extends Controller
                 return true;
             });
         }
-
         return $filtered;
     }
 
-   public function index(Request $request)
+    public function index(Request $request)
     {
         $query = Payment::query();
 
@@ -155,6 +154,9 @@ class PaymentController extends Controller
         }
         if ($request->date_end) {
             $query->whereDate('payment_date', '<=', $request->date_end);
+        }
+        if ($request->customer) {
+            $query->where('ma_kh', $request->customer);
         }
 
         if ($kw = $request->get('search')) {
@@ -168,44 +170,34 @@ class PaymentController extends Controller
             });
         }
 
-        $payments = $query->orderByDesc('id')
+        $payments = $query->with(['order.customer', 'order.items', 'order.meta'])->orderByDesc('id')
             ->paginate(20)->withQueryString();
-        
-        // Thêm thông tin KH
-        $maKHs = $payments->pluck('ma_kh')->unique();
-        $customers = Customer::whereIn('ma_kh', $maKHs)
-            ->get(['ma_kh','ten_cty','ma_so_thue','sdt','dia_chi','khu_vuc'])
-            ->keyBy('ma_kh');
 
-        // Thêm tổng đơn và còn lại cho mỗi payment
-        $paymentsData = $payments->map(function($p) use ($customers) {
-            $kh       = $customers->get($p->ma_kh);
-            $order    = Order::where('cto_code', $p->cto_code)->with(['items', 'meta'])->first();
+        // Transform collection to add calculated fields
+        $payments->getCollection()->transform(function($p) {
+            $order = $p->order;
+            if ($order) {
+                $tongDon = $order->total_with_vat;
+            } else {
+                $tongDon = 0;
+            }
             
-            $tongItems = $order ? $order->items->sum('thanh_tien') : 0;
-            $vat       = $order?->meta?->vat_percent ?? 8;
-            $tongDon   = $tongItems * (1 + $vat / 100);
-            
-            $daTra    = Payment::where('cto_code', $p->cto_code)->sum('so_tien');
-            $conLai   = max(0, $tongDon - $daTra);
+            $daTra     = Payment::where('cto_code', $p->cto_code)->sum('so_tien');
+            $conLai    = max(0, $tongDon - $daTra);
 
-            return array_merge($p->toArray(), [
-                'ten_kh'   => $kh?->ten_cty ?? $p->ma_kh,
-                'mst'      => $kh?->ma_so_thue ?? '',
-                'sdt'      => $kh?->sdt ?? '',
-                'dia_chi'  => $kh?->dia_chi ?? '',
-                'khu_vuc'  => $kh?->khu_vuc ?? '',
-                'tong_don' => round($tongDon),
-                'con_lai'  => round($conLai),
-            ]);
+            $p->ten_kh   = $order?->customer?->ten_cty ?? $p->ma_kh;
+            $p->khu_vuc  = $order?->customer?->khu_vuc ?? '';
+            $p->tong_don = round($tongDon);
+            $p->con_lai  = round($conLai);
+            return $p;
         });
 
-        // Lấy danh sách đơn hàng chưa thanh toán xong để phục vụ Modal tạo mới
+        // Lấy danh sách đơn hàng chưa thanh toán xong cho Modal
+        $unpaidOrders = [];
         $allOrders = Order::whereNotIn('trang_thai', ['Đã hủy'])
             ->with(['items', 'meta', 'customer'])
             ->get();
 
-        $unpaidOrders = [];
         foreach ($allOrders as $o) {
             $tongItems = $o->items->sum('thanh_tien');
             $vat       = $o->meta->vat_percent ?? 8;
@@ -222,7 +214,9 @@ class PaymentController extends Controller
                 ];
             }
         }
-        return view('payments.index', compact('payments', 'paymentsData', 'unpaidOrders'));
+
+        $allCustomers = Customer::orderBy('ten_cty')->get(['id', 'ma_kh', 'ten_cty']);
+        return view('payments.index', compact('payments', 'unpaidOrders', 'allCustomers'));
     }
 
     public function store(Request $request)

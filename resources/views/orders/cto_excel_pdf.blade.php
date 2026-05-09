@@ -10,6 +10,9 @@ body {
     font-size: 9pt;
     color: #000;
 }
+@page {
+    margin: 10mm 15mm 10mm 15mm; /* reduced bottom margin */
+}
 
 /* ── HEADER TOP ──────────────────────────── */
 .top-wrap {
@@ -113,7 +116,7 @@ table.bottom {
     margin-top: 3mm;
     font-size: 8.5pt;
 }
-.notes {padding-right: 4mm; line-height: 1.7; }
+.notes {padding-right: 4mm; line-height: 1.7; margin-bottom: 10mm;}
 table.totals { border-collapse: collapse; width: 100%; border: none; }
 table.totals td {
     border-bottom: 1px solid #aaa;
@@ -131,10 +134,15 @@ table.totals tr.total-row td { font-weight: bold; background: #E7E6E6; }
 
 /* ── PAYMENT + DELIVERY ──────────────────── */
 table.footer-info {
+    position: fixed;
+    bottom: -10mm; /* adjust based on new margin */
+    left: 0;
+    right: 0;
     width: 100%;
     border-collapse: collapse;
-    margin-top: 5mm;
     font-size: 8.5pt;
+    margin-top: 50mm;
+    page-break-inside: avoid;
 }
 table.footer-info th {
     background: #E7E6E6;

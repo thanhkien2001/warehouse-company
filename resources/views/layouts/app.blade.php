@@ -27,7 +27,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-family); background: var(--bg-body); color: var(--text-main); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        body { font-family: var(--font-family); background: var(--bg-body); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
         
         input[type="date"], input[type="text"], input[type="number"], select, textarea {
             font-family: inherit !important;
@@ -36,56 +36,15 @@
         /* ═══════════════ HEADER ═══════════════ */
         #topbar {
             height: var(--header-height);
-            background: var(--primary);
+            background: #EFF6FF; /* Change topbar to white */
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end; /* Align right */
             padding: 0 24px;
             flex-shrink: 0;
-            z-index: 1100;
-            box-shadow: 0 2px 10px rgba(0,112,210,0.35);
-        }
-
-        .topbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-        .topbar-logo img {
-            height: 38px;
-            width: auto;
-            object-fit: contain;
-            filter: brightness(0) invert(1); /* make image white */
-        }
-        .topbar-logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-        .topbar-logo-text .brand-name {
-            font-size: 15px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.3px;
-            line-height: 1;
-        }
-        .topbar-logo-text .brand-sub {
-            font-size: 10px;
-            color: rgba(255,255,255,0.65);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        /* Page title in center */
-        .topbar-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.9);
-            font-size: 14px;
-            font-weight: 600;
-            pointer-events: none;
+            z-index: 900;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         /* User area */
@@ -100,24 +59,24 @@
             border-radius: 50px;
             transition: background 0.2s;
         }
-        .topbar-user:hover { background: rgba(255,255,255,0.15); }
+        .topbar-user:hover { background: #f8fafc; }
 
         .topbar-avatar {
             width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255,255,255,0.25);
-            border: 2px solid rgba(255,255,255,0.5);
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 14px; color: #fff;
+            font-weight: 800; font-size: 14px; color: var(--primary);
             overflow: hidden;
             flex-shrink: 0;
         }
         .topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
         .topbar-user-info { line-height: 1.2; }
-        .topbar-user-name { font-size: 13px; font-weight: 700; color: #fff; }
-        .topbar-user-role { font-size: 10.5px; color: rgba(255,255,255,0.65); }
+        .topbar-user-name { font-size: 13px; font-weight: 700; color: #1e293b; }
+        .topbar-user-role { font-size: 10.5px; color: #64748b; }
 
-        .topbar-chevron { color: rgba(255,255,255,0.7); font-size: 11px; transition: transform 0.2s; }
+        .topbar-chevron { color: #94a3b8; font-size: 11px; transition: transform 0.2s; }
         .topbar-user.open .topbar-chevron { transform: rotate(180deg); }
 
         /* User dropdown */
@@ -172,23 +131,45 @@
         /* ═══════════════ SIDEBAR (WHITE) ═══════════════ */
         #sidebar {
             width: var(--sidebar-width);
-            background: var(--sidebar-bg);
+            background: #002B6B; /* Changed to dark blue as in user screenshot */
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100vh;
             flex-shrink: 0;
-            border-right: 1px solid #e2e8f0;
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
             z-index: 1000;
             position: relative;
+            color: white;
         }
+        
+        .sidebar-header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: #002B6B;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .sidebar-logo img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
         #sidebar-inner {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
             overflow-x: hidden;
-            width: var(--sidebar-width);
         }
         #sidebar-inner::-webkit-scrollbar { width: 3px; }
         #sidebar-inner::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
@@ -259,16 +240,16 @@
         .menu-item i { width: 18px; text-align: center; font-size: 15px; color: white; transition: color 0.18s; }
         .menu-item span { flex: 1; }
         .menu-item:hover {
-            background: #f0f7ff;
-            color: var(--primary);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
         }
-        .menu-item:hover i { color: var(--primary); }
+        .menu-item:hover i { color: #fff; }
         .menu-item.active {
-            background: #e8f2fd;
-            color: var(--primary);
+            background: #fff;
+            color: #002B6B;
             font-weight: 700;
         }
-        .menu-item.active i { color: var(--primary); }
+        .menu-item.active i { color: #002B6B; }
 
         /* Submenu */
         .has-submenu { position: relative; }
@@ -281,12 +262,12 @@
             text-decoration: none; cursor: pointer; transition: all 0.18s;
         }
         .submenu-item i { font-size: 13px; color: white; width: 16px; text-align: center; transition: color 0.18s; }
-        .submenu-item:hover { background: #f0f7ff; color: var(--primary); }
-        .submenu-item:hover i { color: var(--primary); }
-        .submenu-item.active { color: var(--primary); font-weight: 700; background: #e8f2fd; }
-        .submenu-item.active i { color: var(--primary); }
+        .submenu-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .submenu-item:hover i { color: #fff; }
+        .submenu-item.active { color: #002B6B; font-weight: 700; background: #fff; }
+        .submenu-item.active i { color: #002B6B; }
 
-        .arrow { margin-left: auto; font-size: 10px; color: #94a3b8; transition: 0.3s; transform: rotate(180deg); }
+        .arrow { margin-left: auto; font-size: 10px; color: rgba(255,255,255,0.5); transition: 0.3s; transform: rotate(0deg); }
         .has-submenu.open .arrow { transform: rotate(180deg); }
 
         /* Sidebar bottom copyright */
@@ -391,141 +372,139 @@
 <body>
 
     <!-- ═══════════════ HEADER ═══════════════ -->
-    <header id="topbar">
-        <!-- Left: Logo -->
-        <a href="{{ route('dashboard') }}" class="topbar-logo">
-            <img src="https://i.ibb.co/whdGg4FK/Chat-GPT-Image-00-40-01-22-thg-3-2026.png" alt="GAMBERTE">
-        </a>
+    <!-- ═══════════════ SIDEBAR ═══════════════ -->
+    <aside id="sidebar">
+        <div id="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        
+        <div id="sidebar-inner">
+            <div class="sidebar-header">
+                <a href="{{ route('dashboard') }}" class="sidebar-logo">
+                    <img src="https://i.ibb.co/whdGg4FK/Chat-GPT-Image-00-40-01-22-thg-3-2026.png" alt="GAMBERTE">
+                </a>
+            </div>
+            <div class="menu-container">
+                <ul class="menu-list">
+                    <li>
+                        <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-home"></i> <span>Tổng quan</span>
+                        </a>
+                    </li>
+                    <li class="has-submenu {{ request()->routeIs('catalog.*') ? 'open' : '' }}">
+                        <div class="menu-item" onclick="toggleSubmenu(this)">
+                            <i class="fas fa-th-large"></i> <span>Danh mục</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="submenu {{ request()->routeIs('catalog.*') ? 'show' : '' }}">
+                            <li><a href="{{ route('catalog.index') }}" class="submenu-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">Sản phẩm</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
+                        <div class="menu-item" onclick="toggleSubmenu(this)">
+                            <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'show' : '' }}">
+                            <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Tạo mã khách hàng</a></li>
+                            <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Tạo đơn hàng</a></li>
+                            <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Tạo phiếu giao hàng</a></li>
+                        </ul>
+                    </li>
 
-        <!-- Right: User avatar + dropdown -->
-        <div class="topbar-right">
-            <div class="topbar-user" id="user-trigger" onclick="toggleUserDropdown()">
-                <div class="topbar-avatar">
-                    @if(auth()->user()->avatar ?? false)
-                        <img src="{{ asset('storage/'.auth()->user()->avatar) }}" alt="avatar">
-                    @else
-                        {{ mb_substr(auth()->user()->display_name ?? 'U', 0, 1) }}
+                    <li class="has-submenu {{ request()->routeIs('inventory.*') ? 'open' : '' }}">
+                        <div class="menu-item" onclick="toggleSubmenu(this)">
+                            <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="submenu {{ request()->routeIs('inventory.*') ? 'show' : '' }}">
+                            <li><a href="{{ route('inventory.inbound') }}" class="submenu-item {{ request()->routeIs('inventory.inbound') ? 'active' : '' }}">Nhập kho</a></li>
+                            <li><a href="{{ route('inventory.outbound-report') }}" class="submenu-item {{ request()->routeIs('inventory.outbound-report') ? 'active' : '' }}">Báo cáo xuất kho</a></li>
+                            <li><a href="{{ route('inventory.stock-report') }}" class="submenu-item {{ request()->routeIs('inventory.stock-report') ? 'active' : '' }}">Báo cáo tồn kho</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">
+                        <div class="menu-item" onclick="toggleSubmenu(this)">
+                            <i class="fas fa-wallet"></i> <span>Quản lý công nợ</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </div>
+                        <ul class="submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'show' : '' }}">
+                            <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li>
+                            <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('reports.finance') }}" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                            <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
+                        </a>
+                    </li>
+
+                    @if(auth()->user()->isAdmin())
+                    <li>
+                        <a href="{{ route('admin.index') }}" class="menu-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
+                            <i class="fas fa-user-shield"></i> <span>Quyền quản trị viên</span>
+                        </a>
+                    </li>
                     @endif
-                </div>
-                <div class="topbar-user-info">
-                    <div class="topbar-user-name">{{ auth()->user()->display_name }}</div>
-                    <div class="topbar-user-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
-                </div>
-                <i class="fas fa-chevron-down topbar-chevron"></i>
+                </ul>
             </div>
 
-            <!-- Dropdown -->
-            <div class="user-dropdown" id="user-dropdown">
-                <div class="dropdown-header">
-                    <div class="dh-name">{{ auth()->user()->display_name }}</div>
-                    <div class="dh-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
-                </div>
-                <button class="dropdown-item" onclick="openModal('modal-doi-matkhau'); closeUserDropdown();">
-                    <i class="fas fa-key"></i> Đổi mật khẩu
-                </button>
-                <button class="dropdown-item" onclick="openModal('modal-doi-avatar'); closeUserDropdown();">
-                    <i class="fas fa-camera"></i> Cập nhật ảnh đại diện
-                </button>
-                <div class="dropdown-divider"></div>
-                <form method="POST" action="{{ route('logout') }}" id="logout-form-hd">
-                    @csrf
-                    <button type="button" class="dropdown-item logout" onclick="document.getElementById('logout-form-hd').submit()">
-                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
-                    </button>
-                </form>
+            <div class="sidebar-bottom">
+                <p>COPYRIGHT © GAMBERTE 2026</p>
             </div>
         </div>
-    </header>
+    </aside>
 
-    <!-- ═══════════════ BODY WRAP ═══════════════ -->
-    <div id="body-wrap">
-
-        <!-- ═══════════════ SIDEBAR ═══════════════ -->
-        <aside id="sidebar">
-            <div id="sidebar-toggle" onclick="toggleSidebar()">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-            
-            <div id="sidebar-inner">
-                <div class="menu-container">
-                    <ul class="menu-list">
-                        <li>
-                            <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                                <i class="fas fa-home"></i> <span>Tổng quan</span>
-                            </a>
-                        </li>
-                        <li class="has-submenu {{ request()->routeIs('catalog.*') ? 'open' : '' }}">
-                            <div class="menu-item" onclick="toggleSubmenu(this)">
-                                <i class="fas fa-th-large"></i> <span>Danh mục</span>
-                                <i class="fas fa-chevron-down arrow"></i>
-                            </div>
-                            <ul class="submenu {{ request()->routeIs('catalog.*') ? 'show' : '' }}">
-                                <li><a href="{{ route('catalog.index') }}" class="submenu-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">Sản phẩm</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
-                            <div class="menu-item" onclick="toggleSubmenu(this)">
-                                <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>
-                                <i class="fas fa-chevron-down arrow"></i>
-                            </div>
-                            <ul class="submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'show' : '' }}">
-                                <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Tạo mã khách hàng</a></li>
-                                <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Tạo đơn hàng</a></li>
-                                <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Tạo phiếu giao hàng</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="has-submenu {{ request()->routeIs('inventory.*') ? 'open' : '' }}">
-                            <div class="menu-item" onclick="toggleSubmenu(this)">
-                                <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
-                                <i class="fas fa-chevron-down arrow"></i>
-                            </div>
-                            <ul class="submenu {{ request()->routeIs('inventory.*') ? 'show' : '' }}">
-                                <li><a href="{{ route('inventory.inbound') }}" class="submenu-item {{ request()->routeIs('inventory.inbound') ? 'active' : '' }}">Nhập kho</a></li>
-                                <li><a href="{{ route('inventory.outbound-report') }}" class="submenu-item {{ request()->routeIs('inventory.outbound-report') ? 'active' : '' }}">Báo cáo xuất kho</a></li>
-                                <li><a href="{{ route('inventory.stock-report') }}" class="submenu-item {{ request()->routeIs('inventory.stock-report') ? 'active' : '' }}">Báo cáo tồn kho</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">
-                            <div class="menu-item" onclick="toggleSubmenu(this)">
-                                <i class="fas fa-folder-open"></i> <span>Quản lý công nợ</span>
-                                <i class="fas fa-chevron-down arrow"></i>
-                            </div>
-                            <ul class="submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'show' : '' }}">
-                                <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li>
-                                <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('reports.finance') }}" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                                <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
-                            </a>
-                        </li>
-
-                        @if(auth()->user()->isAdmin())
-                        <li>
-                            <a href="{{ route('admin.index') }}" class="menu-item {{ request()->routeIs('admin.index') ? 'active' : '' }}">
-                                <i class="fas fa-user-shield"></i> <span>Quyền quản trị viên</span>
-                            </a>
-                        </li>
+    <!-- ═══════════════ MAIN WRAPPER ═══════════════ -->
+    <div id="main-wrapper">
+        <!-- ═══════════════ TOPBAR (RIGHT ONLY) ═══════════════ -->
+        <header id="topbar">
+            <div class="topbar-right">
+                <div class="topbar-user" id="user-trigger" onclick="toggleUserDropdown()">
+                    <div class="topbar-avatar">
+                        @if(auth()->user()->avatar ?? false)
+                            <img src="{{ asset('storage/'.auth()->user()->avatar) }}" alt="avatar">
+                        @else
+                            {{ mb_substr(auth()->user()->display_name ?? 'U', 0, 1) }}
                         @endif
-                    </ul>
+                    </div>
+                    <div class="topbar-user-info">
+                        <div class="topbar-user-name">{{ auth()->user()->display_name }}</div>
+                        <div class="topbar-user-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
+                    </div>
+                    <i class="fas fa-chevron-down topbar-chevron"></i>
                 </div>
 
-                <div class="sidebar-bottom">
-                    <p>COPYRIGHT © GAMBERTE 2026</p>
+                <!-- Dropdown -->
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="dropdown-header">
+                        <div class="dh-name">{{ auth()->user()->display_name }}</div>
+                        <div class="dh-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
+                    </div>
+                    <button class="dropdown-item" onclick="openModal('modal-doi-matkhau'); closeUserDropdown();">
+                        <i class="fas fa-key"></i> Đổi mật khẩu
+                    </button>
+                    <button class="dropdown-item" onclick="openModal('modal-doi-avatar'); closeUserDropdown();">
+                        <i class="fas fa-camera"></i> Cập nhật ảnh đại diện
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <form method="POST" action="{{ route('logout') }}" id="logout-form-hd">
+                        @csrf
+                        <button type="button" class="dropdown-item logout" onclick="document.getElementById('logout-form-hd').submit()">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </button>
+                    </form>
                 </div>
             </div>
-        </aside>
+        </header>
 
-        <!-- ═══════════════ MAIN ═══════════════ -->
-        <div id="main-wrapper">
-            <main id="content-area">
-                @yield('content')
-            </main>
-        </div>
+        <!-- ═══════════════ CONTENT AREA ═══════════════ -->
+        <main id="content-area">
+            @yield('content')
+        </main>
+    </div>
 
     </div><!-- /#body-wrap -->
 

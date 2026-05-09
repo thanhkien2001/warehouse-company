@@ -204,8 +204,8 @@ class ProductController extends Controller
                     $hsd->format('d/m/Y'),
                     $item->kho_nhap,
                     number_format($availableQty, 2, ',', '.'),
-                    number_format($item->don_gia, 2, ',', '.'),
-                    number_format($availableVal, 2, ',', '.'),
+                    number_format($item->don_gia, 0, ',', '.'),
+                    number_format($availableVal, 0, ',', '.'),
                     $status,
                     $statusKey
                 ];
@@ -217,7 +217,7 @@ class ProductController extends Controller
                 'nhom'  => $first->category_name ?? 'Khác',
                 'dvt'   => $first->don_vi_tinh ?? 'Kg',
                 'ton'   => number_format($totalProdQty, 2, ',', '.'),
-                'gtri'  => number_format($totalProdVal, 2, ',', '.'),
+                'gtri'  => number_format($totalProdVal, 0, ',', '.'),
                 'lots'  => $lots
             ];
         }

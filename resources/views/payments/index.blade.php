@@ -4,6 +4,22 @@
 @section('page-subtitle', 'Quản lý và tra cứu toàn bộ giao dịch thanh toán công nợ.')
 
 @section('content')
+<style>
+    /* Filter row 2 */
+    .ord-filter-card { padding: 14px; border-bottom: 1.5px solid #f1f5f9; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }
+    .ord-filter-grid { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+    .ord-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
+    .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
+    .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
+    .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+    .ord-search-wrapper { position: relative; }
+    .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
+    .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
+    .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .ord-btn-search:hover { background: #005bb5; }
+    .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
+    .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
+</style>
 <div class="card" style="padding: 24px;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;">
@@ -24,39 +40,53 @@
         </div>
     </div>
 
-    <div id="tonkho-tabs" style="display: flex; gap: 20px; border-bottom: 1px solid #cbd5e1; margin-bottom: 25px;">
+    <!-- <div id="tonkho-tabs" style="display: flex; gap: 20px; border-bottom: 1px solid #cbd5e1; margin-bottom: 25px;">
         <a href="{{ route('debt.index') }}" class="prem-tab">Quản Lý Công Nợ</a>
         <a href="{{ route('payments.index') }}" class="prem-tab active">Lịch Sử Thanh Toán</a>
+    </div> -->
+
+    <div class="ord-filter-card">
+        <form method="GET" action="{{ route('payments.index') }}">
+            <div class="ord-filter-grid">
+                <div class="ord-filter-item">
+                    <label>Từ ngày</label>
+                    <input type="date" name="date_start" class="ord-filter-input" value="{{ request('date_start') }}">
+                </div>
+                <div class="ord-filter-item">
+                    <label>Đến ngày</label>
+                    <input type="date" name="date_end" class="ord-filter-input" value="{{ request('date_end') }}">
+                </div>
+
+                <div class="ord-filter-item" style="flex: 2;">
+                    <label>Khách hàng</label>
+                    <select name="customer" class="ord-filter-input">
+                        <option value="">Tất cả khách hàng</option>
+                        @foreach($allCustomers as $c)
+                            <option value="{{ $c->ma_kh }}" {{ request('customer') == $c->ma_kh ? 'selected' : '' }}>
+                                [{{ $c->ma_kh }}] {{ $c->ten_cty }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="ord-filter-item" style="flex: 2;">
+                    <label>Tìm kiếm</label>
+                    <div class="ord-search-wrapper">
+                        <input type="text" name="search" class="ord-filter-input" placeholder="Tìm mã TT, mã đơn, khách hàng..." value="{{ request('search') }}">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="ord-filter-item" style="flex: none; display:flex; align-items:center; gap:8px;">
+                    <label>&nbsp;</label>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="submit" class="ord-btn-search"><i class="fas fa-search"></i> Tìm kiếm</button>
+                        <a href="{{ route('payments.index') }}" class="ord-btn-clear"><i class="fas fa-times"></i> Xóa lọc</a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-
-    <form method="GET" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center;">
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <div class="date-range-group" style="display: flex; gap: 0;">
-                <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 6px 0 0 6px; padding: 0 12px; border-right: none;">
-                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 14px;"></i>
-                </div>
-                <input type="date" name="date_start" value="{{ request('date_start') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Từ ngày">
-                <div style="display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; padding: 0 12px; border-left: none; border-right: none;">
-                    <i class="far fa-calendar-alt" style="color: #64748b; font-size: 13px;"></i>
-                </div>
-                <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px 10px; border: 1px solid #cbd5e1; border-left: none; border-radius: 0 6px 6px 0; font-size: 13px; color: #475569; outline: none; width: 140px;" placeholder="Đến ngày">
-            </div>
-
-            <div style="position: relative; width: 350px;">
-                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 14px;"></i>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm mã TT, mã đơn, tên khách..." style="width: 100%; padding: 8px 15px 8px 40px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; box-sizing: border-box;">
-            </div>
-
-            <button type="submit" style="background: #0070D2; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                <i class="fas fa-search"></i> Tìm kiếm
-            </button>
-
-            <a href="{{ route('payments.index') }}" style="background: #ef4444; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">
-                Xóa lọc
-            </a>
-        </div>
-
-    </form>
 
     <div class="legacy-table-container">
         <table class="legacy-table">
@@ -82,18 +112,18 @@
                     <td style="text-align: center; font-weight: 700; color: #10b981;">{{ $p->ma_tt }}</td>
                     <td style="text-align: center; font-weight: 700; color: #2563eb;">{{ $p->cto_code }}</td>
                     <td style="text-align: left;">
-                        <div style="font-weight: 600;">{{ $p->order->customer->ten_cty ?? '---' }}</div>
+                        <div style="font-weight: 600;">{{ $p->ten_kh }}</div>
                         <div style="font-size: 11px; color: #94a3b8;">Mã KH: {{ $p->ma_kh }}</div>
                     </td>
                     <td style="text-align: center; white-space: nowrap;">
-                        @if($p->order && $p->order->customer && $p->order->customer->khu_vuc)
-                            <span class="badge-region {{ Str::slug($p->order->customer->khu_vuc) }}">{{ $p->order->customer->khu_vuc }}</span>
+                        @if($p->khu_vuc)
+                            <span class="badge-region {{ Str::slug($p->khu_vuc) }}">{{ $p->khu_vuc }}</span>
                         @else
                             ---
                         @endif
                     </td>
                     
-                    <td style="text-align: right;">{{ number_format($p->so_tien) }}</td>
+                    <td style="text-align: right;">{{ number_format($p->tong_don) }}</td>
                     <td style="text-align: right; color: #10b981; font-weight: 800;">+{{ number_format($p->so_tien) }}</td>
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($p->con_lai) }}</td>
                     <td style="font-size: 11px; color: #64748b;">{{ $p->ghi_chu ?: '---' }}</td>
@@ -148,8 +178,11 @@
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
     .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
-    .don-filter-btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; border: none; background: transparent; cursor: pointer; }
-    .don-filter-btn.active { background: #0070D2; color: white; }
+    .legacy-table-container { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+    .legacy-table { width: 100%; border-collapse: collapse; background: #fff; font-size: 13px; }
+    .legacy-table th { background: #eff6ff; color: #000; font-weight: 800; padding: 12px 10px; border: 1px solid #e2e8f0; text-transform: uppercase; text-align: center; }
+    .legacy-table td { padding: 10px; border: 1px solid #e2e8f0; color: #1e293b; text-align: center; vertical-align: middle; }
+    .legacy-table tr:hover { background-color: #f8fafc; }
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; }
 

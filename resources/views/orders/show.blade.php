@@ -6,7 +6,6 @@
 @push('styles')
 <style>
     .order-detail-container {
-        padding: 24px;
         background: #f8fafc;
         min-height: calc(100vh - 100px);
     }
@@ -301,9 +300,7 @@
 
         <div style="padding: 24px;">
             <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; padding-right: 120px;">
-                <a href="{{ route('orders.index') }}" class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 13px; margin-bottom: 15px;">
-                    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại
-                </a>
+
                 <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Đơn Hàng</h2>
                 <p style="margin: 0; color: #64748b; font-size: 13px;">Xem thông tin, cập nhật trạng thái và chỉnh sửa hàng hóa.</p>
             </div>
@@ -537,7 +534,7 @@ function createRowHtml(stt, data = {}) {
     const ma = data.ma_hang || '';
     const ten = data.ten_hang || '';
     const phu = data.mo_ta_phu || '';
-    const sl = data.so_luong || '';
+    const sl = data.so_luong !== undefined ? data.so_luong : 0;
     const dvt = data.don_vi_tinh || '';
     const gia = data.don_gia || '';
     const nợ = data.cong_no || ''; // Placeholder for "Công nợ"
@@ -560,7 +557,7 @@ function createRowHtml(stt, data = {}) {
                 <input type="text" class="in-phu" value="${phu}" placeholder="Mô tả phụ (quy cách, chất liệu...)" style="font-size: 12px; color: #252a31ff; height: 26px;" ${!canEdit?'readonly':''}>
             </div>
         </td>
-        <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" style="text-align:right" ${!canEdit?'readonly':''}></td>
+        <td><input type="text" class="in-sl" value="${formatQuantity(sl)}" oninput="calcRow(this)" onblur="formatQuantityBlur(this)" onfocus="this.select()" style="text-align:right" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-dvt" value="${dvt}" style="text-align:center" ${!canEdit?'readonly':''}></td>
         <td><input type="text" class="in-gia" value="${formatMoney(gia)}" oninput="formatAndCalc(this)" onfocus="this.select()" style="text-align:right" ${!canEdit?'readonly':''}></td>
         <td class="calc-tt" style="text-align:right; font-weight:700; color:#FF0000 !important">0,00</td>
@@ -654,6 +651,11 @@ function formatAndCalc(input) {
 function formatExchangeRate(input) {
     let val = input.value.replace(/[^0-9]/g, '');
     input.value = val ? Number(val).toLocaleString('vi-VN') : '';
+}
+
+function formatQuantityBlur(input) {
+    let val = parseLocaleNumber(input.value);
+    input.value = formatQuantity(val);
 }
 
 function calcRow(el) {

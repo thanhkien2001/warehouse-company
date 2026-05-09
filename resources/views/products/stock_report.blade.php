@@ -423,7 +423,7 @@
             <div class="stat-icon orange"><i class="fas fa-weight-hanging"></i></div>
             <div>
                 <div class="stat-label">Tổng tồn lượng</div>
-                <div class="stat-value" style="font-size:15px;">{{ number_format($statQty, 0, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($statQty, 2, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -431,7 +431,7 @@
             <div class="stat-icon purple"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Giá trị tồn kho</div>
-                <div class="stat-value" style="font-size:13px;">{{ number_format($statVal, 0, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($statVal, 0, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>
