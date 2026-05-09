@@ -26,7 +26,6 @@ class InboundController extends Controller
         
         $perPage      = $request->input('per_page', 15);
         $inboundItems = InboundItem::with(['receipt.attachments', 'category'])
-                            ->orderByDesc('created_at')
                             ->paginate($perPage);
 
         return view('products.inbound', compact('categories', 'products', 'nextCode', 'inboundItems'));

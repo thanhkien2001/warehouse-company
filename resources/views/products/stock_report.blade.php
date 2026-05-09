@@ -69,9 +69,9 @@
     }
 
     .filter-item label {
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
-        color: #475569;
+        color: black;
     }
 
     .filter-input {
@@ -130,7 +130,7 @@
     .stat-icon.amber  { background: #fffbeb; color: #f59e0b; }
     .stat-icon.red    { background: #fef2f2; color: #ef4444; }
 
-    .stat-label { font-size: 10px; color: #64748b; margin-bottom: 2px; }
+    .stat-label { font-size: 13px; color: black; margin-bottom: 2px; }
     .stat-value { font-size: 18px; font-weight: 800; color: #1e293b; line-height: 1.1; }
     .stat-unit  { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 1px; }
 
@@ -155,7 +155,7 @@
     }
 
     .table-title {
-        font-size: 13px; font-weight: 700; color: #0070D2;
+        font-size: 15px; font-weight: 700; color: #0070D2;
         text-transform: uppercase; display: flex; align-items: center; gap: 6px;
     }
 
@@ -188,7 +188,7 @@
     .data-table th {
         background: #EFF6FF;
         padding: 9px 6px;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
         color: #05080c;
         border: 1px solid #e2e8f0;
@@ -196,15 +196,15 @@
         white-space: nowrap;
         position: sticky;
         top: 0;
+        text-transform: uppercase;
         z-index: 10;
     }
 
     .data-table td {
         padding: 7px 7px;
-        font-size: 12px;
+        font-size: 13px;
         border: 1px solid #e2e8f0;
         color: #1e293b;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -260,7 +260,7 @@
 
     /* ===== BADGES ===== */
     .badge-status {
-        display: inline-flex; align-items: center; justify-content: center;
+        display: inline-flex !important; align-items: center; justify-content: center;
         padding: 2px 8px; border-radius: 20px;
         font-size: 10px; font-weight: 700; white-space: nowrap;
     }
@@ -423,7 +423,7 @@
             <div class="stat-icon orange"><i class="fas fa-weight-hanging"></i></div>
             <div>
                 <div class="stat-label">Tổng tồn lượng</div>
-                <div class="stat-value" style="font-size:15px;">{{ number_format($statQty, 2, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:15px;">{{ number_format($statQty, 0, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -431,7 +431,7 @@
             <div class="stat-icon purple"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Giá trị tồn kho</div>
-                <div class="stat-value" style="font-size:13px;">{{ number_format($statVal, 2, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:13px;">{{ number_format($statVal, 0, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>
@@ -477,14 +477,14 @@
                             <th width="30" style="text-align:center;"><input type="checkbox" id="check-all-sk" onclick="toggleCheckAllSK(this)" style="width:15px;height:15px;cursor:pointer;"></th>
                             <th width="40">STT</th>
                             <th width="85">Mã hàng</th>
-                            <th width="160">Tên hàng</th>
+                            <th width="250">Tên hàng</th>
                             <th width="90">Nhóm hàng</th>
                             <th width="45">ĐVT</th>
                             <th width="90">LOT</th>
                             <th width="85">HSD</th>
                             <th width="130">Kho</th>
-                            <th width="100">Tồn sử dụng (Kg)</th>
-                            <th width="110">Đơn giá vốn (VNĐ)</th>
+                            <th width="100">Tồn (Kg)</th>
+                            <th width="140">Đơn giá vốn (VNĐ)</th>
                             <th width="120">Giá trị tồn (VNĐ)</th>
                             <th width="105">Trạng thái</th>
                             <th width="80">Thao tác</th>
@@ -525,7 +525,7 @@
                             <td></td>
                             <td class="child-stt">{{ $li + 1 }}</td>
                             <td style="color:#0070D2; font-size:11px; padding-left:16px;">{{ $prod['ma'] }}</td>
-                            <td style="font-size:11px; color:#475569; padding-left:10px;">{{ $prod['ten'] }}</td>
+                            <td style="font-size:11px; color:black; padding-left:10px;">{{ $prod['ten'] }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $prod['nhom'] }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $prod['dvt'] }}</td>
                             <td class="td-center" style="font-size:11px; font-weight:600;">{{ $lot[0] }}</td>

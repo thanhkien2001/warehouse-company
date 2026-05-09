@@ -15,32 +15,32 @@
                 <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
             </a>
             <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Phiếu Giao Hàng</h2>
-            <p style="margin: 0; color: #64748b; font-size: 14px;">Mã Đơn Tham Chiếu: <b style="color:#3b82f6">{{ $delivery->cto_code }}</b></p>
+            <p style="margin: 0; color: #64748b; font-size: 13px;">Mã Đơn Tham Chiếu: <b style="color:#3b82f6">{{ $delivery->cto_code }}</b></p>
         </div>
 
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid #e2e8f0; display: flex; gap: 40px; flex-wrap: wrap;">
             {{-- BLOCK LEFT: THÔNG TIN GIAO HÀNG --}}
-            <div style="flex: 1; min-width: 350px; font-size: 14px; color: #0f172a; line-height: 2.2;">
-                <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
+            <div style="flex: 1; min-width: 350px; font-size: 13px; color: #0f172a; line-height: 2.2;">
+                <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i> THÔNG TIN GIAO HÀNG
                 </h3>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Khách hàng:</span> <b style="flex: 1;">{{ $delivery->ten_kh }}</b></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Mã khách hàng:</span> <span style="flex: 1; font-weight: 600;">{{ $delivery->ma_kh }}</span></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Địa chỉ giao:</span> <span style="flex: 1;">{{ $delivery->customer->dia_chi_nhan ?: $delivery->customer->dia_chi }}</span></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Người nhận:</span> <span style="flex: 1;">{{ $delivery->order->nguoi_mua ?? '---' }}</span></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">SĐT Người nhận:</span> <span style="flex: 1;">{{ $delivery->order->sdt_mua ?? '---' }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Khách hàng:</span> <b style="flex: 1;">{{ $delivery->ten_kh }}</b></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Mã khách hàng:</span> <span style="flex: 1; font-weight: 600;">{{ $delivery->ma_kh }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Địa chỉ giao:</span> <span style="flex: 1;">{{ $delivery->customer->dia_chi_nhan ?: $delivery->customer->dia_chi }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Người nhận:</span> <span style="flex: 1;">{{ $delivery->order->nguoi_mua ?? '---' }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">SĐT Người nhận:</span> <span style="flex: 1;">{{ $delivery->order->sdt_mua ?? '---' }}</span></div>
             </div>
 
             {{-- BLOCK RIGHT: CHỨNG TỪ THAM CHIẾU --}}
-            <div style="flex: 1; min-width: 300px; font-size: 14px; color: #0f172a; line-height: 2.2;">
-                <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
+            <div style="flex: 1; min-width: 300px; font-size: 13px; color: #0f172a; line-height: 2.2;">
+                <h3 style="margin: 0 0 10px 0; font-size: 15px; font-weight: 800; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 5px;">
                     <i class="fas fa-receipt" style="margin-right: 5px;"></i> CHỨNG TỪ & LIÊN HỆ
                 </h3>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Mã Phiếu Giao:</span> <b style="flex: 1; color: #10b981; font-size: 16px;">{{ $delivery->dn_code }}</b></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Đơn tham chiếu:</span> <b style="flex: 1; color: #3b82f6;">{{ $delivery->cto_code }}</b></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Ngày xuất / Hạn:</span> <span style="flex: 1;">{{ $delivery->delivery_date->format('d/m/Y') }} / <b style="color:#ef4444">{{ $delivery->han_thanh_toan }} ngày</b></span></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">Người bán:</span> <span style="flex: 1;">{{ $delivery->order->nguoi_ban ?? '---' }}</span></div>
-                <div style="display: flex;"><span style="color: #64748b; width: 130px;">SĐT Người bán:</span> <span style="flex: 1;">{{ $delivery->order->sdt_ban ?? '---' }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Mã Phiếu Giao:</span> <b style="flex: 1; color: #10b981; font-size: 13px;">{{ $delivery->dn_code }}</b></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Đơn tham chiếu:</span> <b style="flex: 1; color: #3b82f6;">{{ $delivery->cto_code }}</b></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Ngày xuất / Hạn:</span> <span style="flex: 1;">{{ $delivery->delivery_date->format('d/m/Y') }} / <b style="color:#ef4444">{{ $delivery->han_thanh_toan }} ngày</b></span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">Người bán:</span> <span style="flex: 1;">{{ $delivery->order->nguoi_ban ?? '---' }}</span></div>
+                <div style="display: flex;"><span style="color: black; width: 130px;">SĐT Người bán:</span> <span style="flex: 1;">{{ $delivery->order->sdt_ban ?? '---' }}</span></div>
             </div>
         </div>
 
@@ -50,8 +50,8 @@
                     <i class="fas fa-boxes" style="color: #f59e0b; margin-right: 5px;"></i> DANH SÁCH HÀNG HÓA XUẤT KHO
                 </h3>
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <span style="font-size: 14px; font-weight: 600; color: #475569;">Trạng thái:</span>
-                    <select id="dn_status" style="padding: 8px 15px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; color: #0f172a; cursor: pointer; font-size: 14px;">
+                    <span style="font-size: 13px; font-weight: 600; color: #475569;">Trạng thái:</span>
+                    <select id="dn_status" style="padding: 8px 15px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; color: #0f172a; cursor: pointer; font-size: 13px;">
                         <option value="Chờ giao hàng" {{ $delivery->trang_thai=='Chờ giao hàng'?'selected':'' }}>Chờ giao hàng</option>
                         <option value="Đang giao" {{ $delivery->trang_thai=='Đang giao'?'selected':'' }}>Đang giao</option>
                         <option value="Đã giao xong" {{ $delivery->trang_thai=='Đã giao xong'?'selected':'' }}>Đã giao xong</option>
@@ -85,7 +85,7 @@
                             <td style="text-align:center; font-weight:700; color: #0070D2;">{{ $item->ma_hang }}</td>
                             <td style="text-align:left">
                                 <div style="font-weight:700; color: #0f172a; margin-bottom: 2px;">{{ $item->ten_hang }}</div>
-                                @if($item->mo_ta_phu)<div style="font-size:11px; color:#64748b; font-style: italic;">{{ $item->mo_ta_phu }}</div>@endif
+                                @if($item->mo_ta_phu)<div style="font-size:11px; color:black;">{{ $item->mo_ta_phu }}</div>@endif
                             </td>
                             <td style="text-align:center; padding: 4px;">
                                 <input type="text" class="in-lot" value="{{ $item->ma_lot }}" placeholder="Số lô..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">

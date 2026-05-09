@@ -303,7 +303,7 @@
 
         /* ═══════════════ MAIN CONTENT ═══════════════ */
         #main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        #content-area { flex: 1; overflow-y: auto; padding: 24px 28px 30px; }
+        #content-area { flex: 1; overflow-y: auto; padding: 24px 28px 30px; background-color: white;}
         #content-area::-webkit-scrollbar { width: 5px; }
         #content-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
 
@@ -316,9 +316,9 @@
         
         /* TABLE STYLE */
         .legacy-table-container {overflow: hidden; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .legacy-table { width: 100%; border-collapse: collapse; border-left: none !important; border-right: none !important; }
-        .legacy-table thead th { background: #f8fafc; padding: 14px 12px; color: #475569 !important; font-size: 12px !important; font-weight: 700 !important; text-transform: uppercase; border-bottom: 2px solid #edf2f7; text-align: center; letter-spacing: 0.5px; border-left: none !important; border-right: none !important; white-space: nowrap; }
-        .legacy-table tbody td { padding: 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #1e293b; border-left: none !important; border-right: none !important; text-align: center; }
+        .legacy-table { width: 100%; border-collapse: collapse; border:1px solid #e2e8f0;}
+        .legacy-table thead th { background: #EFF6FF; padding: 14px 12px; color: black !important; font-size: 12px !important; font-weight: 700 !important; text-transform: uppercase; border-bottom: 2px solid #edf2f7; text-align: center; letter-spacing: 0.5px; border:1px solid #e2e8f0; white-space: nowrap; }
+        .legacy-table tbody td { padding: 8px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #1e293b; border:1px solid #e2e8f0; text-align: center; }
         .legacy-table tbody tr:last-child td { border-bottom: none; }
         .legacy-table tbody tr:hover { background: #f8fafc; }
 
@@ -328,7 +328,7 @@
         .col-right { text-align: right !important; }
         
         /* STATUS BADGES */
-        .badge-status { display: inline-block; width: 130px; text-align: center; padding: 6px 4px; border-radius: 50px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+        .badge-status { display: inline-block; text-align: center; padding: 6px 4px; border-radius: 50px; font-size: 11px; font-weight: 700; white-space: nowrap; }
         .badge-status.cho-xac-nhan { color: #E67E22; }
         .badge-status.dang-xu-ly { color: #3498DB; }
         .badge-status.da-huy { color: #E74C3C; }
@@ -701,7 +701,7 @@
         // Global Formatters
         function formatMoney(amount) {
             if (amount === undefined || amount === null || amount === '') return '0,00';
-            return Number(amount).toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return Number(amount).toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
         }
 
         function formatQuantity(qty) {

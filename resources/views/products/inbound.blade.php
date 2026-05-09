@@ -22,7 +22,7 @@
     }
 
     .ib-block-title {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 700;
         color: var(--primary);
         margin-bottom: 12px;
@@ -50,7 +50,7 @@
     .form-group label {
         font-size: 13px;
         font-weight: 600;
-        color: #475569;
+        color: black;
         width: 110px;
         flex-shrink: 0;
     }
@@ -123,7 +123,7 @@
         box-sizing: border-box;
     }
 
-    .attachment-table { width: 100%; font-size: 11px; border-collapse: collapse; }
+    .attachment-table { width: 100%; font-size: 13px; border-collapse: collapse; }
     .attachment-table td { padding: 6px; border-bottom: 1px solid #f1f5f9; }
 
     /* TABLE ITEM */
@@ -132,14 +132,15 @@
     .item-table th {
         background: #EFF6FF;
         padding: 10px 5px;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
         color: black;
         border: 1px solid #e2e8f0;
         text-align: center;
+        text-transform: uppercase;
     }
 
-    .item-table td { padding: 0; border: 1px solid #e2e8f0; }
+    .item-table td { padding: 0; border: 1px solid #e2e8f0; font-size: 13px; }
 
     .item-table .ib-input {
         border: 1px solid transparent;
@@ -183,8 +184,8 @@
     .prod-autocomplete .ac-item:hover { background: #eff6ff; }
     .prod-autocomplete .ac-code { font-weight: 700; color: #0070D2; }
 
-    .btn-add { background: #0070D2; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; font-size: 12px; }
-    .btn-outline-custom { background: #fff; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px; }
+    .btn-add { background: #0070D2; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; font-size: 13px; }
+    .btn-outline-custom { background: #fff; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 13px; }
 
     .table-block { flex: 1; display: flex; flex-direction: column; min-height: 0; }
     .table-responsive { flex: 1; overflow-y: auto; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 4px; min-height: 400px; }
@@ -364,14 +365,14 @@
                         <th width="110">Mã hàng</th>
                         <th width="200">Tên hàng</th>
                         <th width="90">Nhóm</th>
-                        <th width="50">ĐVT</th>
+                        <th width="40">ĐVT</th>
                         <th width="90">Quy cách</th>
-                        <th width="70">SL</th>
+                        <th width="60">SL</th>
                         <th width="100">Đơn giá</th>
                         <th width="110">Thành tiền</th>
                         <th width="90">Số lô</th>
-                        <th width="100">NSX</th>
-                        <th width="100">HSD</th>
+                        <th width="110">NSX</th>
+                        <th width="110">HSD</th>
                         <th width="120">Kho</th>
                         <th width="35"></th>
                     </tr>
@@ -398,9 +399,9 @@
                                 <input type="text" class="ib-input col-ma" placeholder="Mã hàng" value="{{ $item->ma_hang }}" autocomplete="off" readonly>
                             </td>
                             <td><input type="text" class="ib-input col-ten" placeholder="Tên hàng" value="{{ $item->ten_hang }}" readonly></td>
-                            <td><input type="text" class="ib-input col-nhom" placeholder="Nhóm" value="{{ $item->category ? $item->category->name : '' }}" readonly></td>
-                            <td><input type="text" class="ib-input col-dvt" placeholder="Kg" value="{{ $item->don_vi_tinh }}" readonly></td>
-                            <td><input type="text" class="ib-input col-qc" placeholder="Quy cách" value="{{ $item->quy_cach }}" readonly></td>
+                            <td><input type="text" class="ib-input col-nhom" style="text-align:center;" placeholder="Nhóm" value="{{ $item->category ? $item->category->name : '' }}" readonly></td>
+                            <td><input type="text" class="ib-input col-dvt" style="text-align:center;" placeholder="Kg" value="{{ $item->don_vi_tinh }}" readonly></td>
+                            <td><input type="text" class="ib-input col-qc" style="text-align:center;" placeholder="Quy cách" value="{{ $item->quy_cach }}" readonly></td>
                             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:center;" value="{{ (float)$item->so_luong }}" oninput="calc(this)"></td>
                             <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="{{ number_format($item->don_gia, 0, ',', '.') }}" oninput="calc(this)"></td>
                             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="{{ number_format($item->thanh_tien, 0, ',', '.') }}" readonly></td>

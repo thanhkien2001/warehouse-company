@@ -29,7 +29,7 @@
     }
 
     .obr-header .breadcrumb {
-        font-size: 11px;
+        font-size: 13px;
         color: #64748b;
         margin: 2px 0 0;
     }
@@ -64,9 +64,9 @@
     }
 
     .filter-item label {
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
-        color: #475569;
+        color: black;
     }
 
     .filter-input {
@@ -156,7 +156,7 @@
     .stat-icon.teal   { background: #f0fdfa; color: #14b8a6; }
 
     .stat-label {
-        font-size: 11px;
+        font-size: 13px;
         color: #64748b;
         margin-bottom: 2px;
     }
@@ -198,7 +198,7 @@
     }
 
     .table-title {
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 700;
         color: #0070D2;
         text-transform: uppercase;
@@ -247,7 +247,7 @@
     .data-table th {
         background: #EFF6FF;
         padding: 9px 6px;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
         color: #05080c;
         border: 1px solid #e2e8f0;
@@ -256,11 +256,12 @@
         position: sticky;
         top: 0;
         z-index: 10;
+        text-transform: uppercase;
     }
 
     .data-table td {
         padding: 7px 7px;
-        font-size: 12px;
+        font-size: 13px;
         border: 1px solid #e2e8f0;
         color: #1e293b;
         white-space: nowrap;
@@ -289,7 +290,7 @@
         color: #0070D2;
         font-weight: 600;
         text-decoration: none;
-        font-size: 11px;
+        font-size: 13px;
     }
 
     .link-phieu:hover { text-decoration: underline; }
@@ -392,7 +393,7 @@
 
     /* ===== NGUON PHIEU cell ===== */
     .nguon-cell {
-        font-size: 11px;
+        font-size: 13px;
         color: #64748b;
     }
 
@@ -501,7 +502,7 @@
             <div class="stat-icon green"><i class="fas fa-boxes"></i></div>
             <div>
                 <div class="stat-label">Tổng số lượng xuất</div>
-                <div class="stat-value">{{ number_format($totalQty, 2, ',', '.') }}</div>
+                <div class="stat-value">{{ number_format($totalQty, 0, ',', '.') }}</div>
                 <div class="stat-unit">Kg</div>
             </div>
         </div>
@@ -509,7 +510,7 @@
             <div class="stat-icon orange"><i class="fas fa-coins"></i></div>
             <div>
                 <div class="stat-label">Tổng giá trị xuất (VNĐ)</div>
-                <div class="stat-value" style="font-size:16px;">{{ number_format($totalVal, 2, ',', '.') }}</div>
+                <div class="stat-value" style="font-size:16px;">{{ number_format($totalVal, 0, ',', '.') }}</div>
                 <div class="stat-unit">VNĐ</div>
             </div>
         </div>
@@ -576,22 +577,22 @@
                         @forelse ($rows as $i => $r)
                         <tr>
                             <td class="td-center"><input type="checkbox" class="check-ob" style="width:15px;height:15px;cursor:pointer;"></td>
-                            <td class="td-center" style="color:#64748b; font-size:11px;">{{ ($rows->firstItem() ?? 1) + $i }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ \Carbon\Carbon::parse($r->delivery_date)->format('d/m/Y') }}</td>
+                            <td class="td-center" style="color:#64748b; font-size:13px;">{{ ($rows->firstItem() ?? 1) + $i }}</td>
+                            <td class="td-center" style="font-size:13px;">{{ \Carbon\Carbon::parse($r->delivery_date)->format('d/m/Y') }}</td>
                             <td class="td-center"><a href="{{ url('/phieu-giao/' . $r->dn_id) }}" class="link-phieu">{{ $r->dn_code }}</a></td>
                             <td class="td-center">
                                 <span class="badge-type badge-banhang">Bán hàng</span>
                             </td>
-                            <td>{{ $r->ten_kh }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r->kho_xuat ?? 'Kho Nguyên Liệu' }}</td>
-                            <td class="td-center" style="font-weight:600; color:#0070D2; font-size:11px;">{{ $r->ma_hang }}</td>
-                            <td style="font-size:11px;">{{ $r->ten_hang }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r->ma_lot }}</td>
-                            <td class="td-center" style="font-size:11px;">{{ $r->han_su_dung ? \Carbon\Carbon::parse($r->han_su_dung)->format('d/m/Y') : '---' }}</td>
+                            <td style="text-transform:uppercase;">{{ $r->ten_kh }}</td>
+                            <td class="td-center" style="font-size:13px;">{{ $r->kho_xuat ?? 'Kho Nguyên Liệu' }}</td>
+                            <td class="td-center" style="font-weight:600; color:#0070D2; font-size:13px;">{{ $r->ma_hang }}</td>
+                            <td style="font-size:13px;">{{ $r->ten_hang }}</td>
+                            <td class="td-center" style="font-size:13px;">{{ $r->ma_lot }}</td>
+                            <td class="td-center" style="font-size:13px;">{{ $r->han_su_dung ? \Carbon\Carbon::parse($r->han_su_dung)->format('d/m/Y') : '---' }}</td>
                             <td class="td-center">{{ $r->don_vi_tinh }}</td>
                             <td class="td-right" style="font-weight:600;">{{ number_format($r->so_luong, 2, ',', '.') }}</td>
-                            <td class="td-right">{{ number_format($r->don_gia, 2, ',', '.') }}</td>
-                            <td class="td-right" style="font-weight:600; color:#1e293b;">{{ number_format($r->thanh_tien, 2, ',', '.') }}</td>
+                            <td class="td-right">{{ number_format($r->don_gia, 0, ',', '.') }}</td>
+                            <td class="td-right" style="font-weight:600; color:#1e293b;">{{ number_format($r->thanh_tien, 0, ',', '.') }}</td>
                             <td style="text-align: center;">
                                 <div class="nguon-cell">
                                     Đơn Hàng<br>

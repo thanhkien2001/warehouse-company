@@ -50,14 +50,14 @@
     .info-column {
         flex: 1;
         min-width: 300px;
-        font-size: 14px;
+        font-size: 13px;
         color: #0f172a;
         line-height: 2.2;
     }
 
     .info-column h3 {
         margin: 0 0 10px 0;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 800;
         text-transform: uppercase;
         border-bottom: 1px dashed #cbd5e1;
@@ -167,8 +167,8 @@
         margin-top: 10px;
         border-radius: 8px;
         font-size: 15px;
-        background: #0070D2 !important;
-        color: white;
+        background: #EFF6FF !important;
+        color: black;
         font-weight: 600;
         cursor: pointer;
         transition: 0.2s;
@@ -204,7 +204,7 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 12px;
-        font-size: 14px;
+        font-size: 13px;
         color: #475569;
     }
 
@@ -261,7 +261,7 @@
         font-weight: 600;
         color: #0f172a;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     /* Autocomplete */
@@ -302,10 +302,10 @@
         <div style="padding: 24px;">
             <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; padding-right: 120px;">
                 <a href="{{ route('orders.index') }}" class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 13px; margin-bottom: 15px;">
-                    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
+                    <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại
                 </a>
                 <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Đơn Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 14px;">Xem thông tin, cập nhật trạng thái và chỉnh sửa hàng hóa.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;">Xem thông tin, cập nhật trạng thái và chỉnh sửa hàng hóa.</p>
             </div>
 
             <div class="info-section">
@@ -346,7 +346,7 @@
                                 value="{{ number_format((float)($order->meta?->ty_gia ?? 25450), 0, ',', '.') }}" 
                                 placeholder="Tỷ giá..."
                                 oninput="formatExchangeRate(this)"
-                                style="width: 85px; border: none; outline: none; text-align: right; color: #0f172a; font-weight: 800; font-size: 14px; background:transparent;">
+                                style="width: 85px; border: none; outline: none; text-align: right; color: #0f172a; font-weight: 800; font-size: 13px; background:transparent;">
                             <span style="color: #cbd5e1;">|</span>
                             <input type="text" id="inp-ngay-tygia" 
                                 value="{{ $order->meta?->ngay_ty_gia ?? now()->format('d/m/Y') }}" 
@@ -354,7 +354,7 @@
                                 style="width: 90px; border: none; outline: none; text-align: center; color: #64748b; font-size: 13px; background:transparent;">
                         </div>
 
-                        <span style="font-size: 14px; font-weight: 600; color: #475569;">Trạng thái:</span>
+                        <span style="font-size: 13px; font-weight: 600; color: #475569;">Trạng thái:</span>
                         <select id="sel-status" class="status-select" onchange="syncStatusFromSelect()">
                             <option value="Chờ xác nhận">Chờ xác nhận</option>
                             <option value="Đang xử lý">Đang xử lý</option>
@@ -366,7 +366,7 @@
                         <div style="display: flex; gap: 5px;">
                             <a href="{{ route('orders.pdf', $order->id) }}" target="_blank"
                                class="ui-btn ui-btn-pdf"
-                               style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:8px 16px; border-radius:8px; font-size:14px; font-weight:700; background:#ef4444; color:#fff; box-shadow: 0 2px 8px rgba(239,68,68,0.3); transition:0.2s;"
+                               style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:700; background:#ef4444; color:#fff; box-shadow: 0 2px 8px rgba(239,68,68,0.3); transition:0.2s;"
                                onmouseover="this.style.background='#dc2626'"
                                onmouseout="this.style.background='#ef4444'">
                                 <i class="fas fa-file-pdf"></i> Xuất PDF
@@ -385,11 +385,11 @@
                     <table class="legacy-table">
                         <thead>
                             <tr>
-                                <th style="width: 10%;">Mã Hàng</th>
+                                <th style="width: 14%;">Mã Hàng</th>
                                 <th style="width: 30%;">Mô tả hàng hóa</th>
                                 <th style="width: 8%;">Số lượng</th>
                                 <th style="width: 6%;">ĐVT</th>
-                                <th style="width: 14%;">Đơn giá (VND)</th>
+                                <th style="width: 10%;">Đơn giá (VND)</th>
                                 <th style="width: 16%;">Thành tiền (VND)</th>
                                 <th style="width: 12%;">Công nợ</th>
                                 <th style="width: 4%; text-align:center"><i class="fas fa-trash"></i></th>
@@ -433,11 +433,11 @@
                 </div>
 
                 <!-- <div style="margin-top: 25px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
-                    <h3 style="margin: 0 0 10px 0; font-size: 14px; font-weight: 800; color: #475569; text-transform: uppercase;">
+                    <h3 style="margin: 0 0 10px 0; font-size: 13px; font-weight: 800; color: #475569; text-transform: uppercase;">
                         <i class="fas fa-sticky-note" style="margin-right: 5px;"></i> Ghi chú & Thao tác
                     </h3>
                     <div class="form-group">
-                        <textarea id="val-ghi-chu" class="form-control" rows="3" placeholder="Nhập ghi chú vận hành..." style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; outline: none; font-family: inherit; font-size: 14px;">{{ $order->ghi_chu }}</textarea>
+                        <textarea id="val-ghi-chu" class="form-control" rows="3" placeholder="Nhập ghi chú vận hành..." style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; outline: none; font-family: inherit; font-size: 13px;">{{ $order->ghi_chu }}</textarea>
                     </div>
 
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
@@ -448,7 +448,7 @@
                         @endif
 
                         @if($order->deliveryNote)
-                        <a href="{{ route('deliveries.show', $order->deliveryNote->id) }}" class="ui-btn" style="background:#f59e0b; color:#fff; border-radius: 8px; text-decoration: none; padding: 10px 16px; font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
+                        <a href="{{ route('deliveries.show', $order->deliveryNote->id) }}" class="ui-btn" style="background:#f59e0b; color:#fff; border-radius: 8px; text-decoration: none; padding: 10px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 8px;">
                             <i class="fas fa-file-invoice"></i> Xem PGH ({{ $order->deliveryNote->dn_code }})
                         </a>
                         @endif
