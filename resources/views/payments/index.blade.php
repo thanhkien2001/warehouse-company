@@ -92,7 +92,8 @@
                             ---
                         @endif
                     </td>
-                    <td style="text-align: right;">{{ number_format($p->tong_don) }}</td>
+                    
+                    <td style="text-align: right;">{{ number_format($p->so_tien) }}</td>
                     <td style="text-align: right; color: #10b981; font-weight: 800;">+{{ number_format($p->so_tien) }}</td>
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($p->con_lai) }}</td>
                     <td style="font-size: 11px; color: #64748b;">{{ $p->ghi_chu ?: '---' }}</td>

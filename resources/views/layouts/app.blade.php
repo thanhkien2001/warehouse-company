@@ -246,17 +246,17 @@
             padding: 18px 20px 6px;
         }
 
-        .menu-container { flex: 1; padding: 12px 12px 20px; }
+        .menu-container { flex: 1; padding: 12px 12px 20px; background: #002B6B;}
 
         .menu-list { list-style: none; }
         .menu-item {
             display: flex; align-items: center; gap: 11px;
             padding: 10px 14px; border-radius: 8px;
-            color: #475569; font-size: 16px; font-weight: 500;
+            color: white; font-size: 16px; font-weight: 500;
             text-decoration: none; cursor: pointer; transition: all 0.18s;
             margin-bottom: 2px; border: none; background: transparent; width: 100%; text-align: left;
         }
-        .menu-item i { width: 18px; text-align: center; font-size: 15px; color: #94a3b8; transition: color 0.18s; }
+        .menu-item i { width: 18px; text-align: center; font-size: 15px; color: white; transition: color 0.18s; }
         .menu-item span { flex: 1; }
         .menu-item:hover {
             background: #f0f7ff;
@@ -277,10 +277,10 @@
         .submenu-item {
             display: flex; align-items: center; gap: 10px;
             padding: 9px 14px 9px 16px; border-radius: 7px;
-            color: #64748b; font-size: 15px; font-weight: 500;
+            color: white; font-size: 13px; font-weight: 500;
             text-decoration: none; cursor: pointer; transition: all 0.18s;
         }
-        .submenu-item i { font-size: 13px; color: #94a3b8; width: 16px; text-align: center; transition: color 0.18s; }
+        .submenu-item i { font-size: 13px; color: white; width: 16px; text-align: center; transition: color 0.18s; }
         .submenu-item:hover { background: #f0f7ff; color: var(--primary); }
         .submenu-item:hover i { color: var(--primary); }
         .submenu-item.active { color: var(--primary); font-weight: 700; background: #e8f2fd; }
@@ -292,11 +292,12 @@
         /* Sidebar bottom copyright */
         .sidebar-bottom {
             padding: 14px 20px;
+            background-color: #002B6B;
             border-top: 1px solid #f1f5f9;
         }
         .sidebar-bottom p {
             font-size: 10.5px;
-            color: #cbd5e1;
+            color: white;
             text-align: center;
             font-weight: 500;
         }
@@ -453,8 +454,6 @@
                                 <i class="fas fa-home"></i> <span>Tổng quan</span>
                             </a>
                         </li>
-
-                        <div class="sidebar-section-title">QUẢN LÝ DANH MỤC</div>
                         <li class="has-submenu {{ request()->routeIs('catalog.*') ? 'open' : '' }}">
                             <div class="menu-item" onclick="toggleSubmenu(this)">
                                 <i class="fas fa-th-large"></i> <span>Danh mục</span>
@@ -464,9 +463,6 @@
                                 <li><a href="{{ route('catalog.index') }}" class="submenu-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">Sản phẩm</a></li>
                             </ul>
                         </li>
-
-                        <div class="sidebar-section-title">QUẢN LÝ NGHIỆP VỤ</div>
-
                         <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
                             <div class="menu-item" onclick="toggleSubmenu(this)">
                                 <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>

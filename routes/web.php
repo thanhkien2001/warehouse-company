@@ -154,6 +154,7 @@ Route::middleware('auth')->group(function () {
         // CÔNG NỢ & THANH TOÁN
         // ==========================================================
         Route::get('/cong-no', [PaymentController::class, 'indexDebt'])->name('debt.index');
+        Route::get('/debt/export', [PaymentController::class, 'exportDebt'])->name('debt.export');
         Route::get('/thanh-toan', [PaymentController::class, 'index'])->name('payments.index');
         Route::post('/thanh-toan', [PaymentController::class, 'store'])->name('payments.store');
         Route::get('/thanh-toan/api/debt/{ctoCode}', [PaymentController::class, 'getDebtInfo'])->name('payments.debt-info');
