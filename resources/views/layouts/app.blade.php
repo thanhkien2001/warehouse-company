@@ -36,19 +36,186 @@
         /* ═══════════════ HEADER ═══════════════ */
         #topbar {
             height: var(--header-height);
-            background: #EFF6FF; /* Change topbar to white */
+            background: white;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Align right */
-            padding: 0 24px;
+            justify-content: space-between;
+            padding: 0 20px;
             flex-shrink: 0;
             z-index: 900;
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            gap: 12px;
         }
 
+        /* Topbar Left – Company Name */
+        .topbar-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1.35;
+            flex-shrink: 0;
+        }
+        .topbar-left .company-row1 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            letter-spacing: 0.2px;
+        }
+        .topbar-left .company-row2 {
+            font-size: 13px;
+            font-weight: 800;
+            color: #002B6B;
+            letter-spacing: 0.3px;
+        }
+
+        /* Topbar Center – Search */
+        .topbar-center {
+            flex: 1;
+            max-width: 512px;
+            margin: 0 auto;
+        }
+        .topbar-search {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 5px;
+            padding: 0 14px 0 18px;
+            gap: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .topbar-search:focus-within {
+            border-color: #0070D2;
+            box-shadow: 0 0 0 3px rgba(0,112,210,0.1);
+        }
+        .topbar-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 13px;
+            color: #1e293b;
+            height: 36px;
+            font-family: inherit;
+        }
+        .topbar-search input::placeholder { color: #94a3b8; }
+        .topbar-search .search-icon {
+            color: #94a3b8;
+            font-size: 14px;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .topbar-search:focus-within .search-icon { color: #0070D2; }
+
+        /* Topbar icon buttons (bell, question) */
+        .topbar-icon-btn {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1.5px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 15px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .topbar-icon-btn:hover {
+            background: #0070D2;
+            color: #fff;
+            border-color: #0070D2;
+            box-shadow: 0 4px 12px rgba(0,112,210,0.25);
+        }
+        .topbar-icon-btn .notif-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 16px;
+            height: 16px;
+            background: #ef4444;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #EFF6FF;
+        }
+
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 36px;
+            padding: 0 12px 0 8px;
+            background: #fff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .lang-btn:hover {
+            border-color: #0070D2;
+            box-shadow: 0 0 0 3px rgba(0,112,210,0.1);
+        }
+        .lang-btn .lang-flag { width: 22px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+        .lang-btn .lang-chevron { font-size: 10px; color: #94a3b8; transition: transform 0.2s; margin-left: 2px; }
+        .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 150px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 9999;
+            animation: dropIn 0.18s ease;
+        }
+        .lang-switcher.open .lang-dropdown { display: block; }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            transition: background 0.15s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+        .lang-option:hover { background: #f1f5f9; color: #0070D2; }
+        .lang-option.active { color: #0070D2; background: #eff6ff; }
+        .lang-option .lang-flag { width: 22px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+
         /* User area */
-        .topbar-right { display: flex; align-items: center; gap: 12px; position: relative; }
+        .topbar-right { display: flex; align-items: center; gap: 15px; position: relative; }
 
         .topbar-user {
             display: flex;
@@ -147,9 +314,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0;
             background: #002B6B;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-top :15px
         }
         .sidebar-logo {
             display: flex;
@@ -158,7 +324,7 @@
             text-decoration: none;
         }
         .sidebar-logo img {
-            height: 32px;
+            height: 64px;
             width: auto;
             object-fit: contain;
             filter: brightness(0) invert(1);
@@ -233,7 +399,7 @@
         .menu-item {
             display: flex; align-items: center; gap: 11px;
             padding: 10px 14px; border-radius: 8px;
-            color: white; font-size: 16px; font-weight: 500;
+            color: white; font-size: 15px; font-weight: 500;
             text-decoration: none; cursor: pointer; transition: all 0.18s;
             margin-bottom: 2px; border: none; background: transparent; width: 100%; text-align: left;
         }
@@ -258,7 +424,7 @@
         .submenu-item {
             display: flex; align-items: center; gap: 10px;
             padding: 9px 14px 9px 16px; border-radius: 7px;
-            color: white; font-size: 13px; font-weight: 500;
+            color: white; font-size: 14px;
             text-decoration: none; cursor: pointer; transition: all 0.18s;
         }
         .submenu-item i { font-size: 13px; color: white; width: 16px; text-align: center; transition: color 0.18s; }
@@ -381,7 +547,7 @@
         <div id="sidebar-inner">
             <div class="sidebar-header">
                 <a href="{{ route('dashboard') }}" class="sidebar-logo">
-                    <img src="https://i.ibb.co/whdGg4FK/Chat-GPT-Image-00-40-01-22-thg-3-2026.png" alt="GAMBERTE">
+                    <img src="{{ asset('images/logo_gambete.png') }}" alt="GAMBERTE">
                 </a>
             </div>
             <div class="menu-container">
@@ -435,10 +601,15 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="{{ route('reports.finance') }}" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <li class="has-submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
+                        <a href="#" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}" onclick="toggleSubmenu(this)">
                             <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
+                            <i class="fas fa-chevron-down submenu-arrow"></i>
                         </a>
+                        <ul class="submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
+                            <li><a href="{{ route('reports.finance') }}" class="submenu-item {{ request()->routeIs('reports.finance') ? 'active' : '' }}">Báo cáo tài chính</a></li>
+                            <li><a href="{{ route('reports.summary') }}" class="submenu-item {{ request()->routeIs('reports.summary') ? 'active' : '' }}">Báo cáo tổng hợp</a></li>
+                        </ul>
                     </li>
 
                     @if(auth()->user()->isAdmin())
@@ -461,7 +632,30 @@
     <div id="main-wrapper">
         <!-- ═══════════════ TOPBAR (RIGHT ONLY) ═══════════════ -->
         <header id="topbar">
+            {{-- Topbar Left: Company Name --}}
+            <div class="topbar-left">
+                <span class="company-row1">CÔNG TY TNHH</span>
+                <span class="company-row2">GAMBERTE VIỆT NAM</span>
+            </div>
+
+            {{-- Topbar Center: Search --}}
+            <div class="topbar-center">
+                <div class="topbar-search">
+                    <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+
             <div class="topbar-right">
+                {{-- Bell Notification --}}
+                <div class="topbar-icon-btn" title="Thông báo">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-badge">3</span>
+                </div>
+                {{-- Question / Help --}}
+                <div class="topbar-icon-btn" title="Trợ giúp">
+                    <i class="fa-regular fa-circle-question"></i>
+                </div>
                 <div class="topbar-user" id="user-trigger" onclick="toggleUserDropdown()">
                     <div class="topbar-avatar">
                         @if(auth()->user()->avatar ?? false)
@@ -496,6 +690,22 @@
                             <i class="fas fa-sign-out-alt"></i> Đăng xuất
                         </button>
                     </form>
+                </div>
+                {{-- Language Switcher --}}
+                <div class="lang-switcher" id="lang-switcher">
+                    <button class="lang-btn" id="lang-trigger" onclick="toggleLangDropdown()">
+                        <img src="{{ asset('images/vietnam_logo.png') }}" class="lang-flag" alt="VI" id="lang-trigger-flag">
+                        <span id="lang-trigger-text">VI</span>
+                        <i class="fas fa-chevron-down lang-chevron"></i>
+                    </button>
+                    <div class="lang-dropdown" id="lang-dropdown">
+                        <button class="lang-option active" onclick="setLang('vi', this)">
+                            <img src="{{ asset('images/vietnam_logo.png') }}" class="lang-flag" alt="VI"> Tiếng Việt
+                        </button>
+                        <button class="lang-option" onclick="setLang('en', this)">
+                            <img src="{{ asset('images/us_logo.png') }}" class="lang-flag" alt="EN"> English
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
@@ -599,14 +809,37 @@
             document.getElementById('user-trigger').classList.remove('open');
             document.getElementById('user-dropdown').classList.remove('show');
         }
-        // Close on outside click
+        // Close user dropdown on outside click
         document.addEventListener('click', function(e) {
             const trigger  = document.getElementById('user-trigger');
             const dropdown = document.getElementById('user-dropdown');
             if (trigger && !trigger.contains(e.target) && dropdown && !dropdown.contains(e.target)) {
                 closeUserDropdown();
             }
+            // Close lang dropdown on outside click
+            const langSwitcher = document.getElementById('lang-switcher');
+            if (langSwitcher && !langSwitcher.contains(e.target)) {
+                langSwitcher.classList.remove('open');
+            }
         });
+
+        // Language Switcher
+        function toggleLangDropdown() {
+            document.getElementById('lang-switcher').classList.toggle('open');
+        }
+        const langLabels = {
+            vi: { src: '{{ asset("images/vietnam_logo.png") }}', text: 'VI' },
+            en: { src: '{{ asset("images/us_logo.png") }}', text: 'EN' }
+        };
+        function setLang(code, btn) {
+            const { src, text } = langLabels[code];
+            document.getElementById('lang-trigger-flag').src = src;
+            document.getElementById('lang-trigger-flag').alt = text;
+            document.getElementById('lang-trigger-text').textContent = text;
+            document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('lang-switcher').classList.remove('open');
+        }
 
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }

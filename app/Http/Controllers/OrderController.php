@@ -324,6 +324,152 @@ class OrderController extends Controller
         ]);
     }
 
+    public function exportExcel(Order $order)
+    {
+        $order->load(['customer', 'items', 'meta']);
+        $templatePath = base_path('CTO-FORM.xlsx');
+        
+        if (!file_exists($templatePath)) {
+            return back()->with('error', 'Không tìm thấy file template CTO-FORM.xlsx');
+        }
+
+        try {
+            $spreadsheet = IOFactory::load($templatePath);
+            $sheet = $spreadsheet->getActiveSheet();
+
+            // 1. INFO BAND (Dòng 12)
+            $sheet->setCellValue('A12', $order->customer->ma_kh);
+            $sheet->setCellValue('B12', $order->cto_code);
+            $sheet->setCellValue('D12', mb_strtoupper($order->nguoi_ban ?: '', 'UTF-8'));
+            $sheet->setCellValue('G12', mb_strtoupper($order->trang_thai ?: 'CHỜ XÁC NHẬN', 'UTF-8'));
+            $sheet->setCellValue('I12', now()->format('d/m/Y H:i'));
+
+            // 2. SELLER INFO (Bên trái - Cột A/B)
+            // Template có vẻ đã có sẵn tên Seller, nhưng nếu cần điền:
+            // $sheet->setCellValue('A16', 'CÔNG TY TNHH GAMBERTE VIỆT NAM');
+            
+            // 3. BUYER INFO (Bên phải - Cột L/M)
+            $sheet->setCellValue('L16', mb_strtoupper($order->ten_kh, 'UTF-8'));
+            $sheet->setCellValueExplicit('M18', $order->customer->ma_so_thue ?? '', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            
+            // Địa chỉ (Thường chiếm nhiều dòng 20, 21, 22)
+            $addr = mb_strtoupper($order->customer->dia_chi ?? '', 'UTF-8');
+            $sheet->setCellValue('L20', $addr);
+            
+            $sheet->setCellValue('J23', mb_strtoupper($order->nguoi_mua ?: '', 'UTF-8'));
+            $sheet->setCellValueExplicit('J24', $order->sdt_mua ?: ($order->customer->sdt ?? ''), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+
+            // Xóa dòng mẫu thứ 2 của template (row 29) - template có 2 dòng mẫu sản phẩm
+            $sheet->removeRow(29, 1);
+
+            // 4. ITEMS TABLE - Dòng 28 (sau khi xóa row 29)
+            // Merged cells: A:B=Mã hàng | C:G=Mô tả | H=SL | I:K=ĐVT | L:M=Đơn giá | N:O=Thành tiền
+            $templateRow = 28;
+            $currentRow  = 28;
+            $itemCount   = $order->items->count();
+            $subtotal    = 0;
+
+            foreach ($order->items as $index => $item) {
+                if ($index > 0) {
+                    $sheet->insertNewRowBefore($currentRow, 1);
+
+                    // Copy style từ template row
+                    foreach (range('A', 'O') as $col) {
+                        $sheet->getStyle($col . $currentRow)->applyFromArray(
+                            $sheet->getStyle($col . $templateRow)->exportArray()
+                        );
+                    }
+                    // Re-apply merged cells
+                    $sheet->mergeCells('A' . $currentRow . ':B' . $currentRow);
+                    $sheet->mergeCells('C' . $currentRow . ':G' . $currentRow);
+                    $sheet->mergeCells('I' . $currentRow . ':K' . $currentRow);
+                    $sheet->mergeCells('L' . $currentRow . ':M' . $currentRow);
+                    $sheet->mergeCells('N' . $currentRow . ':O' . $currentRow);
+                    $sheet->getRowDimension($currentRow)->setRowHeight(
+                        $sheet->getRowDimension($templateRow)->getRowHeight()
+                    );
+                }
+
+                $tt        = $item->so_luong * $item->don_gia;
+                $subtotal += $tt;
+
+                // Mã hàng - 10pt
+                $sheet->setCellValue('A' . $currentRow, $item->ma_hang);
+                $sheet->getStyle('A' . $currentRow)->getFont()->setSize(10)->setBold(false);
+
+                // Mô tả: 10pt bold cho tên chính, 8pt không bold cho mô tả phụ
+                if ($item->mo_ta_phu) {
+                    $rt = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
+                    $r1 = $rt->createTextRun($item->ten_hang);
+                    $r1->getFont()->setSize(10)->setBold(false);
+                    $r2 = $rt->createTextRun("\n" . $item->mo_ta_phu);
+                    $r2->getFont()->setSize(8)->setBold(false);
+                    $sheet->getCell('C' . $currentRow)->setValue($rt);
+                } else {
+                    $sheet->setCellValue('C' . $currentRow, $item->ten_hang);
+                    $sheet->getStyle('C' . $currentRow)->getFont()->setSize(10)->setBold(false);
+                }
+
+                $sheet->setCellValue('H' . $currentRow, $item->so_luong);
+                $sheet->setCellValue('I' . $currentRow, $item->don_vi_tinh);
+                $sheet->setCellValue('L' . $currentRow, $item->don_gia);
+                $sheet->setCellValue('N' . $currentRow, $tt);
+
+                // Font 10pt cho các cột số
+                $sheet->getStyle('H' . $currentRow)->getFont()->setSize(10);
+                $sheet->getStyle('I' . $currentRow)->getFont()->setSize(10);
+                $sheet->getStyle('L' . $currentRow)->getFont()->setSize(10);
+                $sheet->getStyle('N' . $currentRow)->getFont()->setSize(10);
+
+                $currentRow++;
+            }
+
+            // 5. TOTALS - Tính offset: template (sau xóa row 29) có TỔNG CỘNG ở row 29
+            // Sau khi insert (itemCount-1) dòng: offset = itemCount - 1
+            $insertedRows = max(0, $itemCount - 1);
+            $vat_pct      = $order->meta?->vat_percent ?? 10;
+            $vat_amount   = $subtotal * ($vat_pct / 100);
+            $total        = $subtotal + $vat_amount;
+
+            // Ghi đè giá trị (bảo toàn format của template)
+            $totalRow = 29 + $insertedRows;
+            $vatRow   = 31 + $insertedRows;
+            $grandRow = 33 + $insertedRows;
+
+            $sheet->setCellValue('N' . $totalRow, $subtotal);
+            $sheet->setCellValue('N' . $vatRow,   $vat_amount);
+            $sheet->setCellValue('N' . $grandRow,  $total);
+
+            // Xóa các dòng thừa từ template mẫu bên dưới (tỷ giá mẫu, dòng số lạ)
+            $clearStart = $grandRow + 1;
+            for ($r = $clearStart; $r <= $clearStart + 5; $r++) {
+                $sheet->getCell('A' . $r)->setValue(null);
+                $sheet->getCell('N' . $r)->setValue(null);
+                $sheet->getCell('O' . $r)->setValue(null);
+            }
+
+            // 6. GHI CHÚ TỶ GIÁ
+            $noteRow = $grandRow + 2;
+            $ty_gia  = $order->meta?->ty_gia ?? 25502;
+            $ngay_tg = $order->meta?->ngay_ty_gia ?? now()->format('d/m/Y');
+            $sheet->setCellValue('A' . $noteRow, "- TỶ GIÁ: " . number_format($ty_gia, 0, ',', '.') . " VND - NGÂN HÀNG VIETCOMBANK NGÀY " . $ngay_tg);
+
+
+
+            $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $filename = 'Order_' . $order->cto_code . '_' . date('Ymd_Hi') . '.xlsx';
+            
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            
+            $writer->save('php://output');
+            exit;
+        } catch (\Exception $e) {
+            return back()->with('error', 'Lỗi xuất Excel: ' . $e->getMessage());
+        }
+    }
+
 
     private function numberToVietnamese(int $n): string
     {

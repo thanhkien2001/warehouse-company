@@ -91,6 +91,8 @@ Route::middleware('auth')->group(function () {
             ->middleware('permission:donhang,edit');
         Route::get('/don-hang/{order}/pdf', [OrderController::class, 'exportPdf'])->name('orders.pdf')
             ->middleware('permission:donhang,view');
+        Route::get('/don-hang/{order}/excel', [OrderController::class, 'exportExcel'])->name('orders.excel')
+            ->middleware('permission:donhang,view');
         Route::get('/don-hang/{order}', [OrderController::class, 'show'])->name('orders.show')
             ->middleware('permission:donhang,view');
         Route::post('/don-hang', [OrderController::class, 'store'])->name('orders.store')
@@ -159,6 +161,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/thanh-toan', [PaymentController::class, 'store'])->name('payments.store');
         Route::get('/thanh-toan/api/debt/{ctoCode}', [PaymentController::class, 'getDebtInfo'])->name('payments.debt-info');
         Route::get('/bao-cao-tai-chinh', [ReportController::class, 'finance'])->name('reports.finance');
+        Route::get('/bao-cao-tong-hop', [ReportController::class, 'summary'])->name('reports.summary');
 
         // ==========================================================
         // ADMIN (chỉ Admin)

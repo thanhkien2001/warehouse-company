@@ -368,6 +368,13 @@
                                onmouseout="this.style.background='#ef4444'">
                                 <i class="fas fa-file-pdf"></i> Xuất PDF
                             </a>
+                            <a href="{{ route('orders.excel', $order->id) }}"
+                               class="ui-btn"
+                               style="display:inline-flex; align-items:center; gap:6px; text-decoration:none; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:700; background:#10b981; color:#fff; box-shadow: 0 2px 8px rgba(16,185,129,0.3); transition:0.2s;"
+                               onmouseover="this.style.background='#059669'"
+                               onmouseout="this.style.background='#10b981'">
+                                <i class="fas fa-file-excel"></i> Xuất Excel
+                            </a>
                         </div>
 
                         @if(auth()->user()->canDo('donhang','edit') || auth()->user()->isAdmin())
