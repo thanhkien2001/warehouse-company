@@ -607,7 +607,7 @@
                             <i class="fas fa-chevron-down submenu-arrow"></i>
                         </a>
                         <ul class="submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
-                            <li><a href="{{ route('reports.finance') }}" class="submenu-item {{ request()->routeIs('reports.finance') ? 'active' : '' }}">Báo cáo tài chính</a></li>
+                            <li><a href="{{ route('reports.finance') }}" class="submenu-item {{ request()->routeIs('reports.finance') ? 'active' : '' }}">Biểu đồ tài chính</a></li>
                             <li><a href="{{ route('reports.summary') }}" class="submenu-item {{ request()->routeIs('reports.summary') ? 'active' : '' }}">Báo cáo tổng hợp</a></li>
                         </ul>
                     </li>

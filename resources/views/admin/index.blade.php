@@ -23,6 +23,27 @@
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 11px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; transition: 0.3s; }
     .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+
+    .modal-pro-split { display: grid; grid-template-columns: 3fr 7fr; gap: 24px; align-items: start; }
+    .modal-pro-left { padding-right: 15px; border-right: 1px solid #e2e8f0; }
+    .modal-pro-right { padding-left: 5px; }
+    
+    .perm-table { width: 100%; border-collapse: collapse; }
+    .perm-table th { background: #f8fafc; padding: 12px; text-align: center; font-size: 13px; font-weight: 700; color: black; border-bottom: 2px solid #e2e8f0; }
+    .perm-table th:first-child { text-align: left; }
+    .perm-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; font-size: 13px; text-align: center; }
+    .perm-table td:first-child { text-align: left; font-weight: 600; color: #1e293b; }
+    
+    .perm-group { background: #EFF6FF; cursor: pointer; transition: 0.2s; }
+    .perm-group:hover { background: #f1f5f9; }
+    .perm-group td { font-weight: 800; color: #0f172a; border-bottom: 1px solid #e2e8f0; }
+    
+    .perm-child-row { display: none; }
+    .perm-child-row.show { display: table-row; }
+    
+    .custom-checkbox { transform: scale(1.3); cursor: pointer; accent-color: #0070D2; }
+    
+    .modal-box.xl { width: 95vw; max-width: 1400px; }
 </style>
 
 <div style="background: #ffffff; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #f1f5f9;">
@@ -57,7 +78,7 @@
                         <th style="width: 5%; text-align: center;">STT</th>
                         <th style="width: 15%;">Tài khoản</th>
                         <th style="width: 35%;">Tên hiển thị</th>
-                        <th style="width: 15%; text-align: center;">Chức vụ</th>
+                        <th style="width: 15%; text-align: center;">Chức danh / Vai trò</th>
                         <th style="width: 12%; text-align: center;">Trạng Thái</th>
                         <th style="width: 10%; text-align: center;">Ngày đăng ký</th>
                         <th style="width: 8%; text-align: center;">Thao tác</th>
@@ -70,9 +91,11 @@
                         <td><b style="color:#0070D2;">{{ $u->username }}</b></td>
                         <td style="font-weight:600; color: #1e293b;">{{ $u->display_name }}</td>
                         <td style="text-align: center;">
+                            <div style="font-weight: 600; color: #475569; font-size: 13px; margin-bottom: 4px;">{{ $u->chuc_danh }}</div>
                             @if($u->role == 'Admin') <span class="badge badge-purple" style="background:#f3e8ff; color:#7e22ce;"><i class="fas fa-crown"></i> Admin</span>
-                            @elseif($u->role == 'QuanLy') <span class="badge badge-blue" style="background:#eff6ff; color:#1d4ed8;">Quản lý</span>
                             @elseif($u->role == 'KeToan') <span class="badge badge-yellow" style="background:#fefce8; color:#a16207;">Kế toán</span>
+                            @elseif($u->role == 'Nhanvienkinhdoanh') <span class="badge badge-green" style="background:#dcfce7; color:#15803d;">Nhân viên kinh doanh</span>
+                            @elseif($u->role == 'Kho') <span class="badge badge-blue" style="background:#eff6ff; color:#1d4ed8;">Quản lý kho</span>
                             @elseif($u->role == 'NhanVien') <span class="badge badge-green" style="background:#dcfce7; color:#15803d;">Nhân viên</span>
                             @else <span class="badge badge-gray">{{ $u->role }}</span>
                             @endif
@@ -176,71 +199,137 @@
 
 {{-- MODAL USER --}}
 <div id="modal-user" class="modal-overlay">
-    <div class="modal-box lg" style="width: 650px; max-width: 95vw; padding: 0; border-radius: 16px; overflow: hidden;">
+    <div class="modal-box xl" style="padding: 0; border-radius: 16px; overflow: hidden; max-height: 95vh; display: flex; flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding: 20px 24px; background: #fff;">
             <h3 id="mu-title" style="font-weight: 800; font-size: 20px; margin: 0;"><i class="fas fa-user-plus" style="color:#0070D2"></i> Cấp Tài Khoản Mới</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #64748b; font-size: 18px;" onclick="closeModal('modal-user')"></i>
         </div>
-        <div style="padding: 24px;">
+        <div style="padding: 24px; overflow-y: auto; flex: 1;">
             <input type="hidden" id="mu_id">
-            
-            <div style="display:grid;grid-template-columns: 1fr 1fr;gap:20px;margin-bottom:20px">
-                <div class="form-group">
-                    <label class="modal-pro-label">Tên Đăng Nhập <span>*</span></label>
-                    <input type="text" id="mu_username" class="modal-pro-input" autocomplete="off" placeholder="Ví dụ: admin">
-                </div>
-                <div class="form-group">
-                    <label class="modal-pro-label">Tên Hiển Thị <span>*</span></label>
-                    <input type="text" id="mu_display" class="modal-pro-input" autocomplete="off" placeholder="Ví dụ: Nguyễn Văn A">
-                </div>
-            </div>
-
-            <div style="display:grid;grid-template-columns: 1fr 1fr;gap:20px;margin-bottom:20px">
-                <div class="form-group">
-                    <label class="modal-pro-label">Nhóm Quyền <span>*</span></label>
-                    <select id="mu_role" class="modal-pro-input" onchange="autoCheckPermissions()">
-                        <option value="NhanVien">Nhân viên thông thường</option>
-                        <option value="KeToan">Kế toán / Thủ kho</option>
-                        <option value="QuanLy">Quản lý kho</option>
-                        <option value="Admin">Admin (Toàn quyền)</option>
-                        <option value="MoiDangKy">Mới đăng ký (Chờ duyệt)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="modal-pro-label">Trạng thái <span>*</span></label>
-                    <select id="mu_status" class="modal-pro-input">
-                        <option value="Hoạt động">Hoạt động bình thường</option>
-                        <option value="Đang chờ duyệt">Đang chờ xét duyệt</option>
-                        <option value="Bị khóa">Khóa tài khoản</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 25px;">
-                <label class="modal-pro-label">Mật khẩu (Để trống nếu giữ nguyên)</label>
-                <input type="text" id="mu_pass" class="modal-pro-input" placeholder="Nhập mật khẩu mới...">
-            </div>
-
-            <h4 style="font-size:14px;font-weight:800;color:#0070D2;margin-bottom:15px;display:flex;align-items:center;gap:8px;">
-                <i class="fas fa-shield-alt"></i> Phân quyền chi tiết cho tài khoản
-            </h4>
-            <div style="background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:15px">
-                @foreach($matrix_modules as $k => $mod)
-                <div style="background:#fff;padding:15px;border-radius:12px;border:1px solid #cbd5e1;">
-                    <div style="font-weight:800;font-size:13px;margin-bottom:10px;color:#0f172a; display:flex; align-items:center; gap:6px;">
-                        <i class="fas {{ $mod['icon'] }}" style="color: #64748b; font-size: 12px;"></i> {{ $mod['name'] }}
+            <div class="modal-pro-split">
+                {{-- LEFT SIDE: THÔNG TIN TÀI KHOẢN --}}
+                <div class="modal-pro-left">
+                    <h4 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
+                        <i class="fas fa-user"></i> THÔNG TIN TÀI KHOẢN
+                    </h4>
+                    
+                    <div class="form-group">
+                        <label class="modal-pro-label">Tên đăng nhập <span style="color:red">*</span></label>
+                        <input type="text" id="mu_username" class="modal-pro-input" autocomplete="off" placeholder="Tên đăng nhập viết liền, không dấu">
                     </div>
-                    <label style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px;cursor:pointer; color: #475569;"><input type="checkbox" class="cb-perm" data-mod="{{ $k }}" data-act="view"> <span>Cho phép <b style="color:#3b82f6">XEM</b></span></label>
-                    <label style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px;cursor:pointer; color: #475569;"><input type="checkbox" class="cb-perm" data-mod="{{ $k }}" data-act="edit"> <span>Cho phép <b style="color:#f59e0b">THÊM/SỬA</b></span></label>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer; color: #475569;"><input type="checkbox" class="cb-perm" data-mod="{{ $k }}" data-act="delete"> <span>Cho phép <b style="color:#ef4444">XÓA</b></span></label>
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="modal-pro-label">Tên hiển thị <span style="color:red">*</span></label>
+                        <input type="text" id="mu_display" class="modal-pro-input" autocomplete="off" placeholder="Ví dụ: Nguyễn Văn A">
+                    </div>
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="modal-pro-label">Chức danh</label>
+                        <input type="text" id="mu_chuc_danh" class="modal-pro-input" autocomplete="off" placeholder="Ví dụ: Trưởng phòng...">
+                    </div>
+                    
+                    <h4 style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 15px; margin-top: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
+                        <i class="fas fa-list-alt"></i> THÔNG TIN KHÁC
+                    </h4>
+                    <div class="form-group">
+                        <label class="modal-pro-label">Nhóm quyền <span style="color:red">*</span></label>
+                        <select id="mu_role" class="modal-pro-input" onchange="autoCheckPermissions()">
+                            <option value="Admin">Admin</option>
+                            <option value="KeToan">Kế toán</option>
+                            <option value="Nhanvienkinhdoanh">Nhân viên kinh doanh</option>
+                            <option value="Kho">Quản lý kho</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="modal-pro-label">Trạng thái <span style="color:red">*</span></label>
+                        <select id="mu_status" class="modal-pro-input">
+                            <option value="Hoạt động">Hoạt động</option>
+                            <option value="Đang chờ duyệt">Đang chờ duyệt</option>
+                            <option value="Bị khóa">Khóa</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="modal-pro-label">Mật khẩu tạm thời</label>
+                        <input type="text" id="mu_pass" class="modal-pro-input" placeholder="Mật khẩu sẽ được yêu cầu đổi">
+                    </div>
                 </div>
-                @endforeach
+
+                {{-- RIGHT SIDE: PHÂN QUYỀN HỆ THỐNG --}}
+                <div class="modal-pro-right">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: #0070D2; margin: 0;">
+                            <i class="fas fa-shield-alt"></i> PHÂN QUYỀN HỆ THỐNG
+                        </h4>
+                        <div>
+                            <button class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 12px; margin-right: 8px;" onclick="checkAllPerms(true)">Chọn tất cả</button>
+                            <button class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 12px; color: #ef4444; border-color: #fca5a5;" onclick="checkAllPerms(false)">Bỏ chọn tất cả</button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+                        <table class="perm-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40%;">PHÂN HỆ / CHỨC NĂNG</th>
+                                    <th style="width: 15%;">XEM</th>
+                                    <th style="width: 15%;">THÊM/SỬA</th>
+                                    <th style="width: 15%;">XÓA</th>
+                                    <th style="width: 15%;">XUẤT DỮ LIỆU</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                $sysMods = [
+                                    'Danh mục' => [
+                                        'sanpham' => 'Sản phẩm',
+                                    ],
+                                    'Quản lý đơn hàng' => [
+                                        'taomakhachhang' => 'Tạo mã khách hàng',
+                                        'taodonhang'   => 'Tạo đơn hàng',
+                                        'taophieugiao' => 'Tạo phiếu giao hàng',
+                                    ],
+                                    'Quản lý tồn kho' => [
+                                        'nhapkho'   => 'Nhập kho',
+                                        'baocaoxuatkho'   => 'Báo cáo xuất kho',
+                                        'baocaotonkho' => 'Báo cáo tồn kho',
+                                    ],
+                                    'Quản lý công nợ' => [
+                                        'congno'    => 'Công nợ',
+                                        'thanhtoan' => 'Thanh toán',
+                                    ],
+                                    'Báo cáo tài chính' => [
+                                        'baocaotc'  => 'Biểu đồ tài chính',
+                                        'baocaoth'  => 'Báo cáo tổng hợp',
+                                    ]
+                                ];
+                                @endphp
+                                @foreach($sysMods as $groupName => $children)
+                                    @php $gid = Str::slug($groupName); @endphp
+                                    <tr class="perm-group" onclick="togglePermGroup('{{ $gid }}')">
+                                        <td>
+                                            <i class="fas fa-chevron-down" id="icon-{{ $gid }}" style="margin-right: 8px; color: #64748b; font-size: 11px;"></i>
+                                            {{ $groupName }}
+                                        </td>
+                                        <td></td><td></td><td></td><td></td>
+                                    </tr>
+                                    @foreach($children as $mk => $mname)
+                                    <tr class="perm-child-row group-{{ $gid }} show">
+                                        <td style="padding-left: 30px; color: black; font-weight: normal;">{{ $mname }}</td>
+                                        <td><input type="checkbox" class="cb-perm custom-checkbox" data-mod="{{ $mk }}" data-act="view"></td>
+                                        <td><input type="checkbox" class="cb-perm custom-checkbox" data-mod="{{ $mk }}" data-act="edit"></td>
+                                        <td><input type="checkbox" class="cb-perm custom-checkbox" data-mod="{{ $mk }}" data-act="delete"></td>
+                                        <td><input type="checkbox" class="cb-perm custom-checkbox" data-mod="{{ $mk }}" data-act="export"></td>
+                                    </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding: 20px 24px; background: #fff;">
             <button class="ui-btn ui-btn-outline" style="border-radius: 6px;" onclick="closeModal('modal-user')">Hủy bỏ</button>
-            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #0070D2;" onclick="saveUser()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
+            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #0070D2;" onclick="saveUser()"><i class="fas fa-save"></i> Lưu tài khoản</button>
         </div>
     </div>
 </div>
@@ -301,6 +390,31 @@ async function saveMatrixPermissions() {
     }
 }
 
+function togglePermGroup(gid) {
+    const rows = document.querySelectorAll('.group-' + gid);
+    const icon = document.getElementById('icon-' + gid);
+    let isShowing = false;
+    rows.forEach(r => {
+        if (r.classList.contains('show')) isShowing = true;
+    });
+    
+    if (isShowing) {
+        rows.forEach(r => r.classList.remove('show'));
+        if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-right'); }
+    } else {
+        rows.forEach(r => r.classList.add('show'));
+        if (icon) { icon.classList.remove('fa-chevron-right'); icon.classList.add('fa-chevron-down'); }
+    }
+}
+
+function checkAllPerms(checked) {
+    const role = document.getElementById('mu_role').value;
+    if (role === 'Admin') return; // Admin can't change manually
+    document.querySelectorAll('.cb-perm').forEach(cb => {
+        if (!cb.disabled) cb.checked = checked;
+    });
+}
+
 function autoCheckPermissions() {
     const role = document.getElementById('mu_role').value;
     const isAd = role === 'Admin';
@@ -309,14 +423,20 @@ function autoCheckPermissions() {
     if (isAd) {
         cbs.forEach(cb => { cb.checked = true; cb.disabled = true; });
     } else {
-        cbs.forEach(cb => { cb.disabled = false; });
-        if (role === 'QuanLy') {
-            cbs.forEach(cb => cb.checked = true);
-        } else if (role === 'KeToan') {
-            cbs.forEach(cb => cb.checked = (cb.dataset.act==='view' || (cb.dataset.mod==='donhang' && cb.dataset.act==='edit')));
-        } else if (role === 'NhanVien') {
+        cbs.forEach(cb => { cb.disabled = false; cb.checked = false; });
+        if (role === 'Kho') {
             cbs.forEach(cb => {
-                cb.checked = (cb.dataset.act==='view') || (cb.dataset.mod==='donhang' && cb.dataset.act==='edit') || (cb.dataset.mod==='khachhang' && cb.dataset.act==='edit');
+                if (['tonkho', 'nhapkho', 'baocaoxuatkho', 'baocaotonkho'].includes(cb.dataset.mod)) cb.checked = true;
+            });
+        } else if (role === 'KeToan') {
+            cbs.forEach(cb => {
+                if (['congno', 'thanhtoan', 'baocaotc', 'baocaoth'].includes(cb.dataset.mod)) cb.checked = true;
+                if (cb.dataset.act === 'view') cb.checked = true;
+            });
+        } else if (role === 'Nhanvienkinhdoanh') {
+            cbs.forEach(cb => {
+                if (['khachhang', 'donhang', 'phieugiao', 'sanpham'].includes(cb.dataset.mod)) cb.checked = true;
+                if (cb.dataset.act === 'view') cb.checked = true;
             });
         }
     }
@@ -332,7 +452,8 @@ function openModalUser(u = null) {
         document.getElementById('mu_username').value = '';
         document.getElementById('mu_username').readOnly = false;
         document.getElementById('mu_display').value = '';
-        document.getElementById('mu_role').value = 'NhanVien';
+        document.getElementById('mu_chuc_danh').value = '';
+        document.getElementById('mu_role').value = 'Nhanvienkinhdoanh';
         document.getElementById('mu_status').value = 'Hoạt động';
         document.getElementById('mu_pass').value = '';
         autoCheckPermissions();
@@ -342,6 +463,7 @@ function openModalUser(u = null) {
         document.getElementById('mu_username').value = u.username;
         document.getElementById('mu_username').readOnly = true;
         document.getElementById('mu_display').value = u.display_name;
+        document.getElementById('mu_chuc_danh').value = u.chuc_danh || '';
         document.getElementById('mu_role').value = u.role;
         document.getElementById('mu_status').value = u.status;
         document.getElementById('mu_pass').value = '';
@@ -375,6 +497,7 @@ async function saveUser() {
     const data = {
         username: document.getElementById('mu_username').value,
         display_name: document.getElementById('mu_display').value,
+        chuc_danh: document.getElementById('mu_chuc_danh').value,
         role: document.getElementById('mu_role').value,
         status: document.getElementById('mu_status').value,
         password: document.getElementById('mu_pass').value,

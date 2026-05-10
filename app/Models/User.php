@@ -10,7 +10,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'username', 'password', 'role', 'status', 'display_name',
+        'username', 'password', 'role', 'status', 'display_name', 'chuc_danh'
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -49,6 +49,7 @@ class User extends Authenticatable
             'view'   => (bool) $perm->can_view,
             'edit'   => (bool) $perm->can_edit,
             'delete' => (bool) $perm->can_delete,
+            'export' => (bool) $perm->can_export,
             default  => false,
         };
     }

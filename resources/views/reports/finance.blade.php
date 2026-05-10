@@ -11,7 +11,7 @@
                 <i class="fas fa-chart-line" style="font-size:24px; color:#3b82f6;"></i>
             </div>
             <div>
-                <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin:0 0 4px; letter-spacing:-.5px;">Báo cáo tài chính</h2>
+                <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin:0 0 4px; letter-spacing:-.5px;">Biểu đồ tài chính</h2>
                 <p style="margin:0; color:#64748b; font-size:13.5px;">Tổng quan doanh thu, lợi nhuận và xu hướng kinh doanh</p>
             </div>
         </div>

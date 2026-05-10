@@ -19,13 +19,23 @@ class AdminController extends Controller
         return view('admin.index', compact('users', 'users_all'));
     }
 
+    public static function getAllModules() {
+        return [
+            'sanpham', 'taomakhachhang', 'taodonhang', 'taophieugiao',
+            'nhapkho', 'baocaoxuatkho', 'baocaotonkho',
+            'congno', 'thanhtoan',
+            'baocaotc', 'baocaoth'
+        ];
+    }
+
     public function storeUser(Request $request)
     {
         $data = $request->validate([
             'username'     => 'required|string|min:3|max:100|unique:users,username',
             'password'     => 'required|string|min:6',
-            'role'         => 'required|in:Admin,NhanVien,KeToan,QuanLy,MoiDangKy',
+            'role'         => 'required|string',
             'display_name' => 'nullable|string|max:150',
+            'chuc_danh'    => 'nullable|string|max:150',
         ], [
             'username.unique' => 'Tên đăng nhập đã tồn tại.',
         ]);
@@ -35,17 +45,19 @@ class AdminController extends Controller
             'password'     => Hash::make($data['password']),
             'role'         => $data['role'],
             'display_name' => $data['display_name'] ?? $data['username'],
+            'chuc_danh'    => $data['chuc_danh'] ?? null,
             'status'       => 'Hoạt động',
         ]);
 
         // Khởi tạo quyền mặc định
-        foreach (['khachhang', 'donhang', 'phieugiao', 'tonkho'] as $module) {
+        foreach (self::getAllModules() as $module) {
             UserPermission::create([
                 'user_id'    => $user->id,
                 'module'     => $module,
                 'can_view'   => 0,
                 'can_edit'   => 0,
                 'can_delete' => 0,
+                'can_export' => 0,
             ]);
         }
 
@@ -61,13 +73,15 @@ class AdminController extends Controller
 
         $data = $request->validate([
             'password'     => 'nullable|string|min:6',
-            'role'         => 'required|in:Admin,NhanVien,KeToan,QuanLy,MoiDangKy',
+            'role'         => 'required|string',
             'display_name' => 'nullable|string|max:150',
+            'chuc_danh'    => 'nullable|string|max:150',
         ]);
 
         $updateData = [
             'role'         => $data['role'],
             'display_name' => $data['display_name'] ?? $user->display_name,
+            'chuc_danh'    => $data['chuc_danh'] ?? $user->chuc_danh,
         ];
 
         if (!empty($data['password'])) {
@@ -106,12 +120,13 @@ class AdminController extends Controller
     {
         $perms = $user->permissions->keyBy('module');
         $result = [];
-        foreach (['khachhang', 'donhang', 'phieugiao', 'tonkho'] as $module) {
+        foreach (self::getAllModules() as $module) {
             $p = $perms->get($module);
             $result[$module] = [
                 'view'   => (bool)($p?->can_view ?? 0),
                 'edit'   => (bool)($p?->can_edit ?? 0),
                 'delete' => (bool)($p?->can_delete ?? 0),
+                'export' => (bool)($p?->can_export ?? 0),
             ];
         }
         return response()->json($result);
@@ -120,13 +135,14 @@ class AdminController extends Controller
     public function savePermissions(Request $request, User $user)
     {
         $perms = $request->get('permissions', []);
-        foreach (['khachhang', 'donhang', 'phieugiao', 'tonkho'] as $module) {
+        foreach (self::getAllModules() as $module) {
             UserPermission::updateOrCreate(
                 ['user_id' => $user->id, 'module' => $module],
                 [
                     'can_view'   => !empty($perms[$module]['view']) ? 1 : 0,
                     'can_edit'   => !empty($perms[$module]['edit']) ? 1 : 0,
                     'can_delete' => !empty($perms[$module]['delete']) ? 1 : 0,
+                    'can_export' => !empty($perms[$module]['export']) ? 1 : 0,
                 ]
             );
         }
