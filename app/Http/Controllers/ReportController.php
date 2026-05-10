@@ -15,6 +15,16 @@ class ReportController extends Controller
     {
         $dateStart = $request->get('date_start');
         $dateEnd   = $request->get('date_end');
+        
+        $warning = null;
+        if ($dateStart && $dateEnd) {
+            $s = \Carbon\Carbon::parse($dateStart);
+            $e = \Carbon\Carbon::parse($dateEnd);
+            if ($s->diffInDays($e) > 365) {
+                $warning = 'Khoảng thời gian lọc vượt quá 365 ngày. Hệ thống đã tự động điều chỉnh giới hạn hiển thị trong 1 năm.';
+                $dateStart = $e->copy()->subDays(365)->format('Y-m-d');
+            }
+        }
 
         // Default year for chart if no filter
         $chartYear = $dateStart ? date('Y', strtotime($dateStart)) : date('Y');
@@ -191,7 +201,7 @@ class ReportController extends Controller
         ];
 
         return view('reports.finance', compact(
-            'dateStart', 'dateEnd', 'sumTotals', 'growths',
+            'dateStart', 'dateEnd', 'sumTotals', 'growths', 'warning',
             'chart1', 'chart2', 'chart3', 'chart4', 'chart5', 'chart6'
         ));
     }

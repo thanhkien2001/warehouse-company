@@ -403,7 +403,7 @@
                             <td><input type="text" class="ib-input col-dvt" style="text-align:center;" placeholder="Kg" value="{{ $item->don_vi_tinh }}" readonly></td>
                             <td><input type="text" class="ib-input col-qc" style="text-align:center;" placeholder="Quy cách" value="{{ $item->quy_cach }}" readonly></td>
                             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:center;" value="{{ (float)$item->so_luong }}" oninput="calc(this)"></td>
-                            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="{{ number_format($item->don_gia, 0, ',', '.') }}" oninput="calc(this)"></td>
+                            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="{{ number_format($item->don_gia, 0, ',', '.') }}" readonly></td>
                             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="{{ number_format($item->thanh_tien, 0, ',', '.') }}" readonly></td>
                             <td><input type="text" class="ib-input col-lo" style="text-align:center;" placeholder="Số lô" value="{{ $item->so_lo }}"></td>
                             <td><input type="date" class="ib-input col-nsx" value="{{ $item->ngay_san_xuat ? $item->ngay_san_xuat->format('Y-m-d') : '' }}"></td>
@@ -492,7 +492,7 @@
             <td><input type="text" class="ib-input col-dvt" placeholder="Kg" readonly></td>
             <td><input type="text" class="ib-input col-qc" placeholder="Quy cách" readonly></td>
             <td><input type="text" class="ib-input col-sl val-qty" style="text-align:right;" value="0" oninput="calc(this)"></td>
-            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0" oninput="calc(this)"></td>
+            <td><input type="text" class="ib-input col-gia val-price" style="text-align:right;" value="0" readonly></td>
             <td><input type="text" class="ib-input col-tt val-total" style="text-align:right;" value="0" readonly></td>
             <td><input type="text" class="ib-input col-lo" placeholder="Số lô"></td>
             <td><input type="date" class="ib-input col-nsx"></td>
@@ -849,8 +849,15 @@
         document.getElementById('warehouse').value = 'Kho Nguyên Liệu';
         document.getElementById('origin').value = '';
         document.getElementById('notes').value = '';
+        
+        const attachInput = document.getElementById('attachment_files');
+        if (attachInput) attachInput.value = '';
+        document.querySelector('#attachment-list tbody').innerHTML = '<tr id="no-attach-row"><td style="color:#94a3b8; text-align:center; padding:10px;">Chưa có file đính kèm</td></tr>';
 
-        document.querySelectorAll('#main-table tbody tr').forEach(row => row.style.background = '');
+        const mainTbody = document.querySelector('#main-table tbody');
+        mainTbody.innerHTML = '';
+        addRow();
+
         document.getElementById('btn-save').innerHTML = '<i class="fas fa-check-circle"></i> Lưu & Hoàn tất';
     }
 

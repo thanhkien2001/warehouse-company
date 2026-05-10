@@ -84,6 +84,14 @@
                 </div>
             </div>
         </form>
+        @if(!empty($warning))
+            <div style="margin-top: 12px; color: #ef4444; font-size: 13px; font-weight: 600; padding: 10px 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; display:flex; align-items:center; gap:8px;">
+                <i class="fas fa-exclamation-triangle"></i> {{ $warning }}
+            </div>
+        @endif
+        <div id="js-filter-warning" style="display:none; margin-top: 12px; color: #ef4444; font-size: 13px; font-weight: 600; padding: 10px 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; align-items:center; gap:8px;">
+            <i class="fas fa-exclamation-triangle"></i> Khoảng thời gian lọc không được vượt quá 365 ngày! Vui lòng chọn lại.
+        </div>
     </div>
 
     {{-- 6 KPI BLOCKS --}}
@@ -237,6 +245,24 @@
 <script>
 Chart.register(ChartDataLabels);
 document.addEventListener('DOMContentLoaded', function() {
+    // Validate date filter
+    const form = document.getElementById('sr-form');
+    form.addEventListener('submit', function(e) {
+        const start = document.querySelector('input[name="date_start"]').value;
+        const end = document.querySelector('input[name="date_end"]').value;
+        const warnDiv = document.getElementById('js-filter-warning');
+        if (start && end) {
+            const diffTime = Math.abs(new Date(end) - new Date(start));
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            if (diffDays > 365) {
+                e.preventDefault();
+                warnDiv.style.display = 'flex';
+                return;
+            }
+        }
+        warnDiv.style.display = 'none';
+    });
+
     // Shared chart options
     const commonOptions = {
         responsive: true,

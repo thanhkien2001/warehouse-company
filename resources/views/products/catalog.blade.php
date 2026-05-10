@@ -76,15 +76,16 @@
                         <th width="3%"><input type="checkbox" class="check-all"></th>
                         <th width="3%">STT</th>
                         <th width="8%">Mã hàng</th>
-                        <th width="20%">Tên hàng</th>
+                        <th width="15%">Tên hàng</th>
                         <th width="10%">Nhóm hàng</th>
                         <th width="8%">Quy cách</th>
                         <th width="5%">ĐVT</th>
-                        <th width="10%">Giá bán (VNĐ)</th>
+                        <th width="9%">Giá nhập (VNĐ)</th>
+                        <th width="9%">Giá bán (VNĐ)</th>
                         <th width="5%">VAT (%)</th>
-                        <th width="12%">Nhà cung cấp</th>
+                        <th width="10%">Nhà cung cấp</th>
                         <th width="8%">Trạng thái</th>
-                        <th width="6%">Thao tác</th>
+                        <th width="7%">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +96,7 @@
                         data-cat="{{ $item->category_id }}"
                         data-quy-cach="{{ $item->quy_cach }}"
                         data-dvt="{{ $item->don_vi_tinh }}"
+                        data-gia-nhap="{{ $item->gia_nhap }}"
                         data-gia="{{ $item->gia_ban }}"
                         data-vat="{{ $item->vat }}"
                         data-ncc="{{ $item->nha_cung_cap }}"
@@ -108,6 +110,7 @@
                         <td>{{ $item->category->name ?? '---' }}</td>
                         <td>{{ $item->quy_cach ?? '---' }}</td>
                         <td>{{ $item->don_vi_tinh ?? '---' }}</td>
+                        <td class="text-right">{{ $item->gia_nhap ? number_format($item->gia_nhap, 0, ',', '.') : '---' }}</td>
                         <td class="text-right">{{ $item->gia_ban ? number_format($item->gia_ban, 0, ',', '.') : '---' }}</td>
                         <td>{{ $item->vat }}%</td>
                         <td class="text-left text-muted">{{ $item->nha_cung_cap ?? '---' }}</td>
@@ -225,7 +228,11 @@
                     <div class="pm-block-title"><span class="pm-num">3</span> Giá &amp; thuế</div>
                     <div class="pm-field-grid">
                         <div class="pm-field pm-field-full">
-                            <label>Giá bán mặc định (VNĐ) <span class="required">*</span></label>
+                            <label>Giá nhập mặc định (VNĐ)</label>
+                            <input type="text" id="f_gia_nhap" placeholder="Nhập giá nhập" class="pm-input">
+                        </div>
+                        <div class="pm-field pm-field-full">
+                            <label>Giá bán mặc định (VNĐ)</label>
                             <input type="text" id="f_gia_ban" placeholder="Nhập giá bán" class="pm-input">
                         </div>
                         <div class="pm-field pm-field-full">
@@ -801,6 +808,7 @@
         document.getElementById('f_category').value = tr.dataset.cat || '';
         document.getElementById('f_quy_cach').value = tr.dataset.quyCach || '';
         document.getElementById('f_dvt').value = tr.dataset.dvt || '';
+        document.getElementById('f_gia_nhap').value = tr.dataset.giaNhap || '';
         document.getElementById('f_gia_ban').value = tr.dataset.gia || '';
         document.getElementById('f_vat').value = tr.dataset.vat || '10';
         document.getElementById('f_ncc').value = tr.dataset.ncc || '';
@@ -821,7 +829,7 @@
     }
 
     function clearProductForm() {
-        ['f_ma_hang','f_ten_hang','f_quy_cach','f_dvt','f_gia_ban','f_ncc','f_ma_ncc','f_ghi_chu'].forEach(id => {
+        ['f_ma_hang','f_ten_hang','f_quy_cach','f_dvt','f_gia_nhap','f_gia_ban','f_ncc','f_ma_ncc','f_ghi_chu'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.value = '';
         });
@@ -840,6 +848,7 @@
             category_id:  document.getElementById('f_category').value || null,
             quy_cach:     document.getElementById('f_quy_cach').value.trim(),
             don_vi_tinh:  document.getElementById('f_dvt').value.trim(),
+            gia_nhap:     document.getElementById('f_gia_nhap').value || null,
             gia_ban:      document.getElementById('f_gia_ban').value || null,
             vat:          document.getElementById('f_vat').value || 10,
             nha_cung_cap: document.getElementById('f_ncc').value.trim(),
