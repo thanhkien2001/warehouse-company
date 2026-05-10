@@ -24,8 +24,8 @@
         .ord-filter-item { display: flex; flex-direction: column; gap: 5px; }
         .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
         .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; box-sizing: border-box; color: #1e293b; background: #fff; }
-        .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,.1); }
-        .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .ord-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,.1); }
+        .ord-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .ord-btn-search:hover { background: #005bb5; }
         .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; }
         .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }

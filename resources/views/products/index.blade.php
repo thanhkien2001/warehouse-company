@@ -9,17 +9,17 @@
     <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15); flex-shrink: 0;">
-                <i class="fas fa-boxes" style="font-size: 24px; color: #0070D2;"></i>
+                <i class="fas fa-boxes" style="font-size: 24px; color: #002B6B;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Quản Lý Tồn Kho</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Theo dõi biến động và số lượng hàng hóa.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Quản Lý Tồn Kho</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Theo dõi biến động và số lượng hàng hóa.</p>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <button onclick="location.reload()" class="ui-btn ui-btn-outline" style="border-radius: 6px;"><i class="fas fa-sync-alt"></i> Làm mới</button>
             @if(auth()->user()->canDo('tonkho', 'edit') || auth()->user()->isAdmin())
-            <button onclick="openModalNhap()" class="ui-btn ui-btn-primary" style="background:#0070D2; border-radius: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.25);"><i class="fas fa-plus"></i> Nhập hàng</button>
+            <button onclick="openModalNhap()" class="ui-btn ui-btn-primary" style="background:#002B6B; border-radius: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.25);"><i class="fas fa-plus"></i> Nhập hàng</button>
             @endif
         </div>
     </div>
@@ -208,11 +208,11 @@
 
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab:hover { color: #0070D2; }
-    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .prem-tab:hover { color: #002B6B; }
+    .prem-tab.active { color: #002B6B; border-bottom-color: #002B6B; }
 
     .don-filter-btn { padding: 6px 14px; border-radius: 6px; font-size: 12.5px; border: none; font-weight: 600; cursor: pointer; background: transparent; color: #64748b; transition: 0.2s; font-family: inherit; }
-    .don-filter-btn.active { background: #0070D2; color: #fff; }
+    .don-filter-btn.active { background: #002B6B; color: #fff; }
 
     .action-btn { width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
     .btn-edit-pro { background: #eff6ff; color: #3b82f6; }

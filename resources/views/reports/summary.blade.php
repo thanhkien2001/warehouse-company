@@ -24,11 +24,11 @@
         .ord-filter-item { display: flex; flex-direction: column; gap: 5px; }
         .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
         .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; box-sizing: border-box; color: #1e293b; background: #fff; }
-        .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,.1); }
+        .ord-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,.1); }
         .ord-search-wrapper { position: relative; }
         .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
         .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
-        .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .ord-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .ord-btn-search:hover { background: #005bb5; }
         .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
         .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
@@ -99,8 +99,8 @@
         .pager { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
         .pager-info { font-size: 13px; color: #64748b; }
         .pager-links a, .pager-links span { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 13px; font-weight: 600; color: #475569; text-decoration: none; margin: 0 2px; transition: all .15s; }
-        .pager-links a:hover { background: #0070D2; color: #fff; border-color: #0070D2; }
-        .pager-links span.cur { background: #0070D2; color: #fff; border-color: #0070D2; }
+        .pager-links a:hover { background: #002B6B; color: #fff; border-color: #002B6B; }
+        .pager-links span.cur { background: #002B6B; color: #fff; border-color: #002B6B; }
         .pager-links span.dis { color: #cbd5e1; }
     </style>
 

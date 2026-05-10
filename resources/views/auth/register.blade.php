@@ -14,7 +14,7 @@
         .card{background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:36px;box-shadow:0 25px 60px rgba(0,0,0,.5);animation:fadeUp .4s ease;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
         .logo-area{text-align:center;margin-bottom:28px;}
-        .logo-icon{width:60px;height:60px;background:linear-gradient(135deg,#0070D2,#7c3aed);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.5);margin-bottom:12px;}
+        .logo-icon{width:60px;height:60px;background:linear-gradient(135deg,#002B6B,#7c3aed);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.5);margin-bottom:12px;}
         .logo-name{color:#fff;font-size:22px;font-weight:900;}
         .logo-sub{color:rgba(255,255,255,.5);font-size:12px;margin-top:4px;}
         .form-group{margin-bottom:16px;}
@@ -23,9 +23,9 @@
         .input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);}
         .form-input{width:100%;padding:12px 14px 12px 40px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:all .2s;}
         .form-input::placeholder{color:rgba(255,255,255,.3);}
-        .form-input:focus{border-color:#0070D2;background:rgba(255,255,255,.12);}
+        .form-input:focus{border-color:#002B6B;background:rgba(255,255,255,.12);}
         .error-msg{color:#fca5a5;font-size:12.5px;margin-top:5px;}
-        .btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,#0070D2,#7c3aed);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(79,70,229,.4);}
+        .btn-submit{width:100%;padding:14px;background:linear-gradient(135deg,#002B6B,#7c3aed);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(79,70,229,.4);}
         .btn-submit:hover{transform:translateY(-2px);}
         .footer-link{text-align:center;margin-top:20px;color:rgba(255,255,255,.5);font-size:13px;}
         .footer-link a{color:#818cf8;text-decoration:none;font-weight:600;}

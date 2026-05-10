@@ -11,11 +11,11 @@
         .ord-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
         .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
         .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
-        .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+        .ord-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
         .ord-search-wrapper { position: relative; }
         .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
         .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
-        .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .ord-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .ord-btn-search:hover { background: #005bb5; }
         .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
         .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
@@ -33,7 +33,7 @@
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Công Nợ Khách Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý và nhắc nợ các đơn hàng chưa hoàn tất thanh toán.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý và nhắc nợ các đơn hàng chưa hoàn tất thanh toán.</p>
             </div>
         </div>
         <button onclick="location.reload()" class="ui-btn ui-btn-outline"><i class="fas fa-sync-alt"></i> Làm mới</button>
@@ -137,7 +137,7 @@
                     <td style="text-align: center; border-bottom-color: #fecaca;"><span style="color:#64748b; font-size:12px;">{{ $od['so_ngay_han'] ?? '0' }} ngày</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; white-space: nowrap; display: inline-block;">{{ $od['tinh_trang'] }}</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">
-                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #0070D2 !important;"><i class="fas fa-wallet btn-icon"></i> Thu tiền</button>
+                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #002B6B !important;"><i class="fas fa-wallet btn-icon"></i> Thu tiền</button>
                     </td>
                 </tr>
                 @empty
@@ -174,7 +174,7 @@
                 @forelse($allDebts as $d)
                 <tr>
                     <td style="text-align: center;"><input type="checkbox" class="check-debt" value="{{ $d['cto_code'] }}"></td>
-                    <td style="text-align: center; font-weight: 700; color: #0070D2;">{{ $d['cto_code'] }}</td>
+                    <td style="text-align: center; font-weight: 700; color: #002B6B;">{{ $d['cto_code'] }}</td>
                     <td></td>
                     <td style="font-weight: 700; text-align: left; color: #0f172a; text-transform: uppercase;">{{ $d['ten_kh'] }}</td>
                     <td style="text-align: right; color: black; font-weight:bold">{{ number_format($d['tong_don']) }}</td>
@@ -193,7 +193,7 @@
                         <span style="background:{{ $statusBg }}; color:{{ $statusColor }}; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; white-space: nowrap; display: inline-block;">{{ $d['tinh_trang'] }}</span>
                     </td>
                     <td style="text-align: center;">
-                        <button onclick="openDebtModal({{ json_encode($d['cto_code']) }}, {{ json_encode($d['ten_kh']) }}, {{ $d['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #0070D2 !important;">Thu tiền</button>
+                        <button onclick="openDebtModal({{ json_encode($d['cto_code']) }}, {{ json_encode($d['ten_kh']) }}, {{ $d['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #002B6B !important;">Thu tiền</button>
                     </td>
                 </tr>
                 @empty
@@ -245,7 +245,7 @@
 </div>
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .prem-tab.active { color: #002B6B; border-bottom-color: #002B6B; }
 
     /* Responsive adjustments */
     .filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }

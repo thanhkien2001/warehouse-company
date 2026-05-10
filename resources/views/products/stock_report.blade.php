@@ -86,10 +86,10 @@
         box-sizing: border-box;
         height: 32px;
     }
-    .filter-input:focus { border-color: #0070D2; }
+    .filter-input:focus { border-color: #002B6B; }
 
     .btn-search {
-        background: #0070D2; color: #fff; border: none;
+        background: #002B6B; color: #fff; border: none;
         padding: 0 16px; height: 32px; border-radius: 5px;
         font-size: 12px; font-weight: 600; cursor: pointer;
         white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 5px;
@@ -155,7 +155,7 @@
     }
 
     .table-title {
-        font-size: 15px; font-weight: 700; color: #0070D2;
+        font-size: 15px; font-weight: 700; color: #002B6B;
         text-transform: uppercase; display: flex; align-items: center; gap: 6px;
     }
 
@@ -274,7 +274,7 @@
         padding: 3px 5px; border-radius: 4px;
         font-size: 14px; line-height: 1;
     }
-    .action-btn.eye  { color: #0070D2; }
+    .action-btn.eye  { color: #002B6B; }
     .action-btn:hover { opacity: 0.7; }
 
     /* ===== PAGINATION ===== */
@@ -293,7 +293,7 @@
         background: #fff; font-size: 12px;
         cursor: pointer; color: #475569; font-weight: 600;
     }
-    .page-btn.active { background: #0070D2; color: #fff; border-color: #0070D2; }
+    .page-btn.active { background: #002B6B; color: #fff; border-color: #002B6B; }
     .page-btn:hover:not(.active):not(:disabled) { background: #f1f5f9; }
     .page-btn:disabled { opacity: 0.4; cursor: default; }
 
@@ -319,7 +319,7 @@
     .btn-outline-hdr:hover { opacity: 0.85; }
 
     /* aggregated values in parent row */
-    .agg-qty   { color: #0070D2; font-size: 13px; }
+    .agg-qty   { color: #002B6B; font-size: 13px; }
     .agg-value { color: #1e293b; font-size: 12px; }
 </style>
 @endpush
@@ -505,7 +505,7 @@
                                     </button>
                                 </div>
                             </td>
-                            <td style="font-weight:700; color:#0070D2; font-size:12px;">{{ $prod['ma'] }}</td>
+                            <td style="font-weight:700; color:#002B6B; font-size:12px;">{{ $prod['ma'] }}</td>
                             <td>{{ $prod['ten'] }}</td>
                             <td class="td-center">{{ $prod['nhom'] }}</td>
                             <td class="td-center">{{ $prod['dvt'] }}</td>
@@ -524,7 +524,7 @@
                         <tr class="child-row" data-group="{{ $pi }}">
                             <td></td>
                             <td class="child-stt">{{ $li + 1 }}</td>
-                            <td style="color:#0070D2; font-size:11px; padding-left:16px;">{{ $prod['ma'] }}</td>
+                            <td style="color:#002B6B; font-size:11px; padding-left:16px;">{{ $prod['ma'] }}</td>
                             <td style="font-size:11px; color:black; padding-left:10px;">{{ $prod['ten'] }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $prod['nhom'] }}</td>
                             <td class="td-center" style="font-size:11px;">{{ $prod['dvt'] }}</td>

@@ -24,7 +24,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        background: #0070D2 !important;
+        background: #002B6B !important;
         color: #fff;
         padding: 6px 20px;
         font-weight: 800;
@@ -136,7 +136,7 @@
 
     .legacy-table input:focus, .legacy-table textarea:focus {
         background: #fff;
-        border-color: #0070D2;
+        border-color: #002B6B;
     }
 
     .legacy-table .col-action {
@@ -227,7 +227,7 @@
         background: transparent;
         text-align: center;
         font-weight: 800;
-        color: #0070D2;
+        color: #002B6B;
         font-size: 15px;
         outline: none;
     }
@@ -287,7 +287,7 @@
         color: #000 !important;
     }
     .prod-autocomplete .ac-item:hover { background: #eff6ff; }
-    .prod-autocomplete .ac-code { font-weight: 700; color: #0070D2; }
+    .prod-autocomplete .ac-code { font-weight: 700; color: #002B6B; }
 </style>
 @endpush
 
@@ -308,7 +308,7 @@
             <div class="info-section">
                 <div class="info-column">
                     <h3 style="margin: 0 0 15px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
-                        <i class="fas fa-user-tie" style="margin-right: 5px; color: #0070D2;"></i> THÔNG TIN KHÁCH HÀNG
+                        <i class="fas fa-user-tie" style="margin-right: 5px; color: #002B6B;"></i> THÔNG TIN KHÁCH HÀNG
                     </h3>
                     <div class="info-row-flex"><span class="info-label">Khách hàng:</span> <b class="info-val">{{ $order->ten_kh }}</b></div>
                     <div class="info-row-flex"><span class="info-label">Mã khách hàng:</span> <span class="info-val">{{ $order->customer->ma_kh }}</span></div>
@@ -319,9 +319,9 @@
 
                 <div class="info-column">
                     <h3 style="margin: 0 0 15px 0; font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px;">
-                        <i class="fas fa-file-invoice-dollar" style="margin-right: 5px; color: #0070D2;"></i> THÔNG TIN ĐƠN HÀNG
+                        <i class="fas fa-file-invoice-dollar" style="margin-right: 5px; color: #002B6B;"></i> THÔNG TIN ĐƠN HÀNG
                     </h3>
-                    <div class="info-row-flex"><span class="info-label">Mã đơn hàng:</span> <b class="info-val" style="color: #0070D2;">{{ $order->cto_code }}</b></div>
+                    <div class="info-row-flex"><span class="info-label">Mã đơn hàng:</span> <b class="info-val" style="color: #002B6B;">{{ $order->cto_code }}</b></div>
                     <div class="info-row-flex"><span class="info-label">Người bán:</span> <span class="info-val">{{ $order->nguoi_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">SĐT người bán:</span> <span class="info-val">{{ $order->sdt_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">Người mua:</span> <span class="info-val">{{ $order->nguoi_mua }}</span></div>
@@ -473,7 +473,7 @@
 <div id="modal-taophieu" class="modal-overlay">
     <div class="modal-box" style="border-radius: 16px;">
         <div class="modal-header" style="border-bottom: 2px solid #f1f5f9;">
-            <h3 style="font-weight: 800;"><i class="fas fa-truck-loading" style="color:#0070D2"></i> Tạo Phiếu Giao Hàng</h3>
+            <h3 style="font-weight: 800;"><i class="fas fa-truck-loading" style="color:#002B6B"></i> Tạo Phiếu Giao Hàng</h3>
             <button class="modal-close" onclick="closeModal('modal-taophieu')"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body" style="padding: 24px;">
@@ -493,7 +493,7 @@
         </div>
         <div class="modal-footer" style="background: #f8fafc; padding: 16px 24px; border-top: 1px solid #e2e8f0;">
             <button class="btn btn-ghost" onclick="closeModal('modal-taophieu')">Hủy</button>
-            <button class="btn btn-primary" style="background:#0070D2; border-radius: 8px;" onclick="submitTaoPhieu()"><i class="fas fa-check"></i> Xác Nhận Tạo</button>
+            <button class="btn btn-primary" style="background:#002B6B; border-radius: 8px;" onclick="submitTaoPhieu()"><i class="fas fa-check"></i> Xác Nhận Tạo</button>
         </div>
     </div>
 </div>

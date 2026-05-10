@@ -8,12 +8,12 @@
             <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
         </a>
         <div style="display: flex; align-items: center; gap: 15px;">
-            <div style="background: #e0e7ff; color: #0070D2; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div style="background: #e0e7ff; color: #002B6B; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                 <i class="fas fa-user-tie"></i>
             </div>
             <div>
                 <h2 id="ctkh-ten" style="margin: 0; font-size: 20px; color: #000000; font-weight: 800;">{{ $customer->ten_cty }}</h2>
-                <div style="color: #64748b; font-weight: 700; font-size: 13px; margin-top: 4px;">MÃ KHÁCH HÀNG: <span id="ctkh-ma" style="color: #0070D2;">{{ $customer->ma_kh }}</span></div>
+                <div style="color: #64748b; font-weight: 700; font-size: 13px; margin-top: 4px;">MÃ KHÁCH HÀNG: <span id="ctkh-ma" style="color: #002B6B;">{{ $customer->ma_kh }}</span></div>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
         .purchase-history-tabs { display: flex; gap: 8px; align-items: center; }
         .ph-tab { padding: 8px 16px; border-radius: 50px; font-size: 13.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: #64748b; background: #f1f5f9; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
         .ph-tab:hover { background: #e2e8f0; color: #0f172a; }
-        .ph-tab.active { background: #0070D2; color: #fff; box-shadow: 0 4px 10px rgba(0, 112, 210, 0.2); }
+        .ph-tab.active { background: #002B6B; color: #fff; box-shadow: 0 4px 10px rgba(0, 112, 210, 0.2); }
         .ph-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; border-radius: 50%; font-size: 10px; color: #fff; font-weight: 800; padding: 0 4px; }
         .ph-badge.pending { background: #E67E22; }
         .ph-badge.processing { background: #3498DB; }
@@ -87,7 +87,7 @@
                 <input type="date" name="date_end" value="{{ request('date_end') }}" style="padding: 8px; border: none; font-size: 14px; color: #475569; outline: none; width: 130px;">
             </div>
             
-            <button type="submit" style="background: #0070D2; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <button type="submit" style="background: #002B6B; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
                 <i class="fas fa-search"></i> Lọc
             </button>
             <a href="{{ route('customers.show', $customer->id) }}" style="background: #E74C3C; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;">Xóa lọc</a>
@@ -158,7 +158,7 @@
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $loop->iteration }}</td>
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $order->order_date?->format('d/m/Y') }}</td>
                     <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">
-                        <a href="javascript:void(0)" onclick="xemChiTietDon({{ $order->id }}, '{{ $order->cto_code }}')" style="color: #0070D2; text-decoration: none; font-weight: bold;">{{ $order->cto_code }}</a>
+                        <a href="javascript:void(0)" onclick="xemChiTietDon({{ $order->id }}, '{{ $order->cto_code }}')" style="color: #002B6B; text-decoration: none; font-weight: bold;">{{ $order->cto_code }}</a>
                     </td>
                     <td class="col-left" style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9;">{{ $order->ghi_chu ?: '---' }}</td>
                     <td style="padding: 16px 15px; text-align: center;">
@@ -246,7 +246,7 @@ function xemChiTietDon(orderId, ctoCode) {
     document.getElementById('ctkh-khu-vuc-chitiet-don').style.display = 'block';
     
     document.getElementById('ctkh-action-buttons').innerHTML = `
-        <a href="/don-hang/${orderId}" style="background: #0070D2; color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;"><i class="fas fa-eye"></i> Xem đơn hàng</a>
+        <a href="/don-hang/${orderId}" style="background: #002B6B; color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600;"><i class="fas fa-eye"></i> Xem đơn hàng</a>
     `;
 
     document.getElementById('ctkh-view-chitiet-body').innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</td></tr>`;
@@ -268,7 +268,7 @@ function xemChiTietDon(orderId, ctoCode) {
                     total += lineTotal;
                     html += `
                     <tr>
-                        <td class="col-center" style="padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #0070D2; font-weight: 600;">${item.ma_hang || '---'}</td>
+                        <td class="col-center" style="padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #002B6B; font-weight: 600;">${item.ma_hang || '---'}</td>
                         <td class="col-left" style="padding: 12px 15px; border-bottom: 1px solid #f1f5f9; font-weight: 600; color: #0f172a;">${item.ten_hang || '---'}</td>
                         <td class="col-right" style="padding: 12px 15px; border-bottom: 1px solid #f1f5f9; font-weight: 700; color: #0ea5e9;">${formatQuantity(item.so_luong || 0)}</td>
                         <td class="col-center" style="padding: 12px 15px; border-bottom: 1px solid #f1f5f9;">${item.don_vi_tinh || '---'}</td>

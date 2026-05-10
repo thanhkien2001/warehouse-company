@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="card" style="padding: 0; overflow: hidden; position: relative;">
-    <div style="position: absolute; top: 0; right: 0; background: #0070D2 !important; color: #fff; padding: 6px 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; border-bottom-left-radius: 12px; box-shadow: -2px 2px 10px rgba(0,0,0,0.1); z-index: 10;">
+    <div style="position: absolute; top: 0; right: 0; background: #002B6B !important; color: #fff; padding: 6px 20px; font-weight: 800; font-size: 13px; letter-spacing: 1px; border-bottom-left-radius: 12px; box-shadow: -2px 2px 10px rgba(0,0,0,0.1); z-index: 10;">
         <i class="fas fa-truck"></i> <span>{{ $delivery->dn_code }}</span>
     </div>
 
@@ -82,27 +82,27 @@
                         @forelse($delivery->order->items ?? [] as $i => $item)
                         <tr class="dn-item-row" data-id="{{ $item->id }}" style="transition: 0.2s;" onmouseover="this.style.background='#fcfcfc'" onmouseout="this.style.background='transparent'">
                             <td style="text-align:center; color: #94a3b8; font-weight: 600;">{{ $i + 1 }}</td>
-                            <td style="text-align:center; font-weight:700; color: #0070D2;">{{ $item->ma_hang }}</td>
+                            <td style="text-align:center; font-weight:700; color: #002B6B;">{{ $item->ma_hang }}</td>
                             <td style="text-align:left">
                                 <div style="font-weight:700; color: #0f172a; margin-bottom: 2px;">{{ $item->ten_hang }}</div>
                                 @if($item->mo_ta_phu)<div style="font-size:11px; color:black;">{{ $item->mo_ta_phu }}</div>@endif
                             </td>
                             <td style="text-align:center; padding: 4px;">
-                                <input type="text" class="in-lot" value="{{ $item->ma_lot }}" placeholder="Số lô..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                <input type="text" class="in-lot" value="{{ $item->ma_lot }}" placeholder="Số lô..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#002B6B'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
                             </td>
                             <td style="text-align:center; padding: 4px;">
-                                <input type="date" class="in-hsd" value="{{ $item->han_su_dung ? $item->han_su_dung->format('Y-m-d') : '' }}" style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:5px; font-size:12.5px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                <input type="date" class="in-hsd" value="{{ $item->han_su_dung ? $item->han_su_dung->format('Y-m-d') : '' }}" style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:5px; font-size:12.5px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#002B6B'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
                             </td>
                             <td style="text-align:center; padding: 4px;">
-                                <input type="text" class="in-qc" value="{{ $item->quy_cach }}" placeholder="Quy cách..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                <input type="text" class="in-qc" value="{{ $item->quy_cach }}" placeholder="Quy cách..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#002B6B'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
                             </td>
                             <td style="text-align:right; font-weight:800; color:#0f172a; padding-right: 15px;">{{ number_format($item->so_luong, 2, ',', '.') }}</td>
                             <td style="text-align:center; color: #64748b; font-weight: 600;">{{ $item->don_vi_tinh }}</td>
                             <td style="text-align:center; padding: 4px;">
-                                <input type="number" step="any" class="in-qdoi" value="{{ $item->quy_doi }}" placeholder="0" style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                <input type="number" step="any" class="in-qdoi" value="{{ $item->quy_doi }}" placeholder="0" style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; text-align:center; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#002B6B'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
                             </td>
                             <td style="text-align:left; padding: 4px;">
-                                <input type="text" class="in-note" value="{{ $item->ghi_chu }}" placeholder="Ghi chú..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#0070D2'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
+                                <input type="text" class="in-note" value="{{ $item->ghi_chu }}" placeholder="Ghi chú..." style="width:100%; border:1px solid #e2e8f0; border-radius:6px; padding:6px; font-size:13px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#002B6B'; this.style.boxShadow='0 0 0 3px rgba(0,112,210,0.1)'" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'">
                             </td>
                         </tr>
                         @empty

@@ -97,11 +97,11 @@
         }
         .input-wrap input::placeholder { color: #94a3b8; font-weight: 500; }
         .input-wrap input:focus {
-            border-color: #0070D2;
+            border-color: #002B6B;
             background: #ffffff;
             box-shadow: 0 0 0 4px rgba(0,112,210,0.1);
         }
-        .input-wrap input:focus + .icon-left { color: #0070D2; }
+        .input-wrap input:focus + .icon-left { color: #002B6B; }
 
         .toggle-pw {
             position: absolute;
@@ -116,7 +116,7 @@
             padding: 4px;
             transition: color 0.2s;
         }
-        .toggle-pw:hover { color: #0070D2; }
+        .toggle-pw:hover { color: #002B6B; }
 
         /* Error */
         .alert-error {
@@ -260,7 +260,7 @@
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
                     <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #475569; cursor: pointer; font-weight: 500;">
-                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} style="accent-color: #0070D2; width: 16px; height: 16px; cursor: pointer;">
+                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} style="accent-color: #002B6B; width: 16px; height: 16px; cursor: pointer;">
                         Ghi nhớ đăng nhập
                     </label>
                     <a href="#" style="font-size: 13.5px; color: #002B6B; font-weight: 600; text-decoration: none;">Quên mật khẩu?</a>

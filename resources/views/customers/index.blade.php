@@ -10,11 +10,11 @@
     <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 0;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15); flex-shrink: 0;">
-                <i class="fas fa-address-book" style="font-size: 24px; color: #0070D2;"></i>
+                <i class="fas fa-address-book" style="font-size: 24px; color: #002B6B;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Khách Hàng & Đối Tác</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Khách Hàng & Đối Tác</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
         <button type="button" onclick="openCreateKHModal()" class="btn-add-kh">
@@ -163,7 +163,7 @@
 <div id="modal-kh" class="modal-overlay">
     <div class="modal-box" style="width: 750px; max-width: 95vw;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px;">
-            <h3 id="modal-kh-title" style="font-weight: 800; font-size: 20px;"><i class="fas fa-user-plus" style="color:#0070D2"></i> Thêm Khách Hàng</h3>
+            <h3 id="modal-kh-title" style="font-weight: 800; font-size: 20px;"><i class="fas fa-user-plus" style="color:#002B6B"></i> Thêm Khách Hàng</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #64748b;" onclick="closeModal('modal-kh')"></i>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
@@ -199,7 +199,7 @@
             <div>
                 <label class="modal-pro-label">Tài liệu đối tác</label>
                 <input type="file" id="kh_tai_lieu" class="modal-pro-input" style="padding: 8px;">
-                <div id="kh_tai_lieu_preview" style="margin-top: 5px; font-size: 11px; color: #0070D2;"></div>
+                <div id="kh_tai_lieu_preview" style="margin-top: 5px; font-size: 11px; color: #002B6B;"></div>
             </div>
             <div style="grid-column: span 2;">
                 <label class="modal-pro-label">Địa chỉ công ty (Xuất hóa đơn)</label>
@@ -233,7 +233,7 @@
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
             <button class="ui-btn ui-btn-outline" style="border-radius: 6px;" onclick="closeModal('modal-kh')">Hủy bỏ</button>
-            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #0070D2;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
+            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #002B6B;" onclick="submitKH()"><i class="fas fa-save"></i> Lưu dữ liệu</button>
         </div>
     </div>
 </div>
@@ -244,12 +244,12 @@
     textarea.modal-pro-input { height: auto; }
     select.modal-pro-input { height: 36px; }
     input[type="file"].modal-pro-input { height: auto; padding: 6px 12px; }
-    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+    .modal-pro-input:focus { border-color: #002B6B; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
     /* ===== BUTTON ADD ===== */
     .btn-add-kh {
         padding: 8px 18px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border: none;
         border-radius: 6px;
@@ -304,7 +304,7 @@
         color: #1e293b;
         background: #fff;
     }
-    .kh-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1); }
+    .kh-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1); }
     .kh-search-wrapper { position: relative; }
     .kh-search-wrapper i {
         position: absolute;
@@ -319,7 +319,7 @@
     .kh-btn-search {
         height: 36px;
         padding: 0 16px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border: none;
         border-radius: 6px;
@@ -409,7 +409,7 @@
     }
     .kh-table tbody tr:hover { background: #f0f7ff; }
     .kh-table .text-left { text-align: left !important; }
-    .kh-table .text-bold { font-weight: 700; color: #0070D2; }
+    .kh-table .text-bold { font-weight: 700; color: #002B6B; }
 
     /* Action buttons (catalog style) */
     .kh-action-buttons { display: flex; justify-content: center; gap: 6px; }
@@ -472,7 +472,7 @@
 
     function openCreateKHModal() {
         currentEditId = null;
-        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-user-plus" style="color:#0070D2"></i> Thêm Khách Hàng';
+        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-user-plus" style="color:#002B6B"></i> Thêm Khách Hàng';
         
         // Reset fields
         const today = new Date().toISOString().split('T')[0];
@@ -538,7 +538,7 @@
 
     async function editKH(id) {
         currentEditId = id;
-        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-edit" style="color:#0070D2"></i> Sửa Thông Tin Khách Hàng';
+        document.getElementById('modal-kh-title').innerHTML = '<i class="fas fa-edit" style="color:#002B6B"></i> Sửa Thông Tin Khách Hàng';
         
         const res = await fetch(`/khach-hang/${id}`, {
             headers: { 'Accept': 'application/json' }
@@ -569,7 +569,7 @@
             if (res.tai_lieu) {
                 const fileName = res.tai_lieu.split('/').pop();
                 const fileUrl = `/storage/${res.tai_lieu}`;
-                document.getElementById('kh_tai_lieu_preview').innerHTML = `<a href="${fileUrl}" target="_blank" style="color: #0070D2; text-decoration: underline; font-weight: 600;">${fileName}</a>`;
+                document.getElementById('kh_tai_lieu_preview').innerHTML = `<a href="${fileUrl}" target="_blank" style="color: #002B6B; text-decoration: underline; font-weight: 600;">${fileName}</a>`;
             } else {
                 document.getElementById('kh_tai_lieu_preview').innerHTML = '';
             }

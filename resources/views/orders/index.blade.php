@@ -12,12 +12,12 @@
                 <i class="fas fa-cart-plus" style="font-size: 24px; color: #3b82f6;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Quản Lý Đơn Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Tạo và quản lý các đơn hàng Booking.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Quản Lý Đơn Hàng</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Tạo và quản lý các đơn hàng Booking.</p>
             </div>
         </div>
         @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
-        <button onclick="openCreateModal()" style="background: #0070D2; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateModal()" style="background: #002B6B; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Đơn Hàng Mới
         </button>
         @endif
@@ -29,7 +29,7 @@
         .order-tabs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .order-tab { padding: 7px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; color: #64748b; background: #f1f5f9; display: flex; align-items: center; gap: 6px; transition: 0.2s; border: 1px solid transparent; }
         .order-tab:hover { background: #e2e8f0; color: #0f172a; }
-        .order-tab.active { background: #0070D2; color: #fff; box-shadow: 0 4px 10px rgba(0,112,210,0.2); border-color: #0070D2; }
+        .order-tab.active { background: #002B6B; color: #fff; box-shadow: 0 4px 10px rgba(0,112,210,0.2); border-color: #002B6B; }
         .order-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; border-radius: 50%; font-size: 10px; color: #fff; font-weight: 800; padding: 0 4px; }
         .order-badge.pending { background: #E67E22; } .order-badge.processing { background: #3498DB; }
         .order-badge.shipping { background: #8E44AD; } .order-badge.canceled { background: #E74C3C; }
@@ -41,11 +41,11 @@
         .ord-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
         .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
         .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
-        .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+        .ord-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
         .ord-search-wrapper { position: relative; }
         .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
         .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
-        .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .ord-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .ord-btn-search:hover { background: #005bb5; }
         .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
         .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
@@ -56,7 +56,7 @@
         .ord-table thead th { background: #EFF6FF; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #000; text-align: center; border: 1px solid #e2e8f0; white-space: nowrap; text-transform: uppercase; }
         .ord-table tbody td { padding: 9px 8px; font-size: 13px; color: #1e293b; text-align: center; border: 1px solid #e2e8f0; vertical-align: middle; }
         .ord-table tbody tr:hover { background: #f0f7ff; }
-        .ord-text-bold { font-weight: 700; color: #0070D2; }
+        .ord-text-bold { font-weight: 700; color: #002B6B; }
         .ord-text-left { text-align: left !important; }
 
         /* Action buttons */
@@ -272,13 +272,13 @@
 <style>
     .don-filter-btn { padding: 8px 16px; border-radius: 50px; font-size: 13px; color: #64748b; font-weight: 600; text-decoration: none; transition: 0.2s; cursor: pointer; }
     .don-filter-btn:hover { background: #f8fafc; color: #0f172a; }
-    .don-filter-btn.active { background: #0070D2; color: white !important; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
+    .don-filter-btn.active { background: #002B6B; color: white !important; box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3); }
 
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; display: flex; align-items: center; gap: 8px; transition: 0.3s; white-space: nowrap; }
-    .prem-tab:hover { color: #0070D2; }
-    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .prem-tab:hover { color: #002B6B; }
+    .prem-tab.active { color: #002B6B; border-bottom-color: #002B6B; }
     .prem-tab .badge { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
-    .prem-tab.active .badge { background: #e0e7ff; color: #0070D2; }
+    .prem-tab.active .badge { background: #e0e7ff; color: #002B6B; }
 
     .action-btn { width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; }
     .btn-view-pro { background: #f1f5f9; color: #64748b; }
@@ -290,7 +290,7 @@
 
     .modal-pro-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
     .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; background: #f8fafc; box-sizing: border-box; height: 36px; transition: border-color 0.2s, box-shadow 0.2s; }
-    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+    .modal-pro-input:focus { border-color: #002B6B; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
 
     .badge-blue { background: #eff6ff; color: #1d4ed8; }
     .badge-yellow { background: #fffbeb; color: #92400e; }

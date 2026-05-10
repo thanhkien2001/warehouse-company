@@ -95,11 +95,11 @@
         cursor: pointer;
         transition: border-color 0.2s, background 0.2s;
     }
-    .dropzone-container.drag-over { border-color: #0070D2; background: #eff6ff; }
+    .dropzone-container.drag-over { border-color: #002B6B; background: #eff6ff; }
     .dropzone-icon { font-size: 30px; color: #94a3b8; margin-bottom: 8px; }
     .dropzone-text { font-size: 12px; color: #475569; margin-bottom: 10px; }
     .btn-choose-file {
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         padding: 6px 15px;
         border-radius: 6px;
@@ -182,9 +182,9 @@
         border-bottom: 1px solid #f1f5f9;
     }
     .prod-autocomplete .ac-item:hover { background: #eff6ff; }
-    .prod-autocomplete .ac-code { font-weight: 700; color: #0070D2; }
+    .prod-autocomplete .ac-code { font-weight: 700; color: #002B6B; }
 
-    .btn-add { background: #0070D2; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; font-size: 13px; }
+    .btn-add { background: #002B6B; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; font-size: 13px; }
     .btn-outline-custom { background: #fff; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 13px; }
 
     .table-block { flex: 1; display: flex; flex-direction: column; min-height: 0; }
@@ -219,9 +219,9 @@
         text-decoration: none;
     }
     .page-btn.active {
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
-        border-color: #0070D2;
+        border-color: #002B6B;
     }
     .page-btn.disabled { opacity: 0.4; pointer-events: none; }
     .page-btn:hover:not(.active):not(.disabled) { background: #f1f5f9; }
@@ -700,7 +700,7 @@
         const icon = ext === 'pdf' ? 'fa-file-pdf' : ['jpg','jpeg','png'].includes(ext) ? 'fa-file-image' : 'fa-file-excel';
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td style="color:#0070D2;"><i class="far ${icon}"></i> ${name}</td>
+            <td style="color:#002B6B;"><i class="far ${icon}"></i> ${name}</td>
             <td width="30"><i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="removeFile(this,${idx})"></i></td>`;
         tbody.appendChild(tr);
     }
@@ -827,7 +827,7 @@
             attachData.forEach(att => {
                 const trAtt = document.createElement('tr');
                 trAtt.innerHTML = `
-                    <td style="color:#0070D2;"><i class="fas fa-file"></i> <a href="/storage/${att.file_path}" target="_blank" style="color:#0070D2; text-decoration:none;">${att.original_name || 'Tài liệu'}</a></td>
+                    <td style="color:#002B6B;"><i class="fas fa-file"></i> <a href="/storage/${att.file_path}" target="_blank" style="color:#002B6B; text-decoration:none;">${att.original_name || 'Tài liệu'}</a></td>
                     <td width="30"><i class="fas fa-times" style="color:#ef4444; cursor:pointer;" onclick="this.closest('tr').remove()"></i></td>
                 `;
                 tbodyAttach.appendChild(trAtt);

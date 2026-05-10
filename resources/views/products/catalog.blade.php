@@ -9,11 +9,11 @@
     <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 0;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0, 112, 210, 0.15); flex-shrink: 0;">
-                <i class="fas fa-th-large" style="font-size: 24px; color: #0070D2;"></i>
+                <i class="fas fa-th-large" style="font-size: 20px; color: #002B6B;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Danh mục sản phẩm</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;text-transform: uppercase;">Danh mục sản phẩm</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
             </div>
         </div>
         <button class="btn-add-product" onclick="openProductModal()"><i class="fas fa-plus"></i> Thêm sản phẩm</button>
@@ -317,14 +317,14 @@
     .btn-action:hover {
         background: #f8fafc;
         border-color: #cbd5e1;
-        color: #0070D2;
+        color: #002B6B;
     }
     .btn-action i { color: #10b981; }
     .btn-export i { color: #3b82f6; }
 
     .btn-add-product {
         padding: 8px 18px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border: none;
         border-radius: 6px;
@@ -363,7 +363,7 @@
         width: 100%;
         box-sizing: border-box;
     }
-    .filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1); }
+    .filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1); }
 
     .search-input-wrapper { position: relative; }
     .search-input-wrapper i {
@@ -383,7 +383,7 @@
     .btn-search {
         flex: 1;
         height: 36px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border: none;
         border-radius: 6px;
@@ -443,7 +443,7 @@
 
     .text-left { text-align: left !important; }
     .text-right { text-align: right !important; }
-    .text-bold { font-weight: 700; color: #0070D2; }
+    .text-bold { font-weight: 700; color: #002B6B; }
     .text-muted { color: #64748b; font-size: 13px; }
 
     /* BADGE */
@@ -506,9 +506,9 @@
         cursor: pointer;
     }
     .page-btn.active {
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
-        border-color: #0070D2;
+        border-color: #002B6B;
     }
     .page-btn:disabled { opacity: 0.4; cursor: default; }
     .page-btn:hover:not(.active):not(:disabled) { background: #f1f5f9; }
@@ -621,7 +621,7 @@
     .pm-block-title {
         font-size: 13px;
         font-weight: 700;
-        color: #0070D2;
+        color: #002B6B;
         margin-bottom: 12px;
         display: flex;
         align-items: center;
@@ -629,7 +629,7 @@
     }
     .pm-num {
         width: 20px; height: 20px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border-radius: 50%;
         font-size: 11px;
@@ -671,7 +671,7 @@
         transition: border-color 0.2s, box-shadow 0.2s;
     }
     .pm-input:focus {
-        border-color: #0070D2;
+        border-color: #002B6B;
         box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1);
     }
     .pm-textarea {
@@ -705,7 +705,7 @@
         padding: 8px 26px;
         border: none;
         border-radius: 6px;
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         font-size: 13px;
         font-weight: 700;
@@ -918,7 +918,7 @@
 
         const status = document.getElementById('importStatus');
         status.style.display = 'block';
-        status.style.color = '#0070D2';
+        status.style.color = '#002B6B';
         status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang nhập dữ liệu...';
 
         const fd = new FormData();

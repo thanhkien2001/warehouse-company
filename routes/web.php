@@ -159,6 +159,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/debt/export', [PaymentController::class, 'exportDebt'])->name('debt.export');
         Route::get('/thanh-toan', [PaymentController::class, 'index'])->name('payments.index');
         Route::post('/thanh-toan', [PaymentController::class, 'store'])->name('payments.store');
+        Route::delete('/thanh-toan/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
         Route::get('/thanh-toan/api/debt/{ctoCode}', [PaymentController::class, 'getDebtInfo'])->name('payments.debt-info');
         Route::get('/bao-cao-tai-chinh', [ReportController::class, 'finance'])->name('reports.finance');
         Route::get('/bao-cao-tong-hop', [ReportController::class, 'summary'])->name('reports.summary');

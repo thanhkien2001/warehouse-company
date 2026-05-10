@@ -5,16 +5,16 @@
 <style>
     .admin-nav { display: flex; gap: 30px; border-bottom: 2px solid #e2e8f0; margin-bottom: 25px; padding: 0 10px; }
     .nav-item { padding: 12px 5px; cursor: pointer; font-size: 15px; font-weight: 700; color: #64748b; border-bottom: 3px solid transparent; transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
-    .nav-item:hover { color: #0070D2; }
-    .nav-item.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .nav-item:hover { color: #002B6B; }
+    .nav-item.active { color: #002B6B; border-bottom-color: #002B6B; }
     .tab-pane { display: none; animation: fadeIn 0.3s ease; }
     .tab-pane.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Action buttons style like khach-hang */
     .action-btn { width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; font-size: 14px; }
-    .btn-edit-pro { background: #eef2ff; color: #0070D2; }
-    .btn-edit-pro:hover { background: #0070D2; color: #fff; }
+    .btn-edit-pro { background: #eef2ff; color: #002B6B; }
+    .btn-edit-pro:hover { background: #002B6B; color: #fff; }
     .btn-del-pro { background: #fef2f2; color: #ef4444; }
     .btn-del-pro:hover { background: #ef4444; color: #fff; }
     .btn-shield-pro { background: #fff7ed; color: #f97316; }
@@ -22,7 +22,7 @@
 
     .modal-pro-label { font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 8px; display: block; }
     .modal-pro-input { width: 100%; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 11px 14px; font-size: 14px; outline: none; background: #f8fafc; box-sizing: border-box; transition: 0.3s; }
-    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+    .modal-pro-input:focus { border-color: #002B6B; background: #fff; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
 
     .modal-pro-split { display: grid; grid-template-columns: 3fr 7fr; gap: 24px; align-items: start; }
     .modal-pro-left { padding-right: 15px; border-right: 1px solid #e2e8f0; }
@@ -41,7 +41,7 @@
     .perm-child-row { display: none; }
     .perm-child-row.show { display: table-row; }
     
-    .custom-checkbox { transform: scale(1.3); cursor: pointer; accent-color: #0070D2; }
+    .custom-checkbox { transform: scale(1.3); cursor: pointer; accent-color: #002B6B; }
     
     .modal-box.xl { width: 95vw; max-width: 1400px; }
 </style>
@@ -51,14 +51,14 @@
     <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eef2ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15); flex-shrink: 0;">
-                <i class="fas fa-user-shield" style="font-size: 24px; color: #0070D2;"></i>
+                <i class="fas fa-user-shield" style="font-size: 24px; color: #002B6B;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Quản Trị Hệ Thống</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Trung tâm điều khiển tài khoản và bảo mật phân quyền.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Quản Trị Hệ Thống</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Trung tâm điều khiển tài khoản và bảo mật phân quyền.</p>
             </div>
         </div>
-        <button onclick="openModalUser()" style="background: #0070D2; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openModalUser()" style="background: #002B6B; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus-circle"></i> Cấp Tài Khoản Mới
         </button>
     </div>
@@ -88,7 +88,7 @@
                     @foreach($users as $idx => $u)
                     <tr>
                         <td style="text-align: center; color: #94a3b8;">{{ $users->firstItem() + $idx }}</td>
-                        <td><b style="color:#0070D2;">{{ $u->username }}</b></td>
+                        <td><b style="color:#002B6B;">{{ $u->username }}</b></td>
                         <td style="font-weight:600; color: #1e293b;">{{ $u->display_name }}</td>
                         <td style="text-align: center;">
                             <div style="font-weight: 600; color: #475569; font-size: 13px; margin-bottom: 4px;">{{ $u->chuc_danh }}</div>
@@ -201,7 +201,7 @@
 <div id="modal-user" class="modal-overlay">
     <div class="modal-box xl" style="padding: 0; border-radius: 16px; overflow: hidden; max-height: 95vh; display: flex; flex-direction: column;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding: 20px 24px; background: #fff;">
-            <h3 id="mu-title" style="font-weight: 800; font-size: 20px; margin: 0;"><i class="fas fa-user-plus" style="color:#0070D2"></i> Cấp Tài Khoản Mới</h3>
+            <h3 id="mu-title" style="font-weight: 800; font-size: 20px; margin: 0;"><i class="fas fa-user-plus" style="color:#002B6B"></i> Cấp Tài Khoản Mới</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #64748b; font-size: 18px;" onclick="closeModal('modal-user')"></i>
         </div>
         <div style="padding: 24px; overflow-y: auto; flex: 1;">
@@ -255,7 +255,7 @@
                 {{-- RIGHT SIDE: PHÂN QUYỀN HỆ THỐNG --}}
                 <div class="modal-pro-right">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h4 style="font-size: 14px; font-weight: 800; color: #0070D2; margin: 0;">
+                        <h4 style="font-size: 14px; font-weight: 800; color: #002B6B; margin: 0;">
                             <i class="fas fa-shield-alt"></i> PHÂN QUYỀN HỆ THỐNG
                         </h4>
                         <div>
@@ -329,7 +329,7 @@
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding: 20px 24px; background: #fff;">
             <button class="ui-btn ui-btn-outline" style="border-radius: 6px;" onclick="closeModal('modal-user')">Hủy bỏ</button>
-            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #0070D2;" onclick="saveUser()"><i class="fas fa-save"></i> Lưu tài khoản</button>
+            <button class="ui-btn ui-btn-primary" style="border-radius: 6px; background: #002B6B;" onclick="saveUser()"><i class="fas fa-save"></i> Lưu tài khoản</button>
         </div>
     </div>
 </div>
@@ -447,7 +447,7 @@ function openModalUser(u = null) {
     cbs.forEach(cb => { cb.checked = false; cb.disabled = false; });
     
     if(!u) {
-        document.getElementById('mu-title').innerHTML = '<i class="fas fa-user-plus" style="color:#0070D2"></i> Cấp Tài Khoản Mới';
+        document.getElementById('mu-title').innerHTML = '<i class="fas fa-user-plus" style="color:#002B6B"></i> Cấp Tài Khoản Mới';
         document.getElementById('mu_id').value = '';
         document.getElementById('mu_username').value = '';
         document.getElementById('mu_username').readOnly = false;
@@ -458,7 +458,7 @@ function openModalUser(u = null) {
         document.getElementById('mu_pass').value = '';
         autoCheckPermissions();
     } else {
-        document.getElementById('mu-title').innerHTML = '<i class="fas fa-edit" style="color:#0070D2"></i> Sửa Thông Tin Tài Khoản';
+        document.getElementById('mu-title').innerHTML = '<i class="fas fa-edit" style="color:#002B6B"></i> Sửa Thông Tin Tài Khoản';
         document.getElementById('mu_id').value = u.id;
         document.getElementById('mu_username').value = u.username;
         document.getElementById('mu_username').readOnly = true;

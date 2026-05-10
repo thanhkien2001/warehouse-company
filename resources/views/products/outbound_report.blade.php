@@ -82,10 +82,10 @@
         height: 32px;
     }
 
-    .filter-input:focus { border-color: #0070D2; }
+    .filter-input:focus { border-color: #002B6B; }
 
     .btn-search {
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
         border: none;
         padding: 0 14px;
@@ -200,7 +200,7 @@
     .table-title {
         font-size: 15px;
         font-weight: 700;
-        color: #0070D2;
+        color: #002B6B;
         text-transform: uppercase;
         display: flex;
         align-items: center;
@@ -287,7 +287,7 @@
     .badge-noibo   { background: #fef3c7; color: #d97706; }
 
     .link-phieu {
-        color: #0070D2;
+        color: #002B6B;
         font-weight: 600;
         text-decoration: none;
         font-size: 13px;
@@ -305,7 +305,7 @@
         line-height: 1;
     }
 
-    .action-btn.eye  { color: #0070D2; }
+    .action-btn.eye  { color: #002B6B; }
     .action-btn.down { color: #10b981; }
     .action-btn:hover { opacity: 0.7; }
 
@@ -344,9 +344,9 @@
     }
 
     .page-btn.active {
-        background: #0070D2;
+        background: #002B6B;
         color: #fff;
-        border-color: #0070D2;
+        border-color: #002B6B;
     }
 
     .page-btn:hover:not(.active):not(:disabled) { background: #f1f5f9; }
@@ -387,7 +387,7 @@
 
     .btn-outline-hdr.excel { color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; }
     .btn-outline-hdr.pdf   { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
-    .btn-outline-hdr.filter { background: #0070D2; color: #fff; border-color: #0070D2; }
+    .btn-outline-hdr.filter { background: #002B6B; color: #fff; border-color: #002B6B; }
 
     .btn-outline-hdr:hover { opacity: 0.85; }
 
@@ -398,7 +398,7 @@
     }
 
     .nguon-code {
-        color: #0070D2;
+        color: #002B6B;
         font-weight: 600;
     }
 </style>
@@ -585,7 +585,7 @@
                             </td>
                             <td style="text-transform:uppercase;">{{ $r->ten_kh }}</td>
                             <td class="td-center" style="font-size:13px;">{{ $r->kho_xuat ?? 'Kho Nguyên Liệu' }}</td>
-                            <td class="td-center" style="font-weight:600; color:#0070D2; font-size:13px;">{{ $r->ma_hang }}</td>
+                            <td class="td-center" style="font-weight:600; color:#002B6B; font-size:13px;">{{ $r->ma_hang }}</td>
                             <td style="font-size:13px;">{{ $r->ten_hang }}</td>
                             <td class="td-center" style="font-size:13px;">{{ $r->ma_lot }}</td>
                             <td class="td-center" style="font-size:13px;">{{ $r->han_su_dung ? \Carbon\Carbon::parse($r->han_su_dung)->format('d/m/Y') : '---' }}</td>
@@ -596,7 +596,7 @@
                             <td style="text-align: center;">
                                 <div class="nguon-cell">
                                     Đơn Hàng<br>
-                                    <span class="nguon-code"><a href="{{ url('/don-hang/' . $r->order_id) }}" style="color:#0070D2; text-decoration:none;">{{ $r->phieu_xuat }}</a></span>
+                                    <span class="nguon-code"><a href="{{ url('/don-hang/' . $r->order_id) }}" style="color:#002B6B; text-decoration:none;">{{ $r->phieu_xuat }}</a></span>
                                 </div>
                             </td>
                             <td class="td-center">

@@ -11,11 +11,11 @@
     .ord-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
     .ord-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
     .ord-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
-    .ord-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+    .ord-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
     .ord-search-wrapper { position: relative; }
     .ord-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
     .ord-search-wrapper .ord-filter-input { padding-right: 36px; }
-    .ord-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .ord-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
     .ord-btn-search:hover { background: #005bb5; }
     .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
     .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
@@ -29,13 +29,13 @@
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Lịch Sử Giao Dịch</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Tra cứu nhật ký thu tiền của hệ thống.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Tra cứu nhật ký thu tiền của hệ thống.</p>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
             <button onclick="location.reload()" class="ui-btn ui-btn-outline"><i class="fas fa-sync-alt"></i> Làm mới</button>
             @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
-            <button onclick="openModalPayment()" class="ui-btn ui-btn-primary" style="background: #0070D2;"><i class="fas fa-plus"></i> Tạo Thanh Toán Mới</button>
+            <button onclick="openModalPayment()" class="ui-btn ui-btn-primary" style="background: #002B6B;"><i class="fas fa-plus"></i> Tạo Thanh Toán Mới</button>
             @endif
         </div>
     </div>
@@ -95,6 +95,7 @@
                     <th style="padding: 16px 10px; text-align: center; width: 3%;">STT</th>
                     <th style="padding: 16px 10px; text-align: center; width: 8%;">NGÀY TẠO</th>
                     <th style="padding: 16px 10px; text-align: center; width: 9%;">MÃ TT</th>
+                    <th style="width: 5%; text-align: center;">HÓA ĐƠN</th>
                     <th style="padding: 16px 10px; text-align: center; width: 9%;">MÃ ĐƠN HÀNG</th>
                     <th style="padding: 16px 10px; text-align: center; width: 25%;">THÔNG TIN KHÁCH HÀNG</th>
                     <th style="padding: 16px 10px; text-align: center; width: 8%;">KHU VỰC</th>
@@ -102,6 +103,7 @@
                     <th style="padding: 16px 10px; text-align: center; width: 10%;">TIỀN TRẢ</th>
                     <th style="padding: 16px 10px; text-align: center; width: 10%;">CÒN LẠI</th>
                     <th style="padding: 16px 10px; text-align: center; width: 8%;">GHI CHÚ</th>
+                    <th style="padding: 16px 10px; text-align: center; width: 5%;">HĐ</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,6 +112,7 @@
                     <td style="text-align: center;">{{ $payments->firstItem() + $idx }}</td>
                     <td style="text-align: center;">{{ $p->payment_date->format('d/m/Y') }}</td>
                     <td style="text-align: center; font-weight: 700; color: #10b981;">{{ $p->ma_tt }}</td>
+                    <td></td>
                     <td style="text-align: center; font-weight: 700; color: #2563eb;">{{ $p->cto_code }}</td>
                     <td style="text-align: left;">
                         <div style="font-weight: 600;">{{ $p->ten_kh }}</div>
@@ -126,7 +129,10 @@
                     <td style="text-align: right;">{{ number_format($p->tong_don) }}</td>
                     <td style="text-align: right; color: #10b981; font-weight: 800;">+{{ number_format($p->so_tien) }}</td>
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($p->con_lai) }}</td>
-                    <td style="font-size: 11px; color: #64748b;">{{ $p->ghi_chu ?: '---' }}</td>
+                    <td style="font-size: 11px; color: #64748b; text-align: left;">{{ $p->ghi_chu ?: '---' }}</td>
+                    <td style="text-align: center;">
+                        <i class="fas fa-trash-alt" style="color:#ef4444; cursor:pointer; font-size: 14px;" title="Xóa thanh toán" onclick="deletePayment({{ $p->id }}, '{{ $p->ma_tt }}')"></i>
+                    </td>
                 </tr>
                 @empty
                 <tr><td colspan="10" style="padding: 40px; text-align: center; color: #94a3b8;">Chưa có lịch sử thanh toán.</td></tr>
@@ -177,7 +183,7 @@
 
 <style>
     .prem-tab { padding: 12px 15px; color: #64748b; font-weight: 600; font-size: 14px; text-decoration: none; border-bottom: 3px solid transparent; transition: 0.3s; }
-    .prem-tab.active { color: #0070D2; border-bottom-color: #0070D2; }
+    .prem-tab.active { color: #002B6B; border-bottom-color: #002B6B; }
     .legacy-table-container { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
     .legacy-table { width: 100%; border-collapse: collapse; background: #fff; font-size: 13px; }
     .legacy-table th { background: #eff6ff; color: #000; font-weight: 800; padding: 12px 10px; border: 1px solid #e2e8f0; text-transform: uppercase; text-align: center; }
@@ -188,9 +194,9 @@
 
     /* Region Badges */
     .badge-region { padding: 4px 12px !important; border-radius: 20px !important; color: #fff !important; border: none !important; font-size: 11px !important; white-space: nowrap !important; min-width: 85px !important; display: inline-block !important; text-align: center !important; font-weight: 700 !important; }
-    .badge-region.mien-bac { background: #3498DB !important; }
-    .badge-region.mien-trung { background: #E67E22 !important; }
-    .badge-region.mien-nam { background: #27AE60 !important; }
+    .badge-region.mien-bac { color: #3b82f6 !important; background: #eff6ff !important; }
+    .badge-region.mien-trung { color: #f97316 !important; background: #fff7ed !important; }
+    .badge-region.mien-nam { color: #10b981 !important; background: #ecfdf5 !important; }
 </style>
 @endsection
 
@@ -264,6 +270,18 @@
             location.reload();
         }
         else { alert(res.message); }
+    }
+
+    async function deletePayment(id, maTT) {
+        showConfirm('Xóa Giao Dịch', `Bạn có chắc muốn xóa bản ghi thanh toán [${maTT}]? Hành động này không thể hoàn tác.`, async () => {
+            const res = await apiDelete(`/thanh-toan/${id}`);
+            if (res.success) {
+                await showToast(res.message);
+                location.reload();
+            } else {
+                alert(res.message || 'Lỗi khi xóa!');
+            }
+        });
     }
 
     // Đóng dropdown khi click ngoài

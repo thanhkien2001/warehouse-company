@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary: #0070D2;
+            --primary: #002B6B;
             --primary-dark: #005bb5;
             --sidebar-bg: #ffffff;
             --sidebar-width: 260px;
@@ -57,13 +57,13 @@
             flex-shrink: 0;
         }
         .topbar-left .company-row1 {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #475569;
             letter-spacing: 0.2px;
         }
         .topbar-left .company-row2 {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
             color: #002B6B;
             letter-spacing: 0.3px;
@@ -86,7 +86,7 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         .topbar-search:focus-within {
-            border-color: #0070D2;
+            border-color: #002B6B;
             box-shadow: 0 0 0 3px rgba(0,112,210,0.1);
         }
         .topbar-search input {
@@ -107,7 +107,7 @@
             cursor: pointer;
             transition: color 0.2s;
         }
-        .topbar-search:focus-within .search-icon { color: #0070D2; }
+        .topbar-search:focus-within .search-icon { color: #002B6B; }
 
         /* Topbar icon buttons (bell, question) */
         .topbar-icon-btn {
@@ -127,9 +127,9 @@
             flex-shrink: 0;
         }
         .topbar-icon-btn:hover {
-            background: #0070D2;
+            background: #002B6B;
             color: #fff;
-            border-color: #0070D2;
+            border-color: #002B6B;
             box-shadow: 0 4px 12px rgba(0,112,210,0.25);
         }
         .topbar-icon-btn .notif-badge {
@@ -172,7 +172,7 @@
             white-space: nowrap;
         }
         .lang-btn:hover {
-            border-color: #0070D2;
+            border-color: #002B6B;
             box-shadow: 0 0 0 3px rgba(0,112,210,0.1);
         }
         .lang-btn .lang-flag { width: 22px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
@@ -210,8 +210,8 @@
             text-align: left;
             font-family: inherit;
         }
-        .lang-option:hover { background: #f1f5f9; color: #0070D2; }
-        .lang-option.active { color: #0070D2; background: #eff6ff; }
+        .lang-option:hover { background: #f1f5f9; color: #002B6B; }
+        .lang-option.active { color: #002B6B; background: #eff6ff; }
         .lang-option .lang-flag { width: 22px; height: 22px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
 
         /* User area */
@@ -240,7 +240,7 @@
         .topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
         .topbar-user-info { line-height: 1.2; }
-        .topbar-user-name { font-size: 13px; font-weight: 700; color: #1e293b; }
+        .topbar-user-name { font-size: 14px; font-weight: 700; color: #1e293b; }
         .topbar-user-role { font-size: 10.5px; color: #64748b; }
 
         .topbar-chevron { color: #94a3b8; font-size: 11px; transition: transform 0.2s; }
@@ -500,13 +500,13 @@
         .ui-btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-family: inherit; }
         .ui-btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(0,112,210,0.2); }
         .ui-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,112,210,0.25); }
-        .ui-btn-outline { background: #fff; color: #0070D2; border: 1px solid #0070D2; }
+        .ui-btn-outline { background: #fff; color: #002B6B; border: 1px solid #002B6B; }
         .ui-btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
         
         /* STANDARDIZED BUTTONS */
         .ui-btn-pdf { background: #FF0000 !important; color: white !important; }
         .ui-btn-pdf:hover { background: #cc0000 !important; }
-        .ui-btn-save { background: #0070D2 !important; color: white !important; }
+        .ui-btn-save { background: #002B6B !important; color: white !important; }
         .ui-btn-save:hover { background: #005bb5 !important; }
 
         /* TOAST & SWEETALERT Z-INDEX OVERRIDES */
@@ -524,7 +524,7 @@
             color: #475569; font-weight: 700; text-decoration: none; font-size: 13px;
             background: #fff; transition: 0.2s;
         }
-        .page-item.active .page-link { background: #0070D2; color: #fff; border-color: #0070D2; box-shadow: 0 4px 10px rgba(0,112,210,0.25); }
+        .page-item.active .page-link { background: #002B6B; color: #fff; border-color: #002B6B; box-shadow: 0 4px 10px rgba(0,112,210,0.25); }
         .page-item.disabled .page-link { color: #cbd5e1; background: #f8fafc; border-color: #f1f5f9; cursor: not-allowed; }
         .page-item:hover:not(.active):not(.disabled) .page-link { background: #f1f5f9; border-color: #cbd5e1; color: var(--primary); }
 
@@ -602,7 +602,7 @@
                     </li>
 
                     <li class="has-submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
-                        <a href="#" class="menu-item {{ request()->routeIs('reports.*') ? 'active' : '' }}" onclick="toggleSubmenu(this)">
+                        <a href="#" class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
                             <i class="fas fa-chevron-down submenu-arrow"></i>
                         </a>
@@ -641,7 +641,7 @@
             {{-- Topbar Center: Search --}}
             <div class="topbar-center">
                 <div class="topbar-search">
-                    <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
+                    <input type="text" placeholder="Tìm kiếm thông tin...">
                     <i class="fas fa-search search-icon"></i>
                 </div>
             </div>
@@ -748,11 +748,11 @@
     <div id="modal-doi-avatar" class="modal-overlay">
         <div class="modal-box" style="max-width: 420px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">
-                <h3 style="font-weight: 800; font-size: 20px;"><i class="fas fa-camera" style="color: #0070D2"></i> Cập Nhật Ảnh Đại Diện</h3>
+                <h3 style="font-weight: 800; font-size: 20px;"><i class="fas fa-camera" style="color: #002B6B"></i> Cập Nhật Ảnh Đại Diện</h3>
                 <i class="fas fa-times" style="cursor: pointer; color: #94a3b8;" onclick="closeModal('modal-doi-avatar')"></i>
             </div>
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="width: 90px; height: 90px; border-radius: 50%; background: #e8f2fd; border: 3px solid #0070D2; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; overflow: hidden; font-size: 32px; font-weight: 800; color: #0070D2;">
+                    <div style="width: 90px; height: 90px; border-radius: 50%; background: #e8f2fd; border: 3px solid #002B6B; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; overflow: hidden; font-size: 32px; font-weight: 800; color: #002B6B;">
                         @if(auth()->user()->avatar ?? false)
                             <img src="{{ asset('storage/'.auth()->user()->avatar) }}" style="width:100%;height:100%;object-fit:cover;">
                         @else
@@ -766,7 +766,7 @@
                     <input type="file" name="avatar" accept="image/*" style="width: 100%; padding: 10px; border: 1.5px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; cursor: pointer; font-size: 13px;">
                     <p style="font-size: 11px; color: #94a3b8; margin-top: 6px;">Hỗ trợ: JPG, PNG, GIF (tối đa 2MB)</p>
                 </div>
-                <button type="submit" class="ui-btn ui-btn-primary" style="width: 100%; justify-content: center; background: #0070D2;">
+                <button type="submit" class="ui-btn ui-btn-primary" style="width: 100%; justify-content: center; background: #002B6B;">
                     <i class="fas fa-upload"></i> Cập nhật ảnh đại diện
                 </button>
         </div>

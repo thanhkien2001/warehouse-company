@@ -10,7 +10,7 @@
     .dn-tabs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .dn-tab { padding: 7px 14px; border-radius: 50px; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; color: #64748b; background: #f1f5f9; display: flex; align-items: center; gap: 6px; transition: 0.2s; border: 1px solid transparent; }
     .dn-tab:hover { background: #e2e8f0; color: #0f172a; }
-    .dn-tab.active { background: #0070D2; color: #fff; box-shadow: 0 4px 10px rgba(0,112,210,0.2); border-color: #0070D2; }
+    .dn-tab.active { background: #002B6B; color: #fff; box-shadow: 0 4px 10px rgba(0,112,210,0.2); border-color: #002B6B; }
     
     .dn-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; border-radius: 50%; font-size: 10px; color: #fff; font-weight: 800; padding: 0 4px; }
     .dn-badge.cho-giao { background: #F39C12; }
@@ -25,11 +25,11 @@
     .dn-filter-item { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 120px; }
     .dn-filter-item label { font-size: 13px; font-weight: 700; color: #1e293b; }
     .dn-filter-input { height: 36px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; color: #1e293b; background: #fff; }
-    .dn-filter-input:focus { border-color: #0070D2; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+    .dn-filter-input:focus { border-color: #002B6B; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
     .dn-search-wrapper { position: relative; }
     .dn-search-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
     .dn-search-wrapper .dn-filter-input { padding-right: 36px; }
-    .dn-btn-search { height: 36px; padding: 0 16px; background: #0070D2; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .dn-btn-search { height: 36px; padding: 0 16px; background: #002B6B; color: #fff; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
     .dn-btn-search:hover { background: #005bb5; }
     .dn-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
     .dn-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
@@ -40,7 +40,7 @@
     .dn-table thead th { background: #EFF6FF; padding: 10px 8px; font-size: 13px; font-weight: 700; color: #000; text-align: center; border: 1px solid #e2e8f0; white-space: nowrap; }
     .dn-table tbody td { padding: 9px 8px; font-size: 13px; color: #1e293b; text-align: center; border: 1px solid #e2e8f0; vertical-align: middle; }
     .dn-table tbody tr:hover { background: #f0f7ff; cursor: pointer; }
-    .dn-text-bold { font-weight: 700; color: #0070D2; }
+    .dn-text-bold { font-weight: 700; color: #002B6B; }
     .dn-text-left { text-align: left !important; }
 
     /* Action buttons */
@@ -53,7 +53,7 @@
 
     .modal-pro-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
     .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; background: #fafafa; box-sizing: border-box; height: 36px; transition: border-color 0.2s, box-shadow 0.2s; }
-    .modal-pro-input:focus { border-color: #0070D2; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
+    .modal-pro-input:focus { border-color: #002B6B; background: #fff; box-shadow: 0 0 0 3px rgba(0,112,210,0.1); }
 
     @media (max-width: 1200px) {
         .dn-filter-grid { flex-wrap: wrap; }
@@ -73,15 +73,15 @@
     <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2.5px solid #cbd5e1; margin-bottom: 25px;">
         <div style="display: flex; align-items: center; gap: 16px;">
             <div style="width: 56px; height: 56px; background: #eff6ff; border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(139, 92, 246, 0.15); flex-shrink: 0;">
-                <i class="fas fa-file-export" style="font-size: 24px; color: #0070D2;"></i>
+                <i class="fas fa-file-export" style="font-size: 24px; color: #002B6B;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;">Phiếu Giao Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13.5px;">Quản lý và xuất kho hàng hóa.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Phiếu Giao Hàng</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý và xuất kho hàng hóa.</p>
             </div>
         </div>
         @if(auth()->user()->canDo('phieugiao', 'edit') || auth()->user()->isAdmin())
-        <button onclick="openCreateDNModal()" style="background: #0070D2; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
+        <button onclick="openCreateDNModal()" style="background: #002B6B; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Phiếu Giao Hàng
         </button>
         @endif
@@ -221,7 +221,7 @@
 <div id="modal-tao-dn" class="modal-overlay">
     <div class="modal-box" style="max-width: 500px;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px;">
-            <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;"><i class="fas fa-truck" style="color: #0070D2;"></i> Tạo Phiếu Giao Hàng</h3>
+            <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;"><i class="fas fa-truck" style="color: #002B6B;"></i> Tạo Phiếu Giao Hàng</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #94a3b8;" onclick="closeModal('modal-tao-dn')"></i>
         </div>
         <div style="display: flex; flex-direction: column; gap: 15px;">
@@ -249,13 +249,13 @@
             </div>
             <div>
                 <label class="modal-pro-label">Mã Phiếu (Tự động)</label>
-                <input type="text" id="dn_code_preview" class="modal-pro-input" readonly style="background:#f8fafc; color:#0070D2; font-weight:800; text-align:center;">
+                <input type="text" id="dn_code_preview" class="modal-pro-input" readonly style="background:#f8fafc; color:#002B6B; font-weight:800; text-align:center;">
             </div>
 
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid #f1f5f9; padding-top: 20px; margin-top: 20px;">
             <button class="ui-btn ui-btn-outline" onclick="closeModal('modal-tao-dn')">Hủy</button>
-            <button class="ui-btn ui-btn-primary" style="background:#0070D2;" onclick="submitCreateDN()">Tạo Phiếu</button>
+            <button class="ui-btn ui-btn-primary" style="background:#002B6B;" onclick="submitCreateDN()">Tạo Phiếu</button>
         </div>
     </div>
 </div>
@@ -288,7 +288,7 @@
                 item.style.padding = '10px 15px';
                 item.style.cursor = 'pointer';
                 item.style.borderBottom = '1px solid #f1f5f9';
-                item.innerHTML = `<b style="color:#0070D2">${o.cto_code}</b> - <span style="color:#475569">${o.ten_kh}</span>`;
+                item.innerHTML = `<b style="color:#002B6B">${o.cto_code}</b> - <span style="color:#475569">${o.ten_kh}</span>`;
                 item.onclick = () => selectDNOrder(o);
                 dd.appendChild(item);
             });

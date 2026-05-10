@@ -231,6 +231,19 @@ class PaymentController extends Controller
         $user     = Auth::user();
         $maTT     = CodeGeneratorService::generateMaTT();
 
+        // Tự động tạo ghi chú nếu chưa có
+        $count = Payment::where('cto_code', $order->cto_code)->count();
+        $dot = $count + 1;
+        $autoNote = "TTL " . $dot;
+        
+        $finalNote = $data['ghi_chu'];
+        if (empty($finalNote)) {
+            $finalNote = $autoNote;
+        } else {
+            // Nếu có ghi chú rồi thì chèn vào đầu: "Đã thu tiền đợt 1 - [Ghi chú]"
+            $finalNote = $autoNote . " - " . $finalNote;
+        }
+
         Payment::create([
             'ma_tt'      => $maTT,
             'order_id'   => $order->id,
@@ -240,12 +253,25 @@ class PaymentController extends Controller
             'so_tien'    => $data['so_tien'],
             'payment_date' => $request->payment_date ? \Carbon\Carbon::parse($request->payment_date) : now(),
             'nguoi_thu'  => $user->display_name ?? $user->username,
-            'ghi_chu'    => $data['ghi_chu'] ?? null,
+            'ghi_chu'    => $finalNote,
         ]);
 
         LogService::log('Ghi nhận thanh toán', "TT [{$maTT}] đơn [{$order->cto_code}] - " . number_format($data['so_tien']) . " VNĐ");
 
         return response()->json(['success' => true, 'message' => "Ghi nhận thanh toán [{$maTT}] thành công!"]);
+    }
+
+    public function destroy(Payment $payment)
+    {
+        $maTT = $payment->ma_tt;
+        $ctoCode = $payment->cto_code;
+        $soTien = $payment->so_tien;
+
+        $payment->delete();
+
+        LogService::log('Xóa thanh toán', "Xóa TT [{$maTT}] của đơn [{$ctoCode}] - " . number_format($soTien) . " VNĐ");
+
+        return response()->json(['success' => true, 'message' => "Đã xóa bản ghi thanh toán [{$maTT}]"]);
     }
 
     public function getDebtInfo(string $ctoCode)
