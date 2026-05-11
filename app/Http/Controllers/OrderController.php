@@ -37,6 +37,7 @@ class OrderController extends Controller
                 $q->where('cto_code', 'like', "%{$kw}%")
                   ->orWhere('ten_kh', 'like', "%{$kw}%")
                   ->orWhere('ma_kh', 'like', "%{$kw}%")
+                  ->orWhere('hd_code', 'like', "%{$kw}%")
                   ->orWhere('ghi_chu', 'like', "%{$kw}%");
             });
         }
@@ -94,6 +95,7 @@ class OrderController extends Controller
         $data = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'ngay_tao'    => 'required|date',
+            'hd_code'     => 'nullable|string|max:100',
             'ghi_chu'     => 'nullable|string',
             'seller_name' => 'nullable|string|max:150',
             'seller_phone'=> 'nullable|string|max:20',
@@ -107,6 +109,7 @@ class OrderController extends Controller
         $order = Order::create([
             'customer_id' => $data['customer_id'],
             'order_date'  => $data['ngay_tao'],
+            'hd_code'     => $data['hd_code'],
             'ghi_chu'     => $data['ghi_chu'],
             'nguoi_ban'   => $data['seller_name'],
             'sdt_ban'     => $data['seller_phone'],
@@ -150,6 +153,7 @@ class OrderController extends Controller
         $data = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'ngay_tao'    => 'required|date',
+            'hd_code'     => 'nullable|string|max:100',
             'ghi_chu'     => 'nullable|string',
             'seller_name' => 'nullable|string|max:150',
             'seller_phone'=> 'nullable|string|max:20',
@@ -161,6 +165,7 @@ class OrderController extends Controller
         $order->update([
             'customer_id' => $data['customer_id'],
             'order_date'  => $data['ngay_tao'],
+            'hd_code'     => $data['hd_code'],
             'ghi_chu'     => $data['ghi_chu'],
             'nguoi_ban'   => $data['seller_name'],
             'sdt_ban'     => $data['seller_phone'],

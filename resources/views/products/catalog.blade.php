@@ -13,7 +13,7 @@
             </div>
             <div>
                 <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;text-transform: uppercase;">Danh mục sản phẩm</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
             </div>
         </div>
         <button class="btn-add-product" onclick="openProductModal()"><i class="fas fa-plus"></i> Thêm sản phẩm</button>

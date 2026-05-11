@@ -55,7 +55,7 @@
             </div>
             <div>
                 <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Quản Trị Hệ Thống</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Trung tâm điều khiển tài khoản và bảo mật phân quyền.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Trung tâm điều khiển tài khoản và bảo mật phân quyền.</p>
             </div>
         </div>
         <button onclick="openModalUser()" style="background: #002B6B; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">

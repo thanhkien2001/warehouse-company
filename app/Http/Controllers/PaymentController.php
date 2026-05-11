@@ -208,6 +208,7 @@ class PaymentController extends Controller
             if ($conLai > 0) {
                 $unpaidOrders[] = [
                     'ma_don'  => $o->cto_code,
+                    'hd_code' => $o->hd_code,
                     'ten_kh'  => $o->customer->ten_cty ?? $o->ma_kh,
                     'con_lai' => round($conLai),
                     'customer'=> $o->customer

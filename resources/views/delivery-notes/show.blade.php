@@ -11,11 +11,8 @@
 
     <div style="padding: 24px;">
         <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; padding-right: 120px;">
-            <a href="{{ route('deliveries.index') }}" class="ui-btn ui-btn-outline" style="padding: 6px 12px; font-size: 13px; margin-bottom: 15px;">
-                <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
-            </a>
-            <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Phiếu Giao Hàng</h2>
-            <p style="margin: 0; color: #64748b; font-size: 13px;">Mã Đơn Tham Chiếu: <b style="color:#3b82f6">{{ $delivery->cto_code }}</b></p>
+            <h2 style="font-size: 20px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;text-transform: uppercase;">Chi Tiết Phiếu Giao Hàng</h2>
+            <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Mã Đơn Tham Chiếu: <b style="color:#3b82f6">{{ $delivery->cto_code }}</b></p>
         </div>
 
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid #e2e8f0; display: flex; gap: 40px; flex-wrap: wrap;">

@@ -77,7 +77,7 @@
             </div>
             <div>
                 <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Phiếu Giao Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý và xuất kho hàng hóa.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý và xuất kho hàng hóa.</p>
             </div>
         </div>
         @if(auth()->user()->canDo('phieugiao', 'edit') || auth()->user()->isAdmin())

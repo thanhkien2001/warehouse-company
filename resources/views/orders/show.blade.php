@@ -301,8 +301,8 @@
         <div style="padding: 24px;">
             <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px; padding-right: 120px;">
 
-                <h2 style="font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;">Chi Tiết Đơn Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;">Xem thông tin, cập nhật trạng thái và chỉnh sửa hàng hóa.</p>
+                <h2 style="font-size: 20px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;text-transform: uppercase;">Chi Tiết Đơn Hàng</h2>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Xem thông tin, cập nhật trạng thái và chỉnh sửa hàng hóa.</p>
             </div>
 
             <div class="info-section">
@@ -322,6 +322,7 @@
                         <i class="fas fa-file-invoice-dollar" style="margin-right: 5px; color: #002B6B;"></i> THÔNG TIN ĐƠN HÀNG
                     </h3>
                     <div class="info-row-flex"><span class="info-label">Mã đơn hàng:</span> <b class="info-val" style="color: #002B6B;">{{ $order->cto_code }}</b></div>
+                    <div class="info-row-flex"><span class="info-label">Số HĐ:</span> <b class="info-val" style="color: #059669;">{{ $order->hd_code ?: '---' }}</b></div>
                     <div class="info-row-flex"><span class="info-label">Người bán:</span> <span class="info-val">{{ $order->nguoi_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">SĐT người bán:</span> <span class="info-val">{{ $order->sdt_ban }}</span></div>
                     <div class="info-row-flex"><span class="info-label">Người mua:</span> <span class="info-val">{{ $order->nguoi_mua }}</span></div>

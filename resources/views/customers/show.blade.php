@@ -4,9 +4,6 @@
 @section('content')
 <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px;">
     <div style="margin-bottom: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px;">
-        <a href="{{ route('customers.index') }}" class="ui-btn ui-btn-outline" style="padding: 6px 16px; font-size: 13px; margin-bottom: 15px;">
-            <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Quay lại danh sách
-        </a>
         <div style="display: flex; align-items: center; gap: 15px;">
             <div style="background: #e0e7ff; color: #002B6B; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                 <i class="fas fa-user-tie"></i>
@@ -146,21 +143,23 @@
             <thead>
                 <tr>
                     <th style="width: 5%; text-align: center;">STT</th>
-                    <th style="width: 15%; text-align: center;">Ngày tạo</th>
-                    <th style="width: 20%; text-align: center;">Mã Đơn (CTO)</th>
+                    <th style="width: 12%; text-align: center;">Ngày tạo</th>
+                    <th style="width: 13%; text-align: center;">Mã Đơn (CTO)</th>
+                    <th style="width: 15%; text-align: center;">SỐ HÓA ĐƠN</th>
                     <th style="width: 40%; text-align: center;">Mô tả đơn hàng</th>
-                    <th style="width: 20%; text-align: center;">Trạng thái</th>
+                    <th style="width: 15%; text-align: center;">Trạng thái</th>
                 </tr>
             </thead>
             <tbody id="ctkh-ds-donhang">
                 @forelse($orders as $key => $order)
                 <tr>
-                    <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $loop->iteration }}</td>
-                    <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">{{ $order->order_date?->format('d/m/Y') }}</td>
-                    <td style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9; text-align: center;">
+                    <td style="padding: 16px 15px;text-align: center;">{{ $loop->iteration }}</td>
+                    <td style="padding: 16px 15px;text-align: center;">{{ $order->order_date?->format('d/m/Y') }}</td>
+                    <td style="padding: 16px 15px;text-align: center;">
                         <a href="javascript:void(0)" onclick="xemChiTietDon({{ $order->id }}, '{{ $order->cto_code }}')" style="color: #002B6B; text-decoration: none; font-weight: bold;">{{ $order->cto_code }}</a>
                     </td>
-                    <td class="col-left" style="padding: 16px 15px; border-bottom: 1px solid #f1f5f9;">{{ $order->ghi_chu ?: '---' }}</td>
+                    <td style="padding: 16px 15px;text-align: center; color: #059669; font-weight: bold;">{{ $order->hd_code ?: '' }}</td>
+                    <td class="col-left" style="padding: 16px 15px;">{{ $order->ghi_chu ?: '---' }}</td>
                     <td style="padding: 16px 15px; text-align: center;">
                         <span class="badge-status {{ Str::slug($order->trang_thai) }}">
                             {{ $order->trang_thai }}
@@ -169,7 +168,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" style="padding: 30px; text-align: center; color: #94a3b8;">Khách hàng này chưa có đơn hàng nào.</td>
+                    <td colspan="6" style="padding: 30px; text-align: center; color: #94a3b8;">Khách hàng này chưa có đơn hàng nào.</td>
                 </tr>
                 @endforelse
             </tbody>

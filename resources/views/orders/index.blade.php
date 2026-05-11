@@ -13,7 +13,7 @@
             </div>
             <div>
                 <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Quản Lý Đơn Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Tạo và quản lý các đơn hàng Booking.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Tạo và quản lý các đơn hàng Booking.</p>
             </div>
         </div>
         @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
@@ -145,14 +145,15 @@
                 <thead>
                     <tr>
                         <th width="4%">STT</th>
-                        <th width="9%">Ngày tạo</th>
-                        <th width="10%">Mã Đơn</th>
-                        <th width="8%">Mã KH</th>
-                        <th width="22%">Tên Khách Hàng</th>
-                        <th width="10%">MST</th>
-                        <th width="10%">Khu Vực</th>
-                        <th width="12%">Trạng thái</th>
-                        <th width="9%">Ghi chú</th>
+                        <th width="8%">Ngày tạo</th>
+                        <th width="8%">Mã Đơn</th>
+                        <th width="8%">Số HĐ</th>
+                        <th width="7%">Mã KH</th>
+                        <th width="20%">Tên Khách Hàng</th>
+                        <th width="8%">MST</th>
+                        <th width="8%">Khu Vực</th>
+                        <th width="10%">Trạng thái</th>
+                        <th width="13%">Ghi chú</th>
                         <th width="6%">Thao tác</th>
                     </tr>
                 </thead>
@@ -162,6 +163,7 @@
                         <td>{{ $orders->firstItem() + $idx }}</td>
                         <td>{{ $order->order_date ? $order->order_date->format('d/m/Y') : '---' }}</td>
                         <td class="ord-text-bold">{{ $order->cto_code }}</td>
+                        <td class="ord-text-bold" style="color: #059669;">{{ $order->hd_code ?: '' }}</td>
                         <td class="ord-text-bold">{{ $order->customer->ma_kh ?? '---' }}</td>
                         <td class="ord-text-left" style="font-weight: 600; text-transform: uppercase;">{{ $order->customer->ten_cty ?? '---' }}</td>
                         <td>{{ $order->customer->ma_so_thue ?? '---' }}</td>
@@ -184,7 +186,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="10" style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-inbox fa-2x" style="margin-bottom:10px; display:block;"></i>Không có đơn hàng nào.</td></tr>
+                    <tr><td colspan="11" style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-inbox fa-2x" style="margin-bottom:10px; display:block;"></i>Không có đơn hàng nào.</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -237,7 +239,11 @@
                 <label class="modal-pro-label">Ngày tạo</label>
                 <input type="date" id="order_date" class="modal-pro-input" value="{{ date('Y-m-d') }}">
             </div>
-            <div style="grid-column: span 2;">
+            <div>
+                <label class="modal-pro-label">Số HĐ</label>
+                <input type="text" id="order_hd_code" class="modal-pro-input" placeholder="Nhập số hóa đơn...">
+            </div>
+            <div>
                 <label class="modal-pro-label">Ghi chú</label>
                 <input type="text" id="order_ghi_chu" class="modal-pro-input" placeholder="Nhập ghi chú...">
             </div>
@@ -334,6 +340,7 @@
         document.getElementById('order_kh_id').value = '';
         document.getElementById('inp-search-kh').value = '';
         document.getElementById('order_ma_don').value = 'CTO-XXXXXX-XXXX';
+        document.getElementById('order_hd_code').value = '';
         document.getElementById('order_ghi_chu').value = '';
         document.getElementById('order_nguoi_ban').value = '{{ auth()->user()->display_name ?? auth()->user()->username }}';
         document.getElementById('order_sdt_ban').value = '{{ \App\Models\SystemSetting::get("sdt_cong_ty", "0368 301 305") }}';
@@ -353,6 +360,7 @@
         document.getElementById('inp-search-kh').value = o.customer.ten_cty;
         document.getElementById('order_ma_don').value = o.cto_code;
         document.getElementById('order_date').value = o.order_date.split('T')[0];
+        document.getElementById('order_hd_code').value = o.hd_code || '';
         document.getElementById('order_ghi_chu').value = o.ghi_chu || '';
         
         document.getElementById('order_nguoi_ban').value = o.meta?.seller_name || '';
@@ -428,6 +436,7 @@
             customer_id: kh_id,
             ma_don: document.getElementById('order_ma_don').value,
             ngay_tao: document.getElementById('order_date').value,
+            hd_code: document.getElementById('order_hd_code').value,
             ghi_chu: document.getElementById('order_ghi_chu').value,
             seller_name: document.getElementById('order_nguoi_ban').value,
             seller_phone: document.getElementById('order_sdt_ban').value,

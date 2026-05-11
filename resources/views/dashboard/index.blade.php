@@ -172,20 +172,20 @@
 
 @section('content')
 <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center;">
-    <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <!-- <div style="height: 44px; display: flex; background: #fff; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <a href="{{ route('dashboard', ['filter'=>'month']) }}" class="filter-btn {{ $filter==='month'?'active':'' }}">Tháng này</a>
         <a href="{{ route('dashboard', ['filter'=>'quarter']) }}" class="filter-btn {{ $filter==='quarter'?'active':'' }}">Quý này</a>
         <a href="{{ route('dashboard', ['filter'=>'year']) }}" class="filter-btn {{ $filter==='year'?'active':'' }}">Năm nay</a>
-    </div>
+    </div> -->
     
     
-    <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <!-- <form method="GET" action="{{ route('dashboard') }}" style="height: 44px; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 5px 4px 18px; border-radius: 50px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
         <input type="hidden" name="filter" value="custom">
         <input type="date" name="date_start" value="{{ $dateStart }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
         <span style="color:#94a3b8; font-weight: bold;">-</span>
         <input type="date" name="date_end" value="{{ $dateEnd }}" style="border:none; outline:none; color:#475569; font-size:13.5px; background:transparent; cursor: pointer;">
         <button type="submit" style="height: 34px; background: #002B6B; color: white; border: none; border-radius: 50px; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,112,210,0.25);">Áp dụng</button>
-    </form>
+    </form> -->
     <a href="{{ route('dashboard', ['filter'=>$filter]) }}" style="background: #fff; border-radius: 6px; padding: 10px 16px; color: #002B6B; border: 1px solid #002B6B; text-decoration: none; font-weight: 600; font-size: 14px; margin-left: auto; display: inline-flex; align-items: center; gap: 8px;"><i class="fas fa-sync-alt"></i> Làm mới</a>
 </div>
 

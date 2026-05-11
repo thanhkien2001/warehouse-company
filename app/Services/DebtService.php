@@ -54,6 +54,7 @@ class DebtService
 
             $result[] = [
                 'cto_code'   => $dn->cto_code,
+                'hd_code'    => $order->hd_code,
                 'dn_code'    => $dn->dn_code,
                 'ma_kh'      => $dn->ma_kh,
                 'ten_kh'     => $dn->ten_kh,

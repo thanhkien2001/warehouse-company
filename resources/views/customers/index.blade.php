@@ -14,7 +14,7 @@
             </div>
             <div>
                 <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; letter-spacing: -0.5px;text-transform: uppercase;">Khách Hàng & Đối Tác</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
         <button type="button" onclick="openCreateKHModal()" class="btn-add-kh">

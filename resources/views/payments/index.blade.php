@@ -29,7 +29,7 @@
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Lịch Sử Giao Dịch</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Tra cứu nhật ký thu tiền của hệ thống.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Tra cứu nhật ký thu tiền của hệ thống.</p>
             </div>
         </div>
         <div style="display: flex; gap: 10px;">
@@ -112,10 +112,10 @@
                     <td style="text-align: center;">{{ $payments->firstItem() + $idx }}</td>
                     <td style="text-align: center;">{{ $p->payment_date->format('d/m/Y') }}</td>
                     <td style="text-align: center; font-weight: 700; color: #10b981;">{{ $p->ma_tt }}</td>
-                    <td></td>
+                    <td style="text-align: center; font-weight: 700; color: #059669;">{{ $p->order->hd_code ?? '' }}</td>
                     <td style="text-align: center; font-weight: 700; color: #2563eb;">{{ $p->cto_code }}</td>
                     <td style="text-align: left;">
-                        <div style="font-weight: 600;">{{ $p->ten_kh }}</div>
+                        <div style="font-weight: 600; text-transform: uppercase;">{{ $p->ten_kh }}</div>
                         <div style="font-size: 11px; color: #94a3b8;">Mã KH: {{ $p->ma_kh }}</div>
                     </td>
                     <td style="text-align: center; white-space: nowrap;">
@@ -233,7 +233,7 @@
                 item.style.cursor = 'pointer';
                 item.style.fontSize = '12px';
                 item.style.borderBottom = '1px solid #f1f5f9';
-                item.innerHTML = `<b style="color:#2563eb; font-size:13px;">${o.ma_don}</b> - ${o.customer ? o.customer.ten_cty : '---'}`;
+                item.innerHTML = `<b style="color:#2563eb; font-size:13px;">${o.ma_don}</b> <span style="color:#059669; font-weight:bold;">[${o.hd_code || ''}]</span> - ${o.customer ? o.customer.ten_cty : '---'}`;
                 item.onclick = () => selectOrder(o);
                 dd.appendChild(item);
             });

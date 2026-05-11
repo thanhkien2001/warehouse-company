@@ -33,7 +33,7 @@
             </div>
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Công Nợ Khách Hàng</h2>
-                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;">Quản lý và nhắc nợ các đơn hàng chưa hoàn tất thanh toán.</p>
+                <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý và nhắc nợ các đơn hàng chưa hoàn tất thanh toán.</p>
             </div>
         </div>
         <button onclick="location.reload()" class="ui-btn ui-btn-outline"><i class="fas fa-sync-alt"></i> Làm mới</button>
@@ -113,13 +113,13 @@
                     <th style="width: 3%; text-align: center;border-bottom-color: #fca5a5;"><input type="checkbox" id="check-all-overdue" onclick="toggleCheckAll(this, '.check-overdue')"></th>
                     <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">MÃ CTO</th>
                     <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">HÓA ĐƠN</th>
-                    <th style="width: 20%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
-                    <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
-                    <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
+                    <th style="width: 18%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">KHÁCH HÀNG</th>
+                    <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TỔNG ĐƠN</th>
+                    <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">ĐÃ TRẢ</th>
                     <th style="width: 11%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">CÒN LẠI</th>
                     <th style="width: 10%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">NGÀY GIAO</th>
                     <th style="width: 7%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">HẠN (NGÀY)</th>
-                    <th style="width: 12%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
+                    <th style="width: 7%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">TÌNH TRẠNG</th>
                     <th style="width: 8%; text-align: center; color: #991b1b; border-bottom-color: #fca5a5;">THAO TÁC</th>
                 </tr>
             </thead>
@@ -128,7 +128,7 @@
                 <tr style="background: #fffcfc;">
                     <td style="text-align: center;"><input type="checkbox" class="check-overdue" value="{{ $od['cto_code'] }}"></td>
                     <td style="text-align: center; font-weight: 800; color: #dc2626; border-bottom-color: #fecaca;">{{ $od['cto_code'] }}</td>
-                    <td></td>
+                    <td style="text-align: center; font-weight: 800; color: #059669; border-bottom-color: #fecaca;">{{ $od['hd_code'] ?: '' }}</td>
                     <td style="font-weight: 700;text-align: left; color: #0f172a; text-transform: uppercase; border-bottom-color: #fecaca;">{{ $od['ten_kh'] }}</td>
                     <td style="text-align: right; border-bottom-color: #fecaca;">{{ number_format($od['tong_don']) }}</td>
                     <td style="text-align: right; color: #059669; border-bottom-color: #fecaca;">{{ number_format($od['tong_don'] - $od['con_lai']) }}</td>
@@ -137,11 +137,11 @@
                     <td style="text-align: center; border-bottom-color: #fecaca;"><span style="color:#64748b; font-size:12px;">{{ $od['so_ngay_han'] ?? '0' }} ngày</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;"><span style="background:#fee2e2; color:#dc2626; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:700; white-space: nowrap; display: inline-block;">{{ $od['tinh_trang'] }}</span></td>
                     <td style="text-align: center; border-bottom-color: #fecaca;">
-                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #002B6B !important;"><i class="fas fa-wallet btn-icon"></i> Thu tiền</button>
+                        <button onclick="openDebtModal({{ json_encode($od['cto_code']) }}, {{ json_encode($od['ten_kh']) }}, {{ $od['con_lai'] }})" class="ui-btn ui-btn-primary" style="padding: 6px 12px; font-size: 12px;color:white !important; background: #002B6B !important;"> Thu tiền</button>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="10" style="padding: 30px; text-align: center; color: #94a3b8; font-style: italic;">Không có nợ quá hạn.</td></tr>
+                <tr><td colspan="10" style="padding: 30px; text-align: center; color: #94a3b8;">Không có nợ quá hạn.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -159,10 +159,10 @@
                 <tr>
                     <th style="width: 3%; text-align: center;"><input type="checkbox" id="check-all-debt" onclick="toggleCheckAll(this, '.check-debt')"></th>
                     <th style="width: 10%; text-align: center;">MÃ ĐƠN</th>
-                    <th style="width: 5%; text-align: center;">HÓA ĐƠN</th>
+                    <th style="width: 10%; text-align: center;">HÓA ĐƠN</th>
                     <th style="width: 18%; text-align: center;">KHÁCH HÀNG</th>
-                    <th style="width: 11%; text-align: center;">TỔNG ĐƠN</th>
-                    <th style="width: 11%; text-align: center;">ĐÃ TRẢ</th>
+                    <th style="width: 8%; text-align: center;">TỔNG ĐƠN</th>
+                    <th style="width: 8%; text-align: center;">ĐÃ TRẢ</th>
                     <th style="width: 11%; text-align: center;">CÒN LẠI</th>
                     <th style="width: 9%; text-align: center;">NGÀY GIAO</th>
                     <th style="width: 7%; text-align: center;">HẠN (NGÀY)</th>
@@ -175,7 +175,7 @@
                 <tr>
                     <td style="text-align: center;"><input type="checkbox" class="check-debt" value="{{ $d['cto_code'] }}"></td>
                     <td style="text-align: center; font-weight: 700; color: #002B6B;">{{ $d['cto_code'] }}</td>
-                    <td></td>
+                    <td style="text-align: center; font-weight: 700; color: #059669;">{{ $d['hd_code'] ?: '' }}</td>
                     <td style="font-weight: 700; text-align: left; color: #0f172a; text-transform: uppercase;">{{ $d['ten_kh'] }}</td>
                     <td style="text-align: right; color: black; font-weight:bold">{{ number_format($d['tong_don']) }}</td>
                     <td style="text-align: right; color: #059669; font-weight: 800;">{{ number_format($d['tong_don'] - $d['con_lai']) }}</td>
@@ -225,7 +225,7 @@
 <div id="modal-pay" class="modal-overlay">
     <div class="modal-box" style="max-width: 450px; padding: 0;">
         <div style="background: #f8fafc; padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
-            <h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 18px;"><i class="fas fa-hand-holding-usd" style="color: #10b981;"></i> Nhập Thanh Toán</h3>
+            <h3 style="margin: 0; color: #0f172a; font-weight: 800; font-size: 18px;"><i class="fas fa-hand-holding-usd" style="color: #002B6B;"></i> Nhập Thanh Toán</h3>
             <i class="fas fa-times" style="cursor: pointer; color: #94a3b8; font-size: 20px;" onclick="closeModal('modal-pay')"></i>
         </div>
         <div style="padding: 24px;">
@@ -239,7 +239,7 @@
             <label style="display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; color: #0f172a;">Số tiền khách trả đợt này (VNĐ) *</label>
             <input type="text" id="p_amount" style="width: 100%; box-sizing: border-box; padding: 14px; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; font-size: 18px; font-weight: bold; color: #10b981; margin-bottom: 20px;" oninput="this.value = this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g, '.')">
             
-            <button onclick="submitPay()" style="width: 100%; padding: 14px; border-radius: 8px; border: none; background: #10b981; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.2);"><i class="fas fa-check-circle"></i> Xác nhận Đã Thu Tiền</button>
+            <button onclick="submitPay()" style="width: 100%; padding: 14px; border-radius: 8px; border: none; background: #002B6B; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.2);"><i class="fas fa-check-circle"></i> Xác nhận Đã Thu Tiền</button>
         </div>
     </div>
 </div>
@@ -336,7 +336,7 @@
         const res = await apiPost('{{ route("payments.store") }}', {
             cto_code: cto,
             so_tien: amount,
-            ghi_chu: 'Thanh toán từ màn hình công nợ'
+            ghi_chu: ''
         });
         
         if (res.success) {
