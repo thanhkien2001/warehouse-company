@@ -147,7 +147,98 @@
             align-items: center;
             justify-content: center;
             border: 2px solid #EFF6FF;
+            z-index: 2;
         }
+
+        /* Notification Dropdown */
+        .notif-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: -100px;
+            width: 320px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+            border: 1px solid #e2e8f0;
+            z-index: 9999;
+            animation: dropIn 0.18s ease;
+            cursor: default;
+        }
+        .topbar-icon-btn:hover .notif-dropdown { display: block; }
+        
+        .notif-header {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 700;
+            font-size: 14px;
+            color: #0f172a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notif-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notif-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+            text-decoration: none;
+        }
+        .notif-item:hover { background: #f8fafc; }
+        .notif-item:last-child { border-bottom: none; }
+        
+        .notif-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eff6ff;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .notif-item-content { flex: 1; min-width: 0; }
+        .notif-item-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .notif-item-desc {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .notif-item-time {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        .notif-footer {
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #002B6B;
+            cursor: pointer;
+        }
+        .notif-footer:hover { background: #f1f5f9; }
 
 
         /* Language Switcher */
@@ -650,7 +741,38 @@
                 {{-- Bell Notification --}}
                 <div class="topbar-icon-btn" title="Thông báo">
                     <i class="fas fa-bell"></i>
-                    <span class="notif-badge">3</span>
+                    @if(count($latestActivities ?? []) > 0)
+                        <span class="notif-badge">{{ count($latestActivities) }}</span>
+                    @endif
+                    
+                    <div class="notif-dropdown">
+                        <div class="notif-header">
+                            <span>Thông báo mới nhất</span>
+                            <i class="fas fa-ellipsis-h" style="color: #94a3b8; font-size: 12px;"></i>
+                        </div>
+                        <div class="notif-body">
+                            @forelse($latestActivities ?? [] as $act)
+                                <div class="notif-item">
+                                    <div class="notif-item-icon">
+                                        <i class="fas {{ str_contains(strtolower($act->action), 'xóa') ? 'fa-trash-alt' : (str_contains(strtolower($act->action), 'tạo') ? 'fa-plus-circle' : 'fa-edit') }}" 
+                                           style="color: {{ str_contains(strtolower($act->action), 'xóa') ? '#ef4444' : (str_contains(strtolower($act->action), 'tạo') ? '#10b981' : '#3b82f6') }}"></i>
+                                    </div>
+                                    <div class="notif-item-content">
+                                        <div class="notif-item-title">{{ $act->action }}</div>
+                                        <div class="notif-item-time">
+                                            {{ $act->user->display_name ?? 'Hệ thống' }} · {{ $act->created_at->diffForHumans() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div style="padding: 30px 20px; text-align: center; color: #94a3b8; font-size: 13px;">
+                                    <i class="fas fa-bell-slash" style="font-size: 24px; margin-bottom: 10px; opacity: 0.5;"></i>
+                                    <div>Không có thông báo mới</div>
+                                </div>
+                            @endforelse
+                        </div>
+                        <div class="notif-footer">Xem tất cả hoạt động</div>
+                    </div>
                 </div>
                 {{-- Question / Help --}}
                 <div class="topbar-icon-btn" title="Trợ giúp">

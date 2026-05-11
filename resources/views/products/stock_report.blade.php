@@ -11,7 +11,7 @@
         gap: 10px;
         max-width: 1620px;
         margin: 0 auto;
-        height: calc(100vh - 100px);
+        min-height: calc(100vh - 100px);
         min-width: 1200px;
     }
 
@@ -134,20 +134,7 @@
     .stat-value { font-size: 18px; font-weight: 800; color: #1e293b; line-height: 1.1; }
     .stat-unit  { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 1px; }
 
-    /* ===== TABLE BLOCK ===== */
-    .table-block {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
 
-    .table-block-inner {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
 
     .table-toolbar {
         display: flex; justify-content: space-between;
@@ -170,8 +157,8 @@
     }
 
     .table-scroll {
-        flex: 1;
-        overflow-y: auto;
+        /* flex: 1; */
+        /* overflow-y: auto; */
         overflow-x: auto;
         border: 1px solid #e2e8f0;
         border-radius: 5px;
@@ -330,7 +317,7 @@
     {{-- PAGE HEADER --}}
     <div class="sk-header">
         <div>
-            <h2>Báo cáo tồn kho</h2>
+            <h2 style="font-size: 20px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;text-transform: uppercase;">Báo cáo tồn kho</h2>
         </div>
         <div class="sk-header-actions">
             <button class="btn-outline-hdr excel"><i class="fas fa-file-excel"></i> Xuất Excel</button>

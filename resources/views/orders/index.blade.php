@@ -222,8 +222,8 @@
             <i class="fas fa-times" style="cursor: pointer; color: #94a3b8;" onclick="closeModal('modal-taodon')"></i>
         </div>
         <input type="hidden" id="order_id">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div style="grid-column: span 2;">
+        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px;">
+            <div style="grid-column: span 6;">
                 <label class="modal-pro-label">Tên khách hàng <span style="color:#ef4444">*</span></label>
                 <div style="position: relative;">
                     <input type="text" id="inp-search-kh" class="modal-pro-input" placeholder="Nhập tên hoặc mã KH để tìm..." autocomplete="off">
@@ -231,39 +231,39 @@
                 </div>
                 <input type="hidden" id="order_kh_id">
             </div>
-            <div>
+            <div style="grid-column: span 2;">
                 <label class="modal-pro-label">Mã CTO <span style="font-size: 11px; color: #94a3b8;">(Tự động)</span></label>
-                <input type="text" id="order_ma_don" class="modal-pro-input" readonly placeholder="CTO-..." style="background:#f1f5f9; color:#2563eb; font-weight:700;">
+                <input type="text" id="order_ma_don" class="modal-pro-input" readonly placeholder="" style="background:#f1f5f9; color:#2563eb; font-weight:700;">
             </div>
-            <div>
-                <label class="modal-pro-label">Ngày tạo</label>
-                <input type="date" id="order_date" class="modal-pro-input" value="{{ date('Y-m-d') }}">
-            </div>
-            <div>
+            <div style="grid-column: span 2;">
                 <label class="modal-pro-label">Số HĐ</label>
                 <input type="text" id="order_hd_code" class="modal-pro-input" placeholder="Nhập số hóa đơn...">
             </div>
-            <div>
+            <div style="grid-column: span 2;">
+                <label class="modal-pro-label">Ngày tạo</label>
+                <input type="date" id="order_date" class="modal-pro-input" value="{{ date('Y-m-d') }}">
+            </div>
+            <div style="grid-column: span 6;">
                 <label class="modal-pro-label">Ghi chú</label>
                 <input type="text" id="order_ghi_chu" class="modal-pro-input" placeholder="Nhập ghi chú...">
             </div>
 
-            <div style="grid-column: span 2; border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 5px;">
+            <div style="grid-column: span 6; border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 5px;">
                 <span style="font-size: 13px; color: #3b82f6; font-weight: 700;"><i class="fas fa-file-invoice"></i> THÔNG TIN TRÊN FILE PDF</span>
             </div>
-            <div>
+            <div style="grid-column: span 3;">
                 <label class="modal-pro-label">Người bán (Đại diện)</label>
                 <input type="text" id="order_nguoi_ban" class="modal-pro-input" placeholder="Tên người bán...">
             </div>
-            <div>
+            <div style="grid-column: span 3;">
                 <label class="modal-pro-label">SĐT Người bán</label>
                 <input type="text" id="order_sdt_ban" class="modal-pro-input" placeholder="SĐT...">
             </div>
-            <div>
+            <div style="grid-column: span 3;">
                 <label class="modal-pro-label">Người mua (Đại diện)</label>
                 <input type="text" id="order_nguoi_mua" class="modal-pro-input" placeholder="Tên người mua...">
             </div>
-            <div>
+            <div style="grid-column: span 3;">
                 <label class="modal-pro-label">SĐT Người mua</label>
                 <input type="text" id="order_sdt_mua" class="modal-pro-input" placeholder="SĐT...">
             </div>
@@ -339,7 +339,7 @@
         document.getElementById('order_id').value = '';
         document.getElementById('order_kh_id').value = '';
         document.getElementById('inp-search-kh').value = '';
-        document.getElementById('order_ma_don').value = 'CTO-XXXXXX-XXXX';
+        document.getElementById('order_ma_don').value = '';
         document.getElementById('order_hd_code').value = '';
         document.getElementById('order_ghi_chu').value = '';
         document.getElementById('order_nguoi_ban').value = '{{ auth()->user()->display_name ?? auth()->user()->username }}';
