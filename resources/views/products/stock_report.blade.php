@@ -320,7 +320,10 @@
             <h2 style="font-size: 20px; font-weight: 900; color: #0f172a; margin: 0 0 5px 0;text-transform: uppercase;">Báo cáo tồn kho</h2>
         </div>
         <div class="sk-header-actions">
+            <button class="btn-outline-hdr refresh" onclick="location.reload()"><i class="fas fa-sync-alt"></i> Làm mới</button>
+            @if(auth()->user()->canDo('baocaotonkho', 'export'))
             <button class="btn-outline-hdr excel"><i class="fas fa-file-excel"></i> Xuất Excel</button>
+            @endif
             <button class="btn-outline-hdr pdf"><i class="fas fa-file-pdf"></i> Xuất PDF</button>
         </div>
     </div>

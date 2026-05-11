@@ -4,6 +4,7 @@
 @section('page-subtitle', 'Quản lý và tra cứu toàn bộ giao dịch thanh toán công nợ.')
 
 @section('content')
+@push('styles')
 <style>
     /* Filter row 2 */
     .ord-filter-card { padding: 14px; border-bottom: 1.5px solid #f1f5f9; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }
@@ -20,6 +21,7 @@
     .ord-btn-clear { height: 36px; padding: 0 16px; background: #fff; color: #ef4444; border: 1px solid #e2e8f0; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
     .ord-btn-clear:hover { background: #fef2f2; border-color: #ef4444; }
 </style>
+@endpush
 <div class="card" style="padding: 24px;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;">
@@ -34,7 +36,7 @@
         </div>
         <div style="display: flex; gap: 10px;">
             <button onclick="location.reload()" class="ui-btn ui-btn-outline"><i class="fas fa-sync-alt"></i> Làm mới</button>
-            @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
+            @if(auth()->user()->canDo('thanhtoan', 'edit'))
             <button onclick="openModalPayment()" class="ui-btn ui-btn-primary" style="background: #002B6B;"><i class="fas fa-plus"></i> Tạo Thanh Toán Mới</button>
             @endif
         </div>
@@ -131,7 +133,9 @@
                     <td style="text-align: right; color: #ef4444; font-weight: 800;">{{ number_format($p->con_lai) }}</td>
                     <td style="font-size: 11px; color: #64748b; text-align: left;">{{ $p->ghi_chu ?: '---' }}</td>
                     <td style="text-align: center;">
+                        @if(auth()->user()->canDo('thanhtoan', 'delete'))
                         <i class="fas fa-trash-alt" style="color:#ef4444; cursor:pointer; font-size: 14px;" title="Xóa thanh toán" onclick="deletePayment({{ $p->id }}, '{{ $p->ma_tt }}')"></i>
+                        @endif
                     </td>
                 </tr>
                 @empty

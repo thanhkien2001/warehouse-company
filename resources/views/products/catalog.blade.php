@@ -16,14 +16,20 @@
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý danh mục nguyên liệu và sản phẩm của kho.</p>
             </div>
         </div>
+        @if(auth()->user()->canDo('sanpham', 'edit'))
         <button class="btn-add-product" onclick="openProductModal()"><i class="fas fa-plus"></i> Thêm sản phẩm</button>
+        @endif
     </div>
 
     {{-- BLOCK 1: ACTIONS --}}
     <div class="action-bar">
         <div class="action-left">
+            @if(auth()->user()->canDo('sanpham', 'edit'))
             <button class="btn-action btn-import" onclick="openImportModal()"><i class="fas fa-file-import"></i> Import Excel</button>
+            @endif
+            @if(auth()->user()->canDo('sanpham', 'export'))
             <a href="{{ route('catalog.export', request()->query()) }}" class="btn-action btn-export"><i class="fas fa-file-export"></i> Export Excel</a>
+            @endif
         </div>
     </div>
 
@@ -80,7 +86,9 @@
                         <th width="10%">Nhóm hàng</th>
                         <th width="8%">Quy cách</th>
                         <th width="5%">ĐVT</th>
+                        @if(auth()->user()->role !== 'Nhanvienkinhdoanh')
                         <th width="9%">Giá nhập (VNĐ)</th>
+                        @endif
                         <th width="9%">Giá bán (VNĐ)</th>
                         <th width="5%">VAT (%)</th>
                         <th width="10%">Nhà cung cấp</th>
@@ -96,7 +104,9 @@
                         data-cat="{{ $item->category_id }}"
                         data-quy-cach="{{ $item->quy_cach }}"
                         data-dvt="{{ $item->don_vi_tinh }}"
+                        @if(auth()->user()->role !== 'Nhanvienkinhdoanh')
                         data-gia-nhap="{{ $item->gia_nhap }}"
+                        @endif
                         data-gia="{{ $item->gia_ban }}"
                         data-vat="{{ $item->vat }}"
                         data-ncc="{{ $item->nha_cung_cap }}"
@@ -110,7 +120,9 @@
                         <td>{{ $item->category->name ?? '---' }}</td>
                         <td>{{ $item->quy_cach ?? '---' }}</td>
                         <td>{{ $item->don_vi_tinh ?? '---' }}</td>
+                        @if(auth()->user()->role !== 'Nhanvienkinhdoanh')
                         <td class="text-right">{{ $item->gia_nhap ? number_format($item->gia_nhap, 0, ',', '.') : '---' }}</td>
+                        @endif
                         <td class="text-right">{{ $item->gia_ban ? number_format($item->gia_ban, 0, ',', '.') : '---' }}</td>
                         <td>{{ $item->vat }}%</td>
                         <td class="text-left text-muted">{{ $item->nha_cung_cap ?? '---' }}</td>
@@ -121,8 +133,12 @@
                         </td>
                         <td>
                             <div class="action-buttons">
+                                @if(auth()->user()->canDo('sanpham', 'edit'))
                                 <button class="btn-edit" title="Sửa" onclick="openEditModal(this)"><i class="fas fa-edit"></i></button>
+                                @endif
+                                @if(auth()->user()->canDo('sanpham', 'delete'))
                                 <button class="btn-delete" title="Xóa" onclick="deleteProduct(this, {{ $item->id }})"><i class="fas fa-trash-alt"></i></button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -227,10 +243,12 @@
                 <div class="pm-block">
                     <div class="pm-block-title"><span class="pm-num">3</span> Giá &amp; thuế</div>
                     <div class="pm-field-grid">
+                        @if(auth()->user()->role !== 'Nhanvienkinhdoanh')
                         <div class="pm-field pm-field-full">
                             <label>Giá nhập mặc định (VNĐ)</label>
                             <input type="text" id="f_gia_nhap" placeholder="Nhập giá nhập" class="pm-input">
                         </div>
+                        @endif
                         <div class="pm-field pm-field-full">
                             <label>Giá bán mặc định (VNĐ)</label>
                             <input type="text" id="f_gia_ban" placeholder="Nhập giá bán" class="pm-input">
@@ -284,8 +302,8 @@
     </div>
 </div>
 
+@push('styles')
 <style>
-
     /* ACTION BAR */
     .action-bar {
         display: flex;
@@ -724,6 +742,7 @@
         .pm-dialog { min-width: unset; }
     }
 </style>
+@endpush
 
 @push('scripts')
 
@@ -808,7 +827,9 @@
         document.getElementById('f_category').value = tr.dataset.cat || '';
         document.getElementById('f_quy_cach').value = tr.dataset.quyCach || '';
         document.getElementById('f_dvt').value = tr.dataset.dvt || '';
-        document.getElementById('f_gia_nhap').value = tr.dataset.giaNhap || '';
+        if (document.getElementById('f_gia_nhap')) {
+            document.getElementById('f_gia_nhap').value = tr.dataset.giaNhap || '';
+        }
         document.getElementById('f_gia_ban').value = tr.dataset.gia || '';
         document.getElementById('f_vat').value = tr.dataset.vat || '10';
         document.getElementById('f_ncc').value = tr.dataset.ncc || '';
@@ -848,7 +869,7 @@
             category_id:  document.getElementById('f_category').value || null,
             quy_cach:     document.getElementById('f_quy_cach').value.trim(),
             don_vi_tinh:  document.getElementById('f_dvt').value.trim(),
-            gia_nhap:     document.getElementById('f_gia_nhap').value || null,
+            gia_nhap:     document.getElementById('f_gia_nhap')?.value || null,
             gia_ban:      document.getElementById('f_gia_ban').value || null,
             vat:          document.getElementById('f_vat').value || 10,
             nha_cung_cap: document.getElementById('f_ncc').value.trim(),

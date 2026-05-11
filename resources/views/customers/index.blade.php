@@ -17,9 +17,11 @@
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý thông tin liên hệ và mã số thuế đối tác.</p>
             </div>
         </div>
+        @if(auth()->user()->canDo('taomakhachhang', 'edit'))
         <button type="button" onclick="openCreateKHModal()" class="btn-add-kh">
             <i class="fas fa-plus"></i> Thêm khách hàng
         </button>
+        @endif
     </div>
 
     {{-- BỘ LỌC --}}
@@ -70,12 +72,16 @@
 
             {{-- Row 2: Import / Export Excel --}}
             <div class="kh-action-row">
+                @if(auth()->user()->canDo('taomakhachhang', 'edit'))
                 <button type="button" onclick="document.getElementById('kh-import-input').click()" class="kh-btn-excel import">
                     <i class="fas fa-file-import"></i> Nhập Excel
                 </button>
+                @endif
+                @if(auth()->user()->canDo('taomakhachhang', 'export'))
                 <button type="button" onclick="exportKHExcel()" class="kh-btn-excel export">
                     <i class="fas fa-file-export"></i> Xuất Excel
                 </button>
+                @endif
             </div>
         </form>
     </div>
@@ -129,8 +135,12 @@
                         </td>
                         <td>
                             <div class="kh-action-buttons">
+                                @if(auth()->user()->canDo('taomakhachhang', 'edit'))
                                 <button onclick="editKH({{ $kh->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
+                                @endif
+                                @if(auth()->user()->canDo('taomakhachhang', 'delete'))
                                 <button onclick="deleteKH({{ $kh->id }}, '{{ $kh->ten_cty }}')" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -238,6 +248,7 @@
     </div>
 </div>
 
+@push('styles')
 <style>
     .modal-pro-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; display: block; }
     .modal-pro-input { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; height: 36px; }
@@ -464,6 +475,7 @@
         .date-range-group input { flex: 1; min-width: 0; }
     }
 </style>
+@endpush
 @endsection
 
 @push('scripts')

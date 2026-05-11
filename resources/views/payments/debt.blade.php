@@ -4,6 +4,7 @@
 @section('page-subtitle', 'Theo dõi các khoản chưa thanh toán và thu hồi nợ quá hạn.')
 
 @section('content')
+@push('styles')
 <style>
             /* Filter row 2 */
         .ord-filter-card { padding: 14px; border-bottom: 1.5px solid #f1f5f9; margin-bottom: 15px; border: 1px solid #e2e8f0;}
@@ -24,6 +25,7 @@
             color: #dc2626 !important;
         }
 </style>
+@endpush
 <div class="card" style="padding: 24px;">
     
     <div class="page-header-row" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px;">
@@ -96,9 +98,11 @@
         </form>
         <!-- EXPORT: single button, floated right -->
         <div class="export-wrapper" style="margin-top: 15px; display: flex; justify-content: flex-end;">
+            @if(auth()->user()->canDo('congno', 'export'))
             <button type="button" id="export-btn" class="debt-btn-export" title="Xuất dữ liệu" onclick="exportDebtExcel()">
                 <i class="fas fa-file-export"></i> Xuất Excel
             </button>
+            @endif
         </div>
     </div>
 

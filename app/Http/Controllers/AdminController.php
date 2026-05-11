@@ -19,12 +19,21 @@ class AdminController extends Controller
         return view('admin.index', compact('users', 'users_all'));
     }
 
-    public static function getAllModules() {
+    public static function getAllModules()
+    {
         return [
-            'sanpham', 'taomakhachhang', 'taodonhang', 'taophieugiao',
-            'nhapkho', 'baocaoxuatkho', 'baocaotonkho',
-            'congno', 'thanhtoan',
-            'baocaotc', 'baocaoth'
+            'sanpham' => 'Danh mục sản phẩm',
+            'taomakhachhang' => 'Khách hàng & Đối tác',
+            'taodonhang' => 'Quản lý đơn hàng',
+            'taophieugiao' => 'Phiếu giao hàng',
+            'nhapkho' => 'Nhập kho hàng hóa',
+            'tonkho' => 'Tồn kho (Danh sách)',
+            'baocaoxuatkho' => 'Báo cáo xuất kho',
+            'baocaotonkho' => 'Báo cáo tồn kho',
+            'congno' => 'Công nợ khách hàng',
+            'thanhtoan' => 'Lịch sử thanh toán',
+            'baocaotc' => 'Báo cáo tài chính',
+            'baocaoth' => 'Báo cáo tổng hợp',
         ];
     }
 
@@ -49,15 +58,16 @@ class AdminController extends Controller
             'status'       => 'Hoạt động',
         ]);
 
-        // Khởi tạo quyền mặc định
-        foreach (self::getAllModules() as $module) {
+        // Khởi tạo/Cập nhật quyền từ request
+        $perms = $request->get('permissions', []);
+        foreach (self::getAllModules() as $module => $label) {
             UserPermission::create([
                 'user_id'    => $user->id,
                 'module'     => $module,
-                'can_view'   => 0,
-                'can_edit'   => 0,
-                'can_delete' => 0,
-                'can_export' => 0,
+                'can_view'   => !empty($perms[$module]['view']) ? 1 : 0,
+                'can_edit'   => !empty($perms[$module]['edit']) ? 1 : 0,
+                'can_delete' => !empty($perms[$module]['delete']) ? 1 : 0,
+                'can_export' => !empty($perms[$module]['export']) ? 1 : 0,
             ]);
         }
 
@@ -89,6 +99,23 @@ class AdminController extends Controller
         }
 
         $user->update($updateData);
+
+        // Cập nhật quyền từ request
+        $perms = $request->get('permissions', []);
+        if (!empty($perms)) {
+            foreach (self::getAllModules() as $module => $label) {
+                UserPermission::updateOrCreate(
+                    ['user_id' => $user->id, 'module' => $module],
+                    [
+                        'can_view'   => !empty($perms[$module]['view']) ? 1 : 0,
+                        'can_edit'   => !empty($perms[$module]['edit']) ? 1 : 0,
+                        'can_delete' => !empty($perms[$module]['delete']) ? 1 : 0,
+                        'can_export' => !empty($perms[$module]['export']) ? 1 : 0,
+                    ]
+                );
+            }
+        }
+
         LogService::log('Sửa tài khoản', "Sửa user [{$user->username}]");
         return response()->json(['success' => true, 'message' => 'Cập nhật thành công!']);
     }
@@ -120,7 +147,7 @@ class AdminController extends Controller
     {
         $perms = $user->permissions->keyBy('module');
         $result = [];
-        foreach (self::getAllModules() as $module) {
+        foreach (self::getAllModules() as $module => $label) {
             $p = $perms->get($module);
             $result[$module] = [
                 'view'   => (bool)($p?->can_view ?? 0),
@@ -135,7 +162,7 @@ class AdminController extends Controller
     public function savePermissions(Request $request, User $user)
     {
         $perms = $request->get('permissions', []);
-        foreach (self::getAllModules() as $module) {
+        foreach (self::getAllModules() as $module => $label) {
             UserPermission::updateOrCreate(
                 ['user_id' => $user->id, 'module' => $module],
                 [

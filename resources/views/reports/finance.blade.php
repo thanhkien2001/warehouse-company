@@ -17,6 +17,7 @@
         </div>
     </div>
 
+    @push('styles')
     <style>
         /* ── FILTER ── */
         .ord-filter-card { padding: 14px 20px; border-bottom: 1.5px solid #f1f5f9; margin-bottom: 24px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
@@ -62,6 +63,7 @@
             .chart-box { min-width: 100%; }
         }
     </style>
+    @endpush
 
     {{-- FILTER --}}
     <div class="ord-filter-card">

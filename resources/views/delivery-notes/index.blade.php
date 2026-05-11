@@ -80,7 +80,7 @@
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý và xuất kho hàng hóa.</p>
             </div>
         </div>
-        @if(auth()->user()->canDo('phieugiao', 'edit') || auth()->user()->isAdmin())
+        @if(auth()->user()->canDo('taophieugiao', 'edit'))
         <button onclick="openCreateDNModal()" style="background: #002B6B; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Phiếu Giao Hàng
         </button>
@@ -186,7 +186,7 @@
                         <td onclick="event.stopPropagation()">
                             <div class="dn-action-buttons">
                                 <button onclick="window.location.href='{{ route('deliveries.show', $dn->id) }}'" class="btn-view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                @if(auth()->user()->isAdmin())
+                                @if(auth()->user()->canDo('taophieugiao', 'delete'))
                                 <button onclick="deleteDN({{ $dn->id }}, '{{ $dn->dn_code }}')" class="btn-delete" title="Xóa phiếu"><i class="fas fa-trash-alt"></i></button>
                                 @endif
                             </div>

@@ -16,13 +16,14 @@
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Tạo và quản lý các đơn hàng Booking.</p>
             </div>
         </div>
-        @if(auth()->user()->canDo('donhang', 'edit') || auth()->user()->isAdmin())
+        @if(auth()->user()->canDo('taodonhang', 'edit'))
         <button onclick="openCreateModal()" style="background: #002B6B; color: white; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);">
             <i class="fas fa-plus"></i> Tạo Đơn Hàng Mới
         </button>
         @endif
     </div>
 
+    @push('styles')
     <style>
         /* Order tabs */
         .ord-tabs-row { padding-bottom: 12px; border-bottom: 1.5px solid #f1f5f9; }
@@ -77,6 +78,7 @@
             .page-header-row { flex-direction: column; align-items: flex-start !important; gap: 15px; }
         }
     </style>
+    @endpush
 
 
     {{-- Row 1: Tabs trạng thái --}}
@@ -178,8 +180,10 @@
                         <td class="ord-text-left" style="font-style: italic; color: #94a3b8; font-size: 12px;">{{ $order->ghi_chu ?: '---' }}</td>
                         <td onclick="event.stopPropagation()">
                             <div class="ord-action-buttons">
+                                @if(auth()->user()->canDo('taodonhang', 'edit'))
                                 <button onclick="editOrder({{ $order->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
-                                @if(auth()->user()->isAdmin())
+                                @endif
+                                @if(auth()->user()->canDo('taodonhang', 'delete'))
                                 <button onclick="deleteOrder({{ $order->id }})" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                 @endif
                             </div>

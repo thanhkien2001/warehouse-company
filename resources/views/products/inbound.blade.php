@@ -351,8 +351,10 @@
             </div>
             <div style="display: flex; gap: 8px;">
                 <button class="btn-outline-custom" onclick="resetForm()"><i class="fas fa-redo"></i> Nhập mới</button>
+                @if(auth()->user()->canDo('nhapkho', 'edit'))
                 <button class="btn-add" onclick="addRow()"><i class="fas fa-plus"></i> Thêm dòng</button>
                 <button class="ui-btn ui-btn-primary" style="height: 28px; font-size: 12px; padding: 0 12px;" id="btn-save" onclick="submitInbound()"><i class="fas fa-check-circle"></i> Lưu & Hoàn tất</button>
+                @endif
             </div>
         </div>
 
@@ -412,7 +414,9 @@
                                 <input type="text" class="ib-input col-kho" value="{{ $item->kho_nhap }}" readonly>
                             </td>
                             <td style="text-align:center;">
+                                @if(auth()->user()->canDo('nhapkho', 'delete'))
                                 <i class="fas fa-trash-alt" style="color:#ef4444;cursor:pointer;" onclick="event.stopPropagation(); removeRow(this)"></i>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

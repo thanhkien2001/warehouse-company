@@ -648,6 +648,7 @@
                             <i class="fas fa-home"></i> <span>Tổng quan</span>
                         </a>
                     </li>
+                    @if(auth()->user()->canDo('sanpham', 'view'))
                     <li class="has-submenu {{ request()->routeIs('catalog.*') ? 'open' : '' }}">
                         <div class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-th-large"></i> <span>Danh mục</span>
@@ -657,51 +658,78 @@
                             <li><a href="{{ route('catalog.index') }}" class="submenu-item {{ request()->routeIs('catalog.*') ? 'active' : '' }}">Sản phẩm</a></li>
                         </ul>
                     </li>
+                    @endif
+                    @php
+                        $canKH = auth()->user()->canDo('taomakhachhang', 'view');
+                        $canDH = auth()->user()->canDo('taodonhang', 'view');
+                        $canPG = auth()->user()->canDo('taophieugiao', 'view');
+                    @endphp
+                    @if($canKH || $canDH || $canPG)
                     <li class="has-submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'open' : '' }}">
                         <div class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-folder-open"></i> <span>Quản lý đơn hàng</span>
                             <i class="fas fa-chevron-down arrow"></i>
                         </div>
                         <ul class="submenu {{ request()->routeIs('orders.*') || request()->routeIs('customers.*') || request()->routeIs('deliveries.*') ? 'show' : '' }}">
-                            <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Tạo mã khách hàng</a></li>
-                            <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Tạo đơn hàng</a></li>
-                            <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Tạo phiếu giao hàng</a></li>
+                            @if($canKH) <li><a href="{{ route('customers.index') }}" class="submenu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">Tạo mã khách hàng</a></li> @endif
+                            @if($canDH) <li><a href="{{ route('orders.index') }}" class="submenu-item {{ request()->routeIs('orders.*') ? 'active' : '' }}">Tạo đơn hàng</a></li> @endif
+                            @if($canPG) <li><a href="{{ route('deliveries.index') }}" class="submenu-item {{ request()->routeIs('deliveries.*') ? 'active' : '' }}">Tạo phiếu giao hàng</a></li> @endif
                         </ul>
                     </li>
+                    @endif
 
+                    @php
+                        $canNK = auth()->user()->canDo('nhapkho', 'view');
+                        $canX = auth()->user()->canDo('baocaoxuatkho', 'view');
+                        $canT = auth()->user()->canDo('baocaotonkho', 'view');
+                    @endphp
+                    @if($canNK || $canX || $canT)
                     <li class="has-submenu {{ request()->routeIs('inventory.*') ? 'open' : '' }}">
                         <div class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-boxes"></i> <span>Quản lý tồn kho</span>
                             <i class="fas fa-chevron-down arrow"></i>
                         </div>
                         <ul class="submenu {{ request()->routeIs('inventory.*') ? 'show' : '' }}">
-                            <li><a href="{{ route('inventory.inbound') }}" class="submenu-item {{ request()->routeIs('inventory.inbound') ? 'active' : '' }}">Nhập kho</a></li>
-                            <li><a href="{{ route('inventory.outbound-report') }}" class="submenu-item {{ request()->routeIs('inventory.outbound-report') ? 'active' : '' }}">Báo cáo xuất kho</a></li>
-                            <li><a href="{{ route('inventory.stock-report') }}" class="submenu-item {{ request()->routeIs('inventory.stock-report') ? 'active' : '' }}">Báo cáo tồn kho</a></li>
+                            @if($canNK) <li><a href="{{ route('inventory.inbound') }}" class="submenu-item {{ request()->routeIs('inventory.inbound') ? 'active' : '' }}">Nhập kho</a></li> @endif
+                            @if($canX) <li><a href="{{ route('inventory.outbound-report') }}" class="submenu-item {{ request()->routeIs('inventory.outbound-report') ? 'active' : '' }}">Báo cáo xuất kho</a></li> @endif
+                            @if($canT) <li><a href="{{ route('inventory.stock-report') }}" class="submenu-item {{ request()->routeIs('inventory.stock-report') ? 'active' : '' }}">Báo cáo tồn kho</a></li> @endif
                         </ul>
                     </li>
+                    @endif
 
+                    @php
+                        $canCN = auth()->user()->canDo('congno', 'view');
+                        $canTT = auth()->user()->canDo('thanhtoan', 'view');
+                    @endphp
+                    @if($canCN || $canTT)
                     <li class="has-submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'open' : '' }}">
                         <div class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-wallet"></i> <span>Quản lý công nợ</span>
                             <i class="fas fa-chevron-down arrow"></i>
                         </div>
                         <ul class="submenu {{ request()->routeIs('payments.*') || request()->routeIs('debt.*') ? 'show' : '' }}">
-                            <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li>
-                            <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li>
+                            @if($canCN) <li><a href="{{ route('debt.index') }}" class="submenu-item {{ request()->routeIs('debt.*') ? 'active' : '' }}">Công nợ</a></li> @endif
+                            @if($canTT) <li><a href="{{ route('payments.index') }}" class="submenu-item {{ request()->routeIs('payments.*') ? 'active' : '' }}">Thanh toán</a></li> @endif
                         </ul>
                     </li>
+                    @endif
 
+                    @php
+                        $canTC = auth()->user()->canDo('baocaotc', 'view');
+                        $canTH = auth()->user()->canDo('baocaoth', 'view');
+                    @endphp
+                    @if($canTC || $canTH)
                     <li class="has-submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
                         <a href="#" class="menu-item" onclick="toggleSubmenu(this)">
                             <i class="fas fa-chart-pie"></i> <span>Báo cáo tài chính</span>
                             <i class="fas fa-chevron-down submenu-arrow"></i>
                         </a>
                         <ul class="submenu {{ request()->routeIs('reports.*') ? 'open' : '' }}">
-                            <li><a href="{{ route('reports.finance') }}" class="submenu-item {{ request()->routeIs('reports.finance') ? 'active' : '' }}">Biểu đồ tài chính</a></li>
-                            <li><a href="{{ route('reports.summary') }}" class="submenu-item {{ request()->routeIs('reports.summary') ? 'active' : '' }}">Báo cáo tổng hợp</a></li>
+                            @if($canTC) <li><a href="{{ route('reports.finance') }}" class="submenu-item {{ request()->routeIs('reports.finance') ? 'active' : '' }}">Biểu đồ tài chính</a></li> @endif
+                            @if($canTH) <li><a href="{{ route('reports.summary') }}" class="submenu-item {{ request()->routeIs('reports.summary') ? 'active' : '' }}">Báo cáo tổng hợp</a></li> @endif
                         </ul>
                     </li>
+                    @endif
 
                     @if(auth()->user()->isAdmin())
                     <li>
@@ -788,7 +816,7 @@
                     </div>
                     <div class="topbar-user-info">
                         <div class="topbar-user-name">{{ auth()->user()->display_name }}</div>
-                        <div class="topbar-user-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
+                        <div class="topbar-user-role">{{ auth()->user()->chuc_danh ?? 'Nhân viên' }}</div>
                     </div>
                     <i class="fas fa-chevron-down topbar-chevron"></i>
                 </div>
@@ -797,7 +825,7 @@
                 <div class="user-dropdown" id="user-dropdown">
                     <div class="dropdown-header">
                         <div class="dh-name">{{ auth()->user()->display_name }}</div>
-                        <div class="dh-role">{{ auth()->user()->role ?? 'Nhân viên' }}</div>
+                        <div class="dh-role">{{ auth()->user()->chuc_danh ?? 'Nhân viên' }}</div>
                     </div>
                     <button class="dropdown-item" onclick="openModal('modal-doi-matkhau'); closeUserDropdown();">
                         <i class="fas fa-key"></i> Đổi mật khẩu
