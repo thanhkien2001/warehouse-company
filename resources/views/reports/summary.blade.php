@@ -11,8 +11,8 @@
                 <i class="fas fa-chart-bar" style="font-size:24px; color:#3b82f6;"></i>
             </div>
             <div>
-                <h2 style="font-size:22px; font-weight:800; color:#0f172a; margin:0 0 4px; letter-spacing:-.5px;">Báo cáo tổng hợp</h2>
-                <p style="margin:0; color:#64748b; font-size:13.5px;">Thống kê doanh thu, lợi nhuận và hiệu quả kinh doanh theo đơn hàng</p>
+                <h2 style="font-size:20px; font-weight:800; color:#0f172a; margin:0 0 4px; letter-spacing:-.5px;text-transform: uppercase">Báo cáo tổng hợp</h2>
+                <p style="margin:0; color:#64748b; font-size:13px;text-transform: uppercase">Thống kê doanh thu, lợi nhuận và hiệu quả kinh doanh theo đơn hàng</p>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@
                         <td class="t-left" style="white-space:nowrap;">{{ $row->ten_hang }}</td>
                         <td class="t-right">{{ number_format($row->so_luong, 2, ',', '.') }}</td>
                         <td class="t-right">{{ number_format($row->gia_nhap ?? 0, 0, ',', '.') }}</td>
-                        <td class="t-right">{{ number_format($row->gia_ban ?? 0, 0, ',', '.') }}</td>
+                        <td class="t-right">{{ number_format($row->don_gia ?? 0, 0, ',', '.') }}</td>
                         <td class="t-right">{{ number_format($row->opex_val, 0, ',', '.') }}</td>
                         <td class="t-ctr">{{ $row->tax_rate_val }}%</td>
                         <td class="t-right">{{ number_format($row->cogs, 0, ',', '.') }}</td>

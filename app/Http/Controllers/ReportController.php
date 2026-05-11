@@ -41,8 +41,9 @@ class ReportController extends Controller
                 'order_items.ma_hang',
                 'order_items.ten_hang',
                 'order_items.so_luong',
+                'order_items.don_gia',
+                'order_items.thanh_tien',
                 'product_catalog.gia_nhap',
-                'product_catalog.gia_ban',
             ]);
 
         $allDataQuery = clone $query;
@@ -118,9 +119,9 @@ class ReportController extends Controller
             }
             $sl = (float)$r->so_luong;
             $gn = (float)($r->gia_nhap ?? 0);
-            $gb = (float)($r->gia_ban ?? 0);
+            $gb = (float)($r->don_gia ?? 0);
             $cogs = $sl * $gn;
-            $dt = $sl * $gb;
+            $dt = (float)($r->thanh_tien ?? ($sl * $gb));
             $gp = $dt - $cogs;
             $ebit = $gp - 0;
             $tax = max(0, $ebit) * 0.2;
@@ -167,8 +168,8 @@ class ReportController extends Controller
 
             $sl = (float)$r->so_luong;
             $gn = (float)($r->gia_nhap ?? 0);
-            $gb = (float)($r->gia_ban ?? 0);
-            $dt = $sl * $gb;
+            $gb = (float)($r->don_gia ?? 0);
+            $dt = (float)($r->thanh_tien ?? ($sl * $gb));
             $gp = $dt - ($sl * $gn);
 
             $prodStats[$pKey]['dt'] += $dt;
@@ -235,7 +236,6 @@ class ReportController extends Controller
                 'order_items.don_gia',
                 'order_items.thanh_tien',
                 'product_catalog.gia_nhap',
-                'product_catalog.gia_ban',
                 DB::raw('NULL as invoice_no'),
             ]);
 
@@ -262,10 +262,10 @@ class ReportController extends Controller
         $rows->getCollection()->transform(function($row) use ($opex, $taxRate) {
             $sl        = (float)$row->so_luong;
             $giaNhap   = (float)($row->gia_nhap ?? 0);
-            $giaBan    = (float)($row->gia_ban ?? 0); // từ product_catalog
+            $giaBan    = (float)($row->don_gia ?? 0); // lấy từ order_items.don_gia
 
             $row->cogs         = $sl * $giaNhap;
-            $row->doanh_thu    = $sl * $giaBan;       // TO = SL * gia_ban
+            $row->doanh_thu    = (float)($row->thanh_tien ?? ($sl * $giaBan));       // TO = thanh_tien hoặc SL * don_gia
             $row->gross_profit = $row->doanh_thu - $row->cogs;
             $row->gross_margin = $row->doanh_thu > 0
                 ? round($row->gross_profit / $row->doanh_thu * 100, 2) : 0;
@@ -292,9 +292,9 @@ class ReportController extends Controller
         foreach ($allRows as $row) {
             $sl     = (float)$row->so_luong;
             $gn     = (float)($row->gia_nhap ?? 0);
-            $gb     = (float)($row->gia_ban ?? 0); // dùng gia_ban từ catalog
+            $gb     = (float)($row->don_gia ?? 0); // dùng don_gia từ order_items
             $cogs   = $sl * $gn;
-            $dt     = $sl * $gb;                   // TO = SL * gia_ban
+            $dt     = (float)($row->thanh_tien ?? ($sl * $gb));                   // TO = thanh_tien hoặc SL * don_gia
             $gp     = $dt - $cogs;
             $ebit   = $gp - $opex;
             $tax    = max(0, $ebit) * ($taxRate / 100);
