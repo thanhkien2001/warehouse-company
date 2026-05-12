@@ -236,6 +236,7 @@
                             <option value="KeToan">Kế toán</option>
                             <option value="Nhanvienkinhdoanh">Nhân viên kinh doanh</option>
                             <option value="Kho">Quản lý kho</option>
+                            <option value="QuanLyKinhDoanh">Quản lý kinh doanh</option>
                         </select>
                     </div>
                     <div class="form-group" style="margin-top:15px">
@@ -438,6 +439,8 @@ function autoCheckPermissions() {
                 if (['khachhang', 'donhang', 'phieugiao', 'sanpham'].includes(cb.dataset.mod)) cb.checked = true;
                 if (cb.dataset.act === 'view') cb.checked = true;
             });
+        } else if (role === 'QuanLyKinhDoanh') {
+            cbs.forEach(cb => { cb.checked = true; });
         }
     }
 }

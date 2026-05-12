@@ -161,7 +161,14 @@
                 </thead>
                 <tbody>
                     @forelse($orders as $idx => $order)
-                    <tr onclick="window.location.href='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                    @php
+                        $isOwner = auth()->user()->isAdmin() || ($order->customer?->user_id == auth()->id());
+                    @endphp
+                    <tr style="{{ $isOwner ? 'cursor: pointer;' : 'cursor: default;' }}" 
+                        @if($isOwner)
+                        onclick="window.location.href='{{ route('orders.show', $order->id) }}'"
+                        @endif
+                    >
                         <td>{{ $orders->firstItem() + $idx }}</td>
                         <td>{{ $order->order_date ? $order->order_date->format('d/m/Y') : '---' }}</td>
                         <td class="ord-text-bold">{{ $order->cto_code }}</td>
@@ -180,10 +187,10 @@
                         <td class="ord-text-left" style="font-style: italic; color: #94a3b8; font-size: 12px;">{{ $order->ghi_chu ?: '---' }}</td>
                         <td onclick="event.stopPropagation()">
                             <div class="ord-action-buttons">
-                                @if(auth()->user()->canDo('taodonhang', 'edit'))
+                                @if(auth()->user()->canDo('taodonhang', 'edit') && $isOwner)
                                 <button onclick="editOrder({{ $order->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
                                 @endif
-                                @if(auth()->user()->canDo('taodonhang', 'delete'))
+                                @if(auth()->user()->canDo('taodonhang', 'delete') && $isOwner)
                                 <button onclick="deleteOrder({{ $order->id }})" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                 @endif
                             </div>

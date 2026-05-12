@@ -166,7 +166,14 @@
                 </thead>
                 <tbody>
                     @forelse($deliveries as $idx => $dn)
-                    <tr onclick="window.location.href='{{ route('deliveries.show', $dn->id) }}'">
+                    @php
+                        $isOwner = auth()->user()->isAdmin() || ($dn->customer?->user_id == auth()->id());
+                    @endphp
+                    <tr style="{{ $isOwner ? 'cursor: pointer;' : 'cursor: default;' }}" 
+                        @if($isOwner)
+                        onclick="window.location.href='{{ route('deliveries.show', $dn->id) }}'"
+                        @endif
+                    >
                         <td>{{ $deliveries->firstItem() + $idx }}</td>
                         <td>{{ $dn->delivery_date ? $dn->delivery_date->format('d/m/Y') : '---' }}</td>
                         <td class="dn-text-bold">{{ $dn->dn_code }}</td>
@@ -185,8 +192,10 @@
                         </td>
                         <td onclick="event.stopPropagation()">
                             <div class="dn-action-buttons">
+                                @if($isOwner)
                                 <button onclick="window.location.href='{{ route('deliveries.show', $dn->id) }}'" class="btn-view" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                @if(auth()->user()->canDo('taophieugiao', 'delete'))
+                                @endif
+                                @if(auth()->user()->canDo('taophieugiao', 'delete') && $isOwner)
                                 <button onclick="deleteDN({{ $dn->id }}, '{{ $dn->dn_code }}')" class="btn-delete" title="Xóa phiếu"><i class="fas fa-trash-alt"></i></button>
                                 @endif
                             </div>

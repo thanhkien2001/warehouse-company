@@ -19,10 +19,10 @@ class CustomerController extends Controller
     {
         $query = Customer::query();
 
-        // Quyền hiển thị
-        if (!auth()->user()->isAdmin()) {
-            $query->where('user_id', auth()->id());
-        }
+        // Quyền hiển thị: Tất cả user đều xem được toàn bộ khách hàng
+        // if (!auth()->user()->isAdmin()) {
+        //     $query->where('user_id', auth()->id());
+        // }
 
         // Bộ lọc thời gian (Chỉ áp dụng nếu không có từ khóa tìm kiếm hoặc ép buộc lọc)
         $filter = $request->get('filter', 'all');
@@ -76,6 +76,11 @@ class CustomerController extends Controller
 
     public function show(Customer $customer, Request $request)
     {
+        // Chỉ admin hoặc người tạo mới được xem chi tiết
+        if (!auth()->user()->isAdmin() && $customer->user_id !== auth()->id()) {
+            return redirect()->route('customers.index')->with('error', 'Bạn không có quyền xem chi tiết khách hàng này.');
+        }
+
         if ($request->wantsJson()) {
             return response()->json($customer);
         }
@@ -157,6 +162,11 @@ class CustomerController extends Controller
 
     public function update(Request $request, Customer $customer)
     {
+        // Bảo vệ route: Chỉ admin hoặc người tạo mới được sửa
+        if (!auth()->user()->isAdmin() && $customer->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền sửa khách hàng này!']);
+        }
+
         $data = $request->validate([
             'ten_cty'      => ['required','string','max:255', Rule::unique('customers','ten_cty')->ignore($customer->id)],
             'ma_so_thue'   => ['required','string','max:50', Rule::unique('customers','ma_so_thue')->ignore($customer->id)],
@@ -185,6 +195,11 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
+        // Bảo vệ route: Chỉ admin hoặc người tạo mới được xóa
+        if (!auth()->user()->isAdmin() && $customer->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền xóa khách hàng này!']);
+        }
+
         if ($customer->orders()->exists()) {
             return response()->json(['success' => false, 'message' => 'Không thể xóa vì khách hàng đã có đơn hàng!']);
         }
@@ -232,10 +247,10 @@ class CustomerController extends Controller
     {
         $query = Customer::query();
 
-        // Quyền hiển thị
-        if (!auth()->user()->isAdmin()) {
-            $query->where('user_id', auth()->id());
-        }
+        // Quyền xuất file: Cho phép xuất tất cả khách hàng
+        // if (!auth()->user()->isAdmin()) {
+        //     $query->where('user_id', auth()->id());
+        // }
 
         // Ưu tiên lọc theo IDs nếu có chọn checkbox
         if ($request->ids) {

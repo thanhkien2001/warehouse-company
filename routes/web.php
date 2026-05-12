@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     // ==========================================================
     // MAIN APP ROUTES (Không phải MoiDangKy)
     // ==========================================================
-    Route::middleware('role:Admin,NhanVien,KeToan,QuanLy,Nhanvienkinhdoanh,NhanVienSale')->group(function () {
+    Route::middleware('role:Admin,NhanVien,KeToan,QuanLy,Nhanvienkinhdoanh,NhanVienSale,QuanLyKinhDoanh')->group(function () {
 
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

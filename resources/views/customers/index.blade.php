@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            {{-- Row 2: Import / Export Excel --}}
+            {{-- Row 2: Import / Xuất Excel --}}
             <div class="kh-action-row">
                 @if(auth()->user()->canDo('taomakhachhang', 'edit'))
                 <button type="button" onclick="document.getElementById('kh-import-input').click()" class="kh-btn-excel import">
@@ -107,7 +107,14 @@
                 </thead>
                 <tbody>
                     @forelse($customers as $idx => $kh)
-                    <tr style="cursor: pointer;" onclick="if(!event.target.closest('button') && !event.target.closest('input') && !event.target.closest('a')) { window.location.href='{{ route('customers.show', $kh->id) }}'; }">
+                    @php
+                        $isOwner = auth()->user()->isAdmin() || ($kh->user_id == auth()->id());
+                    @endphp
+                    <tr style="{{ $isOwner ? 'cursor: pointer;' : 'cursor: default;' }}" 
+                        @if($isOwner)
+                        onclick="if(!event.target.closest('button') && !event.target.closest('input') && !event.target.closest('a')) { window.location.href='{{ route('customers.show', $kh->id) }}'; }"
+                        @endif
+                    >
                         <td><input type="checkbox" class="check-kh" value="{{ $kh->id }}"></td>
                         <td>{{ $customers->firstItem() + $idx }}</td>
                         <td>{{ $kh->created_date ? \Carbon\Carbon::parse($kh->created_date)->format('d/m/Y') : $kh->created_at->format('d/m/Y') }}</td>
@@ -115,7 +122,6 @@
                         <td class="text-left">
                             <div style="font-weight: 700; color: #0f172a; margin-bottom: 3px; font-size: 13px; text-transform: uppercase;">{{ $kh->ten_cty }}</div>
                             <div style="font-size: 11px; color: #64748b; line-height: 1.6;">
-                                <div><i class="fas fa-phone-alt" style="margin-right: 5px; width: 11px; transform: scaleX(-1); display: inline-block;"></i>{{ $kh->sdt }}</div>
                                 <div title="{{ $kh->dia_chi }}"><i class="fas fa-map-marker-alt" style="margin-right: 5px; width: 11px;"></i>{{ Str::limit($kh->dia_chi, 500) }}</div>
                             </div>
                         </td>
@@ -135,10 +141,10 @@
                         </td>
                         <td>
                             <div class="kh-action-buttons">
-                                @if(auth()->user()->canDo('taomakhachhang', 'edit'))
+                                @if(auth()->user()->canDo('taomakhachhang', 'edit') && $isOwner)
                                 <button onclick="editKH({{ $kh->id }})" class="btn-edit" title="Sửa"><i class="fas fa-edit"></i></button>
                                 @endif
-                                @if(auth()->user()->canDo('taomakhachhang', 'delete'))
+                                @if(auth()->user()->canDo('taomakhachhang', 'delete') && $isOwner)
                                 <button onclick="deleteKH({{ $kh->id }}, '{{ $kh->ten_cty }}')" class="btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                 @endif
                             </div>

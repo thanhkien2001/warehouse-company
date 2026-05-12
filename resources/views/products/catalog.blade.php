@@ -25,10 +25,10 @@
     <div class="action-bar">
         <div class="action-left">
             @if(auth()->user()->canDo('sanpham', 'edit'))
-            <button class="btn-action btn-import" onclick="openImportModal()"><i class="fas fa-file-import"></i> Import Excel</button>
+            <button class="btn-action btn-import" onclick="openImportModal()"><i class="fas fa-file-import"></i> Nhập Excel</button>
             @endif
             @if(auth()->user()->canDo('sanpham', 'export'))
-            <a href="{{ route('catalog.export', request()->query()) }}" class="btn-action btn-export"><i class="fas fa-file-export"></i> Export Excel</a>
+            <a href="{{ route('catalog.export', request()->query()) }}" class="btn-action btn-export"><i class="fas fa-file-export"></i> Xuất Excel</a>
             @endif
         </div>
     </div>

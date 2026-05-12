@@ -70,6 +70,11 @@ class DeliveryNoteController extends Controller
 
     public function show(DeliveryNote $deliveryNote)
     {
+        // Chỉ admin hoặc người tạo khách hàng mới được xem chi tiết
+        if (!auth()->user()->isAdmin() && $deliveryNote->customer?->user_id !== auth()->id()) {
+            return redirect()->route('deliveries.index')->with('error', 'Bạn không có quyền xem chi tiết phiếu giao này.');
+        }
+
         $deliveryNote->load(['order.items', 'customer']);
         return view('delivery-notes.show', ['delivery' => $deliveryNote]);
     }
@@ -123,6 +128,9 @@ class DeliveryNoteController extends Controller
 
     public function updateStatus(Request $request, DeliveryNote $deliveryNote)
     {
+        if (!auth()->user()->isAdmin() && $deliveryNote->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền cập nhật phiếu giao này!']);
+        }
         $request->validate(['trang_thai' => 'required|string']);
 
         $deliveryNote->update(['trang_thai' => $request->trang_thai]);
@@ -146,6 +154,9 @@ class DeliveryNoteController extends Controller
 
     public function saveItems(Request $request, DeliveryNote $deliveryNote)
     {
+        if (!auth()->user()->isAdmin() && $deliveryNote->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền lưu phiếu giao này!']);
+        }
         $request->validate([
             'items' => 'required|array',
             'trang_thai' => 'nullable|string',
@@ -188,6 +199,9 @@ class DeliveryNoteController extends Controller
 
     public function destroy(DeliveryNote $deliveryNote)
     {
+        if (!auth()->user()->isAdmin() && $deliveryNote->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền xóa phiếu giao này!']);
+        }
         LogService::log('Xóa phiếu giao', "Xóa phiếu [{$deliveryNote->dn_code}]");
         $deliveryNote->delete();
         return response()->json(['success' => true, 'message' => 'Đã xóa phiếu giao hàng!']);
@@ -195,6 +209,9 @@ class DeliveryNoteController extends Controller
 
     public function exportPdf(DeliveryNote $deliveryNote)
     {
+        if (!auth()->user()->isAdmin() && $deliveryNote->customer?->user_id !== auth()->id()) {
+            return redirect()->route('deliveries.index')->with('error', 'Bạn không có quyền xuất PDF phiếu giao này.');
+        }
         $deliveryNote->load(['order.items', 'customer']);
         
         $html = view('delivery-notes.dn_pdf', ['delivery' => $deliveryNote])->render();

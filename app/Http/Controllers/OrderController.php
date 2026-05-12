@@ -76,6 +76,11 @@ class OrderController extends Controller
 
     public function show(Order $order, Request $request)
     {
+        // Chỉ admin hoặc người tạo khách hàng mới được xem chi tiết
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return redirect()->route('orders.index')->with('error', 'Bạn không có quyền xem chi tiết đơn hàng này.');
+        }
+
         $order->load(['customer', 'items', 'meta', 'deliveryNote']);
 
         if ($request->wantsJson()) {
@@ -144,12 +149,18 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền sửa đơn hàng này!']);
+        }
         $order->load(['customer', 'meta']);
         return response()->json(['success' => true, 'data' => $order]);
     }
 
     public function update(Request $request, Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền cập nhật đơn hàng này!']);
+        }
         $data = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'ngay_tao'    => 'required|date',
@@ -180,6 +191,9 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền xóa đơn hàng này!']);
+        }
         if ($order->deliveryNote()->exists()) {
             return response()->json(['success' => false, 'message' => 'Không thể xóa đơn đã có phiếu giao hàng!']);
         }
@@ -192,6 +206,9 @@ class OrderController extends Controller
 
     public function saveItems(Request $request, Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Bạn không có quyền lưu đơn hàng này!']);
+        }
         $request->validate([
             'items'           => 'nullable|array',
             'trang_thai'      => 'nullable|string',
@@ -265,6 +282,9 @@ class OrderController extends Controller
 
     public function exportPdf(Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return redirect()->route('orders.index')->with('error', 'Bạn không có quyền xuất PDF đơn hàng này.');
+        }
         $order->load(['customer', 'items', 'meta']);
         $customer = $order->customer;
 
@@ -331,6 +351,9 @@ class OrderController extends Controller
 
     public function exportExcel(Order $order)
     {
+        if (!auth()->user()->isAdmin() && $order->customer?->user_id !== auth()->id()) {
+            return redirect()->route('orders.index')->with('error', 'Bạn không có quyền xuất Excel đơn hàng này.');
+        }
         $order->load(['customer', 'items', 'meta']);
         $templatePath = base_path('CTO-FORM.xlsx');
         
