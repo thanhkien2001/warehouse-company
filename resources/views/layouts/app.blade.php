@@ -1055,6 +1055,19 @@
                 body: JSON.stringify(data)
             }).then(r => r.json());
         }
+        async function apiPut(url, data) {
+            return fetch(url, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.json());
+        }
+        async function apiDelete(url) {
+            return fetch(url, {
+                method: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+            }).then(r => r.json());
+        }
 
         // Global Formatters
         function formatMoney(amount) {

@@ -34,7 +34,7 @@
                 <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #ef4444;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Công Nợ Khách Hàng</h2>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;text-transform: uppercase;">Công Nợ Khách Hàng</h2>
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Quản lý và nhắc nợ các đơn hàng chưa hoàn tất thanh toán.</p>
             </div>
         </div>
@@ -168,10 +168,10 @@
                     <th style="width: 8%; text-align: center;">TỔNG ĐƠN</th>
                     <th style="width: 8%; text-align: center;">ĐÃ TRẢ</th>
                     <th style="width: 11%; text-align: center;">CÒN LẠI</th>
-                    <th style="width: 9%; text-align: center;">NGÀY GIAO</th>
+                    <th style="width: 10%; text-align: center;">NGÀY GIAO</th>
                     <th style="width: 7%; text-align: center;">HẠN (NGÀY)</th>
                     <th style="width: 7%; text-align: center;">TÌNH TRẠNG</th>
-                    <th style="width: 11%; text-align: center;">THAO TÁC</th>
+                    <th style="width: 8%; text-align: center;">THAO TÁC</th>
                 </tr>
             </thead>
             <tbody id="all-debt-tbody">

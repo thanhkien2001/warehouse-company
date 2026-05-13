@@ -30,7 +30,7 @@
                 <i class="fas fa-history" style="font-size: 24px; color: #10b981;"></i>
             </div>
             <div>
-                <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">Lịch Sử Giao Dịch</h2>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;text-transform: uppercase;">Lịch Sử Giao Dịch</h2>
                 <p style="margin: 0; color: #64748b; font-size: 13px;text-transform: uppercase;text-transform: uppercase;">Tra cứu nhật ký thu tiền của hệ thống.</p>
             </div>
         </div>
